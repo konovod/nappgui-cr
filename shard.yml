@@ -1,0 +1,9 @@
+name: nappgui-cr
+version: 0.1.0
+
+authors:
+  - kipar <konovod@gmail.com>
+
+crystal: 1.9.2
+
+license: MIT
