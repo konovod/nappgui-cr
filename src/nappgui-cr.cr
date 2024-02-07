@@ -1,4 +1,5 @@
 require "./libFull"
+require "./wrappers"
 
 class App
   class_getter! instance : App
@@ -29,13 +30,13 @@ end
 def init : Nil
   puts "init"
   panel = LibGUI.panel_create
-  layout = LibGUI.layout_create(1, 3)
+  layout = GUI::Layout.new(1, 3)
   label = LibGUI.label_create
   LibGUI.label_text(label, "Hello!, I'm a label")
   LibGUI.layout_label(layout, label, 0, 0)
-  button = LibGUI.button_push
-  LibGUI.button_text(button, "Click Me!")
-  LibGUI.layout_button(layout, button, 0, 1)
+  button = GUI::Button.new(:push)
+  button.text = "Click Me!"
+  button.place(layout, 0, 1)
   text = LibGUI.textview_create
   LibGUI.layout_textview(layout, text, 0, 2)
 
