@@ -35,6 +35,19 @@ module GUI
         {{type}}.new(LibGUI.{{@type.stringify.split("::").last.downcase.id}}_get_{{name}}(self, value))
       end
     end
+
+    macro event(name)
+      @{{name}}_box : Pointer(Void)?
+      def {{name}}(&callback : -> )
+        boxed_data = Box.box(callback)
+        @{{name}}_box = boxed_data
+        listen = LibGUI.listener_imp(boxed_data, ->(obj : Void*, event : LibGUI::Event) {
+          data_as_callback = Box(typeof(callback)).unbox(obj)
+          data_as_callback.call()
+         })
+        LibGUI.{{@type.stringify.split("::").last.downcase.id}}_{{name}}(self, listen)
+      end
+    end
   end
 
   class Layout < Widget
@@ -98,6 +111,7 @@ module GUI
     lib_setter(image)
     lib_property(state, State)
     lib_property(tag, Int32)
+    event(on_click)
     # fun button_on_click = button_OnClick(button : Button, listener : Listener)
   end
 end

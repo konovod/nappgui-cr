@@ -4,23 +4,16 @@ require "./wrappers"
 class App
   class_getter! instance : App
 
-  getter text : LibGUI::TextView
   getter window : LibGUI::Window
   property counter = 0
 
-  def initialize(@window, @text)
+  def initialize(@window)
     @@instance = self
   end
 
   def close
     LibGUI.osapp_finish
   end
-end
-
-def on_event(obj, event)
-  app = App.instance
-  app.counter += 1
-  LibGUI.textview_writef(app.text, "Button click (#{app.counter})\n")
 end
 
 def on_close(obj, event)
@@ -40,8 +33,11 @@ def init : Nil
   text = LibGUI.textview_create
   LibGUI.layout_textview(layout, text, 0, 2)
 
-  listen = LibGUI.listener_imp(button.as(Void*), ->(obj : Void*, event : LibGUI::Event) { on_event(obj, event) })
-  LibGUI.button_on_click(button, listen)
+  button.on_click do
+    app = App.instance
+    app.counter += 1
+    LibGUI.textview_writef(text, "Button clicked (#{app.counter})\n")
+  end
 
   LibGUI.layout_hsize(layout, 0, 250)
   LibGUI.layout_vsize(layout, 2, 100)
@@ -58,7 +54,7 @@ def init : Nil
   LibGUI.window_on_close(window, listen)
 
   LibGUI.window_show(window)
-  App.new(window, text)
+  App.new(window)
 end
 
 def update(data, ltime, ctime)
