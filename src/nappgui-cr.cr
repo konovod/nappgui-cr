@@ -24,9 +24,9 @@ def init : Nil
   puts "init"
   panel = LibGUI.panel_create
   layout = GUI::Layout.new(1, 3)
-  label = LibGUI.label_create
-  LibGUI.label_text(label, "Hello!, I'm a label")
-  LibGUI.layout_label(layout, label, 0, 0)
+  label = GUI::Label.new
+  label.text = "Hello!, I'm a label"
+  label.place(layout, 0, 0)
   button = GUI::Button.new(:push)
   button.text = "Click Me!"
   button.place(layout, 0, 1)

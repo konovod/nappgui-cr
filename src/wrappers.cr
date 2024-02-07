@@ -1,9 +1,40 @@
 module GUI
+  macro wrap_enum(our_name, lib_name, &block)
+    enum {{our_name}}
+      {{block.body}}
+
+      def to_unsafe
+        self.unsafe_as(LibGUI::{{lib_name}})
+      end
+
+      def self.new(v : LibGUI::{{lib_name}})
+        v.unsafe_as(self)
+      end
+    end
+  end
+
+  wrap_enum(Align, AlignT) do
+    Left    = 1
+    Top     = 1
+    Center  = 2
+    Right   = 3
+    Bottom  = 3
+    Justify = 4
+  end
+
+  alias Color = UInt32
+
   abstract class Widget
     abstract def place(layout : Layout, x : Int32, y : Int32)
 
     def to_unsafe
       @raw
+    end
+
+    macro define_place
+      def place(layout : Layout, x : Int32, y : Int32)
+        LibGUI.layout_{{@type.stringify.split("::").last.downcase.id}}(layout, self, x, y)
+      end
     end
 
     macro lib_setter(name, typ)
@@ -57,9 +88,7 @@ module GUI
       @raw = LibGUI.layout_create(@cols, @rows)
     end
 
-    def place(layout : Layout, x : Int32, y : Int32)
-      LibGUI.layout_layout(layout, self, x, y)
-    end
+    define_place
   end
 
   class Button < Widget
@@ -72,14 +101,10 @@ module GUI
       FlatGLE
     end
 
-    enum State
+    GUI.wrap_enum(State, GuiStateT) do
       On
       Off
       Mixed
-
-      def to_unsafe
-        self.unsafe_as(LibGUI::GuiStateT)
-      end
     end
 
     @raw : LibGUI::Button
@@ -101,9 +126,7 @@ module GUI
              end
     end
 
-    def place(layout : Layout, x : Int32, y : Int32)
-      LibGUI.layout_button(layout, self, x, y)
-    end
+    define_place
 
     lib_setter(text, String)
     lib_setter(text_alt, String)
@@ -112,6 +135,29 @@ module GUI
     lib_property(state, State)
     lib_property(tag, Int32)
     event(on_click)
-    # fun button_on_click = button_OnClick(button : Button, listener : Listener)
+  end
+
+  class Label < Widget
+    @raw : LibGUI::Label
+
+    def initialize(*, multiline : Bool = false)
+      @raw = if multiline
+               LibGUI.label_multiline
+             else
+               LibGUI.label_create
+             end
+    end
+
+    define_place
+
+    lib_setter(text, String)
+    lib_setter(font)
+    event(on_click)
+    lib_setter(style_over)
+    lib_setter(align, Align)
+    lib_setter(color, Color)
+    lib_setter(color_over, Color)
+    lib_setter(bgcolor, Color)
+    lib_setter(bgcolor_over, Color)
   end
 end
