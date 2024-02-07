@@ -39,11 +39,11 @@ def init : Nil
     LibGUI.textview_writef(text, "Button clicked (#{app.counter})\n")
   end
 
-  LibGUI.layout_hsize(layout, 0, 250)
-  LibGUI.layout_vsize(layout, 2, 100)
-  LibGUI.layout_margin(layout, 5)
-  LibGUI.layout_vmargin(layout, 0, 5)
-  LibGUI.layout_vmargin(layout, 1, 5)
+  layout.cols[0].size = 250
+  layout.cols[0].margin = 5
+  layout.rows[2].size = 100
+  layout.rows[2].margin = 5
+  layout.margin = 5
   LibGUI.panel_layout(panel, layout)
   window = LibGUI.window_create(2 + 4 + 8 + 16 + 32)
   LibGUI.window_panel(window, panel)

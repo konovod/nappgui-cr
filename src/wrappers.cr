@@ -89,6 +89,119 @@ module GUI
     end
 
     define_place
+
+    def cell(col, row)
+      LigGUI.layout_cell(self, col, row)
+    end
+
+    def update
+      LigGUI.layout_update(self)
+    end
+
+    GUI.wrap_enum(Orientation, GuiOrientT) do
+      Horizontal = 1
+      Vertical   = 2
+    end
+    lib_setter(taborder, Orientation)
+    lib_setter(margin, Float32)
+    lib_setter(bgcolor, Color)
+    lib_setter(skcolor, Color)
+
+    def set_margin(value : Float32)
+      LibGUI.layout_margin(self, value)
+    end
+
+    def set_margin(v : Float32, h : Float32)
+      LibGUI.layout_margin2(self, v, h)
+    end
+
+    def set_margin(top, bottom, left, right)
+      LibGUI.layout_margin4(self, top, right, bottom, left)
+    end
+
+    struct Column
+      @owner : Layout
+      @index : Int32
+
+      def size=(value : Float32)
+        LibGUI.layout_hsize(@owner, @index, value)
+      end
+
+      def margin=(value : Float32)
+        LibGUI.layout_hmargin(@owner, @index, value)
+      end
+
+      def visible=(value : Bool)
+        LibGUI.layout_show_col(@owner, @index, value)
+      end
+
+      def initialize(@owner, @index)
+      end
+    end
+
+    struct Columns
+      @owner : Layout
+
+      def initialize(@owner)
+      end
+
+      def [](index)
+        Column.new(@owner, index)
+      end
+    end
+
+    def cols
+      Columns.new(self)
+    end
+
+    struct Row
+      @owner : Layout
+      @index : Int32
+
+      def size=(value : Float32)
+        LibGUI.layout_vsize(@owner, @index, value)
+      end
+
+      def margin=(value : Float32)
+        LibGUI.layout_vmargin(@owner, @index, value)
+      end
+
+      def visible=(value : Bool)
+        LibGUI.layout_show_row(@owner, @index, value)
+      end
+
+      def initialize(@owner, @index)
+      end
+    end
+
+    struct Rows
+      @owner : Layout
+
+      def initialize(@owner)
+      end
+
+      def [](index)
+        Row.new(@owner, index)
+      end
+    end
+
+    def rows
+      Rows.new(self)
+    end
+
+    # fun layout_hexpand(layout : Layout, col : Uint32T)
+    # fun layout_hexpand2(layout : Layout, col1 : Uint32T, col2 : Uint32T, exp : Real32T)
+    # fun layout_hexpand3(layout : Layout, col1 : Uint32T, col2 : Uint32T, col3 : Uint32T, exp1 : Real32T, exp2 : Real32T)
+    # fun layout_vexpand(layout : Layout, row : Uint32T)
+    # fun layout_vexpand2(layout : Layout, row1 : Uint32T, row2 : Uint32T, exp : Real32T)
+    # fun layout_vexpand3(layout : Layout, row1 : Uint32T, row2 : Uint32T, row3 : Uint32T, exp1 : Real32T, exp2 : Real32T)
+
+    # fun layout_get_control_imp(layout : Layout, col : Uint32T, row : Uint32T, type : CharT*) : Void*
+    # fun layout_get_layout(layout : Layout, col : Uint32T, row : Uint32T) : Layout
+    # fun layout_tabstop(layout : Layout, col : Uint32T, row : Uint32T, tabstop : BoolT)
+    # fun layout_halign(layout : Layout, col : Uint32T, row : Uint32T, align : AlignT)
+    # fun layout_valign(layout : Layout, col : Uint32T, row : Uint32T, align : AlignT)
+
   end
 
   class Button < Widget
