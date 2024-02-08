@@ -5,7 +5,6 @@ class App
   class_getter! instance : App
 
   getter window : LibGUI::Window
-  property counter = 0
 
   def initialize(@window)
     @@instance = self
@@ -33,17 +32,17 @@ def init : Nil
   text = LibGUI.textview_create
   LibGUI.layout_textview(layout, text, 0, 2)
 
+  counter = 0
   button.on_click do
-    app = App.instance
-    app.counter += 1
-    LibGUI.textview_writef(text, "Button clicked (#{app.counter})\n")
+    LibGUI.textview_writef(text, "Button click (#{counter})\n")
+    counter += 1
   end
 
-  layout.cols[0].size = 250
-  layout.cols[0].margin = 5
-  layout.rows[2].size = 100
-  layout.rows[2].margin = 5
   layout.margin = 5
+  layout.cols[0].size = 250
+  layout.rows[2].size = 100
+  layout.rows[0].margin = 5
+  layout.rows[1].margin = 5
   LibGUI.panel_layout(panel, layout)
   window = LibGUI.window_create(2 + 4 + 8 + 16 + 32)
   LibGUI.window_panel(window, panel)
