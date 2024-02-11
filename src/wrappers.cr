@@ -79,7 +79,12 @@ module GUI
            typ = field.args.first.restriction %}
         if args[:{{name}}]?
           detected += 1
-          self.{{name}} = {{typ}}.new(args[:{{name}}]?.not_nil!)
+          {% if typ.stringify == "String" %}
+            self.{{name}} = args[:{{name}}]?.not_nil!
+          {% else %}
+            self.{{name}} = {{typ}}.new(args[:{{name}}]?.not_nil!)
+          {% end %}
+
         end
       {% end %}
       # TODO - detect exact names
@@ -224,6 +229,12 @@ module GUI
     # fun layout_valign(layout : Layout, col : Uint32T, row : Uint32T, align : AlignT)
   end
 
+  wrap_enum(State, GuiStateT) do
+    On
+    Off
+    Mixed
+  end
+
   class Button < Widget
     enum Style
       Push
@@ -234,15 +245,9 @@ module GUI
       FlatGLE
     end
 
-    GUI.wrap_enum(State, GuiStateT) do
-      On
-      Off
-      Mixed
-    end
-
     @raw : LibGUI::Button
 
-    def initialize(style : Style)
+    def initialize(style : Style, **args)
       @raw = case style
              in .push?
                LibGUI.button_push
@@ -257,6 +262,7 @@ module GUI
              in .flat_gle?
                LibGUI.button_flatgle
              end
+      apply_args(**args)
     end
 
     define_place
@@ -273,12 +279,13 @@ module GUI
   class Label < Widget
     @raw : LibGUI::Label
 
-    def initialize(*, multiline : Bool = false)
+    def initialize(*, multiline : Bool = false, **args)
       @raw = if multiline
                LibGUI.label_multiline
              else
                LibGUI.label_create
              end
+      apply_args(**args)
     end
 
     define_place
