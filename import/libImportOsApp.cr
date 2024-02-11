@@ -2,5 +2,4 @@
 @[Include("/media/sf_vmware/nappgui/osmain.h", prefix: %w(osmain_), remove_prefix: false)]
 @[Link("osapp")]
 lib LibGUI
-
-end 
+end

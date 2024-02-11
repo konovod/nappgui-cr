@@ -1,8 +1,8 @@
 @[Link("gui")]
 lib LibGUI
-  UNIX = 1
-  LINUX = 1
-  KKEY_MAX = 112
+  UNIX             =    1
+  LINUX            =    1
+  KKEY_MAX         =  112
   KTEXTFILTER_SIZE = 1024
   fun sewer_start
   fun sewer_finish
@@ -34,7 +34,7 @@ lib LibGUI
   alias FPtrCompareEx = (Void*, Void*, Void* -> LibC::Int)
   fun blib_bsearch(array : ByteT*, key : ByteT*, nelems : Uint32T, size : Uint32T, func_compare : FPtrCompare, pos : Uint32T*) : BoolT
   fun blib_bsearch_ex(array : ByteT*, key : ByteT*, nelems : Uint32T, size : Uint32T, func_compare : FPtrCompareEx, data : ByteT*, pos : Uint32T*) : BoolT
-  fun blib_atexit(func : ( -> Void))
+  fun blib_atexit(func : (-> Void))
   fun blib_abort
   fun blib_debug_break
   fun bmath_cosf(angle : Real32T) : Real32T
@@ -132,7 +132,7 @@ lib LibGUI
   fun cassert_imp(cond : BoolT, detail : CharT*, file : CharT*, line : Uint32T)
   fun cassert_fatal_imp(cond : BoolT, detail : CharT*, file : CharT*, line : Uint32T)
   fun cassert_no_null_imp(ptr : Void*, detail : CharT*, file : CharT*, line : Uint32T)
-  fun cassert_no_nullf_imp(ptr : ( -> Void), detail : CharT*, file : CharT*, line : Uint32T)
+  fun cassert_no_nullf_imp(ptr : (-> Void), detail : CharT*, file : CharT*, line : Uint32T)
   fun cassert_default_imp(file : CharT*, line : Uint32T)
   fun ptr_dget_imp(dptr : Void**) : Void*
   fun ptr_dget_no_null_imp(dptr : Void**) : Void*
@@ -152,7 +152,7 @@ lib LibGUI
   alias Uint8T = X__Uint8T
   fun unicode_convers(from_str : CharT*, to_str : CharT*, from : UnicodeT, to : UnicodeT, osize : Uint32T) : Uint32T
   enum X_UnicodeT
-    EkUtf8 = 0
+    EkUtf8  = 0
     EkUtf16 = 1
     EkUtf32 = 2
   end
@@ -188,29 +188,29 @@ lib LibGUI
   fun osbs_platform : PlatformT
   enum X_PlatformT
     EkWindows = 1
-    EkMacos = 2
-    EkLinux = 3
-    EkIos = 4
+    EkMacos   = 2
+    EkLinux   = 3
+    EkIos     = 4
   end
   type PlatformT = X_PlatformT
   fun osbs_windows : WinT
   enum X_WinT
-    EkWin9x = 1
-    EkWinNt4 = 2
-    EkWin2K = 3
-    EkWinXp = 4
-    EkWinXp1 = 5
-    EkWinXp2 = 6
-    EkWinXp3 = 7
-    EkWinVi = 8
-    EkWinVi1 = 9
+    EkWin9x  =  1
+    EkWinNt4 =  2
+    EkWin2K  =  3
+    EkWinXp  =  4
+    EkWinXp1 =  5
+    EkWinXp2 =  6
+    EkWinXp3 =  7
+    EkWinVi  =  8
+    EkWinVi1 =  9
     EkWinVi2 = 10
-    EkWin7 = 11
-    EkWin71 = 12
-    EkWin8 = 13
-    EkWin81 = 14
-    EkWin10 = 15
-    EkWinNo = 16
+    EkWin7   = 11
+    EkWin71  = 12
+    EkWin8   = 13
+    EkWin81  = 14
+    EkWin10  = 15
+    EkWinNo  = 16
   end
   type WinT = X_WinT
   fun osbs_endian : EndianT
@@ -224,18 +224,18 @@ lib LibGUI
   fun bfile_dir_work(pathname : CharT*, size : Uint32T) : Uint32T
   fun bfile_dir_set_work(pathname : CharT*, error : FerrorT*) : BoolT
   enum X_FerrorT
-    EkFexists = 1
-    EkFnopath = 2
-    EkFnofile = 3
-    EkFbigname = 4
-    EkFnofiles = 5
-    EkFnoempty = 6
-    EkFnoaccess = 7
-    EkFlock = 8
-    EkFbig = 9
-    EkFseekneg = 10
-    EkFundef = 11
-    EkFok = 12
+    EkFexists   =  1
+    EkFnopath   =  2
+    EkFnofile   =  3
+    EkFbigname  =  4
+    EkFnofiles  =  5
+    EkFnoempty  =  6
+    EkFnoaccess =  7
+    EkFlock     =  8
+    EkFbig      =  9
+    EkFseekneg  = 10
+    EkFundef    = 11
+    EkFok       = 12
   end
   type FerrorT = X_FerrorT
   fun bfile_dir_home(pathname : CharT*, size : Uint32T) : Uint32T
@@ -247,11 +247,12 @@ lib LibGUI
   fun bfile_dir_close(dir : Dir*)
   fun bfile_dir_get(dir : Dir, name : CharT*, size : Uint32T, type : FileTypeT*, fsize : Uint64T*, updated : Date*, error : FerrorT*) : BoolT
   enum X_FileTypeT
-    EkArchive = 1
+    EkArchive   = 1
     EkDirectory = 2
     EkOtherfile = 3
   end
   type FileTypeT = X_FileTypeT
+
   struct X_DateT
     year : Int16T
     month : Uint8T
@@ -261,6 +262,7 @@ lib LibGUI
     minute : Uint8T
     second : Uint8T
   end
+
   type Date = X_DateT
   alias X__Int16T = LibC::Short
   alias Int16T = X__Int16T
@@ -269,8 +271,8 @@ lib LibGUI
   type File = Void*
   fun bfile_open(pathname : CharT*, mode : FileModeT, error : FerrorT*) : File
   enum X_FileModeT
-    EkRead = 1
-    EkWrite = 2
+    EkRead   = 1
+    EkWrite  = 2
     EkAppend = 3
   end
   type FileModeT = X_FileModeT
@@ -296,7 +298,7 @@ lib LibGUI
   enum X_PerrorT
     EkPpipe = 1
     EkPexec = 2
-    EkPok = 3
+    EkPok   = 3
   end
   type PerrorT = X_PerrorT
   type Proc = Void*
@@ -315,12 +317,12 @@ lib LibGUI
   alias X__Uint16T = LibC::UShort
   alias Uint16T = X__Uint16T
   enum X_SerrorT
-    EkSnonet = 1
-    EkSnohost = 2
+    EkSnonet   = 1
+    EkSnohost  = 2
     EkStimeout = 3
-    EkSstream = 4
-    EkSundef = 5
-    EkSok = 6
+    EkSstream  = 4
+    EkSundef   = 5
+    EkSok      = 6
   end
   type SerrorT = X_SerrorT
   type Socket = Void*
@@ -361,7 +363,7 @@ lib LibGUI
   type DLib = Void*
   fun dlib_close(dlib : DLib*)
   fun dlib_proc_imp(dlib : DLib, procname : CharT*) : FPtrLibproc
-  alias FPtrLibproc = ( -> Void)
+  alias FPtrLibproc = (-> Void)
   fun dlib_var_imp(dlib : DLib, varname : CharT*) : Void*
   fun log_printf(format : CharT*, ...) : Uint32T
   fun log_output(std : BoolT, err : BoolT)
@@ -429,16 +431,20 @@ lib LibGUI
   fun rbtree_prev_ptr(tree : RbTree) : ByteT*
   fun rbtree_get_key(tree : RbTree) : CharT*
   fun rbtree_check(tree : RbTree) : BoolT
+
   struct BoolTData
     elem : BoolT[1024]
   end
+
   fun arrst_bool_t_create(esize : Uint16T) : ArrStboolT*
+
   struct ArrStboolT
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : BoolTData*
   end
+
   fun arrst_bool_t_create(esize : Uint16T) : ArrStboolT*
   fun arrst_bool_t_copy(array : ArrStboolT*, func_copy : (BoolT*, BoolT* -> Void)) : ArrStboolT*
   fun arrst_bool_t_copy(array : ArrStboolT*, func_copy : (BoolT*, BoolT* -> Void)) : ArrStboolT*
@@ -490,6 +496,7 @@ lib LibGUI
   fun arrst_bool_t_bsearch_const(array : ArrStboolT*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : BoolT*
   fun arrst_bool_t_end
   fun setst_bool_t_create(func_compare : (BoolT*, BoolT* -> LibC::Int), esize : Uint16T) : SetStboolT*
+
   struct SetStboolT
     elems : Uint32T
     esize : Uint16T
@@ -497,12 +504,14 @@ lib LibGUI
     root : NodeStboolT*
     func_compare : FPtrCompare
   end
+
   struct NodeStboolT
     rb : Uint32T
     left : NodeStboolT*
     right : NodeStboolT*
     data : BoolT
   end
+
   fun setst_bool_t_create(func_compare : (BoolT*, BoolT* -> LibC::Int), esize : Uint16T) : SetStboolT*
   fun setst_bool_t_destroy(set : SetStboolT**, func_remove : (BoolT* -> Void))
   fun setst_bool_t_destroy(set : SetStboolT**, func_remove : (BoolT* -> Void))
@@ -533,18 +542,22 @@ lib LibGUI
   fun setst_bool_t_prev_const(set : SetStboolT*) : BoolT*
   fun setst_bool_t_prev_const(set : SetStboolT*) : BoolT*
   fun setst_bool_t_end
+
   struct Int8TData
     elem : Int8T[1024]
   end
+
   alias X__Int8T = LibC::Char
   alias Int8T = X__Int8T
   fun arrst_int8_t_create(esize : Uint16T) : ArrStint8T*
+
   struct ArrStint8T
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Int8TData*
   end
+
   fun arrst_int8_t_create(esize : Uint16T) : ArrStint8T*
   fun arrst_int8_t_copy(array : ArrStint8T*, func_copy : (Int8T*, Int8T* -> Void)) : ArrStint8T*
   fun arrst_int8_t_copy(array : ArrStint8T*, func_copy : (Int8T*, Int8T* -> Void)) : ArrStint8T*
@@ -596,6 +609,7 @@ lib LibGUI
   fun arrst_int8_t_bsearch_const(array : ArrStint8T*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Int8T*
   fun arrst_int8_t_end
   fun setst_int8_t_create(func_compare : (Int8T*, Int8T* -> LibC::Int), esize : Uint16T) : SetStint8T*
+
   struct SetStint8T
     elems : Uint32T
     esize : Uint16T
@@ -603,12 +617,14 @@ lib LibGUI
     root : NodeStint8T*
     func_compare : FPtrCompare
   end
+
   struct NodeStint8T
     rb : Uint32T
     left : NodeStint8T*
     right : NodeStint8T*
     data : Int8T
   end
+
   fun setst_int8_t_create(func_compare : (Int8T*, Int8T* -> LibC::Int), esize : Uint16T) : SetStint8T*
   fun setst_int8_t_destroy(set : SetStint8T**, func_remove : (Int8T* -> Void))
   fun setst_int8_t_destroy(set : SetStint8T**, func_remove : (Int8T* -> Void))
@@ -639,16 +655,20 @@ lib LibGUI
   fun setst_int8_t_prev_const(set : SetStint8T*) : Int8T*
   fun setst_int8_t_prev_const(set : SetStint8T*) : Int8T*
   fun setst_int8_t_end
+
   struct Int16TData
     elem : Int16T[1024]
   end
+
   fun arrst_int16_t_create(esize : Uint16T) : ArrStint16T*
+
   struct ArrStint16T
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Int16TData*
   end
+
   fun arrst_int16_t_create(esize : Uint16T) : ArrStint16T*
   fun arrst_int16_t_copy(array : ArrStint16T*, func_copy : (Int16T*, Int16T* -> Void)) : ArrStint16T*
   fun arrst_int16_t_copy(array : ArrStint16T*, func_copy : (Int16T*, Int16T* -> Void)) : ArrStint16T*
@@ -700,6 +720,7 @@ lib LibGUI
   fun arrst_int16_t_bsearch_const(array : ArrStint16T*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Int16T*
   fun arrst_int16_t_end
   fun setst_int16_t_create(func_compare : (Int16T*, Int16T* -> LibC::Int), esize : Uint16T) : SetStint16T*
+
   struct SetStint16T
     elems : Uint32T
     esize : Uint16T
@@ -707,12 +728,14 @@ lib LibGUI
     root : NodeStint16T*
     func_compare : FPtrCompare
   end
+
   struct NodeStint16T
     rb : Uint32T
     left : NodeStint16T*
     right : NodeStint16T*
     data : Int16T
   end
+
   fun setst_int16_t_create(func_compare : (Int16T*, Int16T* -> LibC::Int), esize : Uint16T) : SetStint16T*
   fun setst_int16_t_destroy(set : SetStint16T**, func_remove : (Int16T* -> Void))
   fun setst_int16_t_destroy(set : SetStint16T**, func_remove : (Int16T* -> Void))
@@ -743,18 +766,22 @@ lib LibGUI
   fun setst_int16_t_prev_const(set : SetStint16T*) : Int16T*
   fun setst_int16_t_prev_const(set : SetStint16T*) : Int16T*
   fun setst_int16_t_end
+
   struct Int32TData
     elem : Int32T[1024]
   end
+
   alias X__Int32T = LibC::Int
   alias Int32T = X__Int32T
   fun arrst_int32_t_create(esize : Uint16T) : ArrStint32T*
+
   struct ArrStint32T
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Int32TData*
   end
+
   fun arrst_int32_t_create(esize : Uint16T) : ArrStint32T*
   fun arrst_int32_t_copy(array : ArrStint32T*, func_copy : (Int32T*, Int32T* -> Void)) : ArrStint32T*
   fun arrst_int32_t_copy(array : ArrStint32T*, func_copy : (Int32T*, Int32T* -> Void)) : ArrStint32T*
@@ -806,6 +833,7 @@ lib LibGUI
   fun arrst_int32_t_bsearch_const(array : ArrStint32T*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Int32T*
   fun arrst_int32_t_end
   fun setst_int32_t_create(func_compare : (Int32T*, Int32T* -> LibC::Int), esize : Uint16T) : SetStint32T*
+
   struct SetStint32T
     elems : Uint32T
     esize : Uint16T
@@ -813,12 +841,14 @@ lib LibGUI
     root : NodeStint32T*
     func_compare : FPtrCompare
   end
+
   struct NodeStint32T
     rb : Uint32T
     left : NodeStint32T*
     right : NodeStint32T*
     data : Int32T
   end
+
   fun setst_int32_t_create(func_compare : (Int32T*, Int32T* -> LibC::Int), esize : Uint16T) : SetStint32T*
   fun setst_int32_t_destroy(set : SetStint32T**, func_remove : (Int32T* -> Void))
   fun setst_int32_t_destroy(set : SetStint32T**, func_remove : (Int32T* -> Void))
@@ -849,16 +879,20 @@ lib LibGUI
   fun setst_int32_t_prev_const(set : SetStint32T*) : Int32T*
   fun setst_int32_t_prev_const(set : SetStint32T*) : Int32T*
   fun setst_int32_t_end
+
   struct Int64TData
     elem : Int64T[1024]
   end
+
   fun arrst_int64_t_create(esize : Uint16T) : ArrStint64T*
+
   struct ArrStint64T
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Int64TData*
   end
+
   fun arrst_int64_t_create(esize : Uint16T) : ArrStint64T*
   fun arrst_int64_t_copy(array : ArrStint64T*, func_copy : (Int64T*, Int64T* -> Void)) : ArrStint64T*
   fun arrst_int64_t_copy(array : ArrStint64T*, func_copy : (Int64T*, Int64T* -> Void)) : ArrStint64T*
@@ -910,6 +944,7 @@ lib LibGUI
   fun arrst_int64_t_bsearch_const(array : ArrStint64T*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Int64T*
   fun arrst_int64_t_end
   fun setst_int64_t_create(func_compare : (Int64T*, Int64T* -> LibC::Int), esize : Uint16T) : SetStint64T*
+
   struct SetStint64T
     elems : Uint32T
     esize : Uint16T
@@ -917,12 +952,14 @@ lib LibGUI
     root : NodeStint64T*
     func_compare : FPtrCompare
   end
+
   struct NodeStint64T
     rb : Uint32T
     left : NodeStint64T*
     right : NodeStint64T*
     data : Int64T
   end
+
   fun setst_int64_t_create(func_compare : (Int64T*, Int64T* -> LibC::Int), esize : Uint16T) : SetStint64T*
   fun setst_int64_t_destroy(set : SetStint64T**, func_remove : (Int64T* -> Void))
   fun setst_int64_t_destroy(set : SetStint64T**, func_remove : (Int64T* -> Void))
@@ -953,16 +990,20 @@ lib LibGUI
   fun setst_int64_t_prev_const(set : SetStint64T*) : Int64T*
   fun setst_int64_t_prev_const(set : SetStint64T*) : Int64T*
   fun setst_int64_t_end
+
   struct Uint8TData
     elem : Uint8T[1024]
   end
+
   fun arrst_uint8_t_create(esize : Uint16T) : ArrStuint8T*
+
   struct ArrStuint8T
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Uint8TData*
   end
+
   fun arrst_uint8_t_create(esize : Uint16T) : ArrStuint8T*
   fun arrst_uint8_t_copy(array : ArrStuint8T*, func_copy : (Uint8T*, Uint8T* -> Void)) : ArrStuint8T*
   fun arrst_uint8_t_copy(array : ArrStuint8T*, func_copy : (Uint8T*, Uint8T* -> Void)) : ArrStuint8T*
@@ -1014,6 +1055,7 @@ lib LibGUI
   fun arrst_uint8_t_bsearch_const(array : ArrStuint8T*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Uint8T*
   fun arrst_uint8_t_end
   fun setst_uint8_t_create(func_compare : (Uint8T*, Uint8T* -> LibC::Int), esize : Uint16T) : SetStuint8T*
+
   struct SetStuint8T
     elems : Uint32T
     esize : Uint16T
@@ -1021,12 +1063,14 @@ lib LibGUI
     root : NodeStuint8T*
     func_compare : FPtrCompare
   end
+
   struct NodeStuint8T
     rb : Uint32T
     left : NodeStuint8T*
     right : NodeStuint8T*
     data : Uint8T
   end
+
   fun setst_uint8_t_create(func_compare : (Uint8T*, Uint8T* -> LibC::Int), esize : Uint16T) : SetStuint8T*
   fun setst_uint8_t_destroy(set : SetStuint8T**, func_remove : (Uint8T* -> Void))
   fun setst_uint8_t_destroy(set : SetStuint8T**, func_remove : (Uint8T* -> Void))
@@ -1057,16 +1101,20 @@ lib LibGUI
   fun setst_uint8_t_prev_const(set : SetStuint8T*) : Uint8T*
   fun setst_uint8_t_prev_const(set : SetStuint8T*) : Uint8T*
   fun setst_uint8_t_end
+
   struct Uint16TData
     elem : Uint16T[1024]
   end
+
   fun arrst_uint16_t_create(esize : Uint16T) : ArrStuint16T*
+
   struct ArrStuint16T
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Uint16TData*
   end
+
   fun arrst_uint16_t_create(esize : Uint16T) : ArrStuint16T*
   fun arrst_uint16_t_copy(array : ArrStuint16T*, func_copy : (Uint16T*, Uint16T* -> Void)) : ArrStuint16T*
   fun arrst_uint16_t_copy(array : ArrStuint16T*, func_copy : (Uint16T*, Uint16T* -> Void)) : ArrStuint16T*
@@ -1118,6 +1166,7 @@ lib LibGUI
   fun arrst_uint16_t_bsearch_const(array : ArrStuint16T*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Uint16T*
   fun arrst_uint16_t_end
   fun setst_uint16_t_create(func_compare : (Uint16T*, Uint16T* -> LibC::Int), esize : Uint16T) : SetStuint16T*
+
   struct SetStuint16T
     elems : Uint32T
     esize : Uint16T
@@ -1125,12 +1174,14 @@ lib LibGUI
     root : NodeStuint16T*
     func_compare : FPtrCompare
   end
+
   struct NodeStuint16T
     rb : Uint32T
     left : NodeStuint16T*
     right : NodeStuint16T*
     data : Uint16T
   end
+
   fun setst_uint16_t_create(func_compare : (Uint16T*, Uint16T* -> LibC::Int), esize : Uint16T) : SetStuint16T*
   fun setst_uint16_t_destroy(set : SetStuint16T**, func_remove : (Uint16T* -> Void))
   fun setst_uint16_t_destroy(set : SetStuint16T**, func_remove : (Uint16T* -> Void))
@@ -1161,16 +1212,20 @@ lib LibGUI
   fun setst_uint16_t_prev_const(set : SetStuint16T*) : Uint16T*
   fun setst_uint16_t_prev_const(set : SetStuint16T*) : Uint16T*
   fun setst_uint16_t_end
+
   struct Uint32TData
     elem : Uint32T[1024]
   end
+
   fun arrst_uint32_t_create(esize : Uint16T) : ArrStuint32T*
+
   struct ArrStuint32T
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Uint32TData*
   end
+
   fun arrst_uint32_t_create(esize : Uint16T) : ArrStuint32T*
   fun arrst_uint32_t_copy(array : ArrStuint32T*, func_copy : (Uint32T*, Uint32T* -> Void)) : ArrStuint32T*
   fun arrst_uint32_t_copy(array : ArrStuint32T*, func_copy : (Uint32T*, Uint32T* -> Void)) : ArrStuint32T*
@@ -1222,6 +1277,7 @@ lib LibGUI
   fun arrst_uint32_t_bsearch_const(array : ArrStuint32T*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Uint32T*
   fun arrst_uint32_t_end
   fun setst_uint32_t_create(func_compare : (Uint32T*, Uint32T* -> LibC::Int), esize : Uint16T) : SetStuint32T*
+
   struct SetStuint32T
     elems : Uint32T
     esize : Uint16T
@@ -1229,12 +1285,14 @@ lib LibGUI
     root : NodeStuint32T*
     func_compare : FPtrCompare
   end
+
   struct NodeStuint32T
     rb : Uint32T
     left : NodeStuint32T*
     right : NodeStuint32T*
     data : Uint32T
   end
+
   fun setst_uint32_t_create(func_compare : (Uint32T*, Uint32T* -> LibC::Int), esize : Uint16T) : SetStuint32T*
   fun setst_uint32_t_destroy(set : SetStuint32T**, func_remove : (Uint32T* -> Void))
   fun setst_uint32_t_destroy(set : SetStuint32T**, func_remove : (Uint32T* -> Void))
@@ -1265,16 +1323,20 @@ lib LibGUI
   fun setst_uint32_t_prev_const(set : SetStuint32T*) : Uint32T*
   fun setst_uint32_t_prev_const(set : SetStuint32T*) : Uint32T*
   fun setst_uint32_t_end
+
   struct Uint64TData
     elem : Uint64T[1024]
   end
+
   fun arrst_uint64_t_create(esize : Uint16T) : ArrStuint64T*
+
   struct ArrStuint64T
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Uint64TData*
   end
+
   fun arrst_uint64_t_create(esize : Uint16T) : ArrStuint64T*
   fun arrst_uint64_t_copy(array : ArrStuint64T*, func_copy : (Uint64T*, Uint64T* -> Void)) : ArrStuint64T*
   fun arrst_uint64_t_copy(array : ArrStuint64T*, func_copy : (Uint64T*, Uint64T* -> Void)) : ArrStuint64T*
@@ -1326,6 +1388,7 @@ lib LibGUI
   fun arrst_uint64_t_bsearch_const(array : ArrStuint64T*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Uint64T*
   fun arrst_uint64_t_end
   fun setst_uint64_t_create(func_compare : (Uint64T*, Uint64T* -> LibC::Int), esize : Uint16T) : SetStuint64T*
+
   struct SetStuint64T
     elems : Uint32T
     esize : Uint16T
@@ -1333,12 +1396,14 @@ lib LibGUI
     root : NodeStuint64T*
     func_compare : FPtrCompare
   end
+
   struct NodeStuint64T
     rb : Uint32T
     left : NodeStuint64T*
     right : NodeStuint64T*
     data : Uint64T
   end
+
   fun setst_uint64_t_create(func_compare : (Uint64T*, Uint64T* -> LibC::Int), esize : Uint16T) : SetStuint64T*
   fun setst_uint64_t_destroy(set : SetStuint64T**, func_remove : (Uint64T* -> Void))
   fun setst_uint64_t_destroy(set : SetStuint64T**, func_remove : (Uint64T* -> Void))
@@ -1369,16 +1434,20 @@ lib LibGUI
   fun setst_uint64_t_prev_const(set : SetStuint64T*) : Uint64T*
   fun setst_uint64_t_prev_const(set : SetStuint64T*) : Uint64T*
   fun setst_uint64_t_end
+
   struct Real32TData
     elem : Real32T[1024]
   end
+
   fun arrst_real32_t_create(esize : Uint16T) : ArrStreal32T*
+
   struct ArrStreal32T
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Real32TData*
   end
+
   fun arrst_real32_t_create(esize : Uint16T) : ArrStreal32T*
   fun arrst_real32_t_copy(array : ArrStreal32T*, func_copy : (Real32T*, Real32T* -> Void)) : ArrStreal32T*
   fun arrst_real32_t_copy(array : ArrStreal32T*, func_copy : (Real32T*, Real32T* -> Void)) : ArrStreal32T*
@@ -1430,6 +1499,7 @@ lib LibGUI
   fun arrst_real32_t_bsearch_const(array : ArrStreal32T*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Real32T*
   fun arrst_real32_t_end
   fun setst_real32_t_create(func_compare : (Real32T*, Real32T* -> LibC::Int), esize : Uint16T) : SetStreal32T*
+
   struct SetStreal32T
     elems : Uint32T
     esize : Uint16T
@@ -1437,12 +1507,14 @@ lib LibGUI
     root : NodeStreal32T*
     func_compare : FPtrCompare
   end
+
   struct NodeStreal32T
     rb : Uint32T
     left : NodeStreal32T*
     right : NodeStreal32T*
     data : Real32T
   end
+
   fun setst_real32_t_create(func_compare : (Real32T*, Real32T* -> LibC::Int), esize : Uint16T) : SetStreal32T*
   fun setst_real32_t_destroy(set : SetStreal32T**, func_remove : (Real32T* -> Void))
   fun setst_real32_t_destroy(set : SetStreal32T**, func_remove : (Real32T* -> Void))
@@ -1473,16 +1545,20 @@ lib LibGUI
   fun setst_real32_t_prev_const(set : SetStreal32T*) : Real32T*
   fun setst_real32_t_prev_const(set : SetStreal32T*) : Real32T*
   fun setst_real32_t_end
+
   struct Real64TData
     elem : Real64T[1024]
   end
+
   fun arrst_real64_t_create(esize : Uint16T) : ArrStreal64T*
+
   struct ArrStreal64T
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Real64TData*
   end
+
   fun arrst_real64_t_create(esize : Uint16T) : ArrStreal64T*
   fun arrst_real64_t_copy(array : ArrStreal64T*, func_copy : (Real64T*, Real64T* -> Void)) : ArrStreal64T*
   fun arrst_real64_t_copy(array : ArrStreal64T*, func_copy : (Real64T*, Real64T* -> Void)) : ArrStreal64T*
@@ -1534,6 +1610,7 @@ lib LibGUI
   fun arrst_real64_t_bsearch_const(array : ArrStreal64T*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Real64T*
   fun arrst_real64_t_end
   fun setst_real64_t_create(func_compare : (Real64T*, Real64T* -> LibC::Int), esize : Uint16T) : SetStreal64T*
+
   struct SetStreal64T
     elems : Uint32T
     esize : Uint16T
@@ -1541,12 +1618,14 @@ lib LibGUI
     root : NodeStreal64T*
     func_compare : FPtrCompare
   end
+
   struct NodeStreal64T
     rb : Uint32T
     left : NodeStreal64T*
     right : NodeStreal64T*
     data : Real64T
   end
+
   fun setst_real64_t_create(func_compare : (Real64T*, Real64T* -> LibC::Int), esize : Uint16T) : SetStreal64T*
   fun setst_real64_t_destroy(set : SetStreal64T**, func_remove : (Real64T* -> Void))
   fun setst_real64_t_destroy(set : SetStreal64T**, func_remove : (Real64T* -> Void))
@@ -1578,19 +1657,23 @@ lib LibGUI
   fun setst_real64_t_prev_const(set : SetStreal64T*) : Real64T*
   fun setst_real64_t_end
   fun arrpt_string_create = arrpt_String_create(esize : Uint16T) : ArrPtString*
+
   struct ArrPtString
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : StringPtData*
   end
+
   struct StringPtData
     elem : String*[1024]
   end
+
   struct X_StringT
     size : Uint32T
     data : LibC::Char[512]
   end
+
   type String = X_StringT
   fun arrpt_string_create = arrpt_String_create(esize : Uint16T) : ArrPtString*
   fun arrpt_string_copy = arrpt_String_copy(array : ArrPtString*, func_copy : (String* -> String*)) : ArrPtString*
@@ -1647,6 +1730,7 @@ lib LibGUI
   fun arrpt_string_bsearch_const = arrpt_String_bsearch_const(array : ArrPtString*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : String*
   fun arrpt_string_end = arrpt_String_end
   fun setpt_string_create = setpt_String_create(func_compare : (String*, String* -> LibC::Int), esize : Uint16T) : SetPtString*
+
   struct SetPtString
     elems : Uint32T
     esize : Uint16T
@@ -1654,12 +1738,14 @@ lib LibGUI
     root : NodePtString*
     func_compare : FPtrCompare
   end
+
   struct NodePtString
     rb : Uint32T
     left : NodePtString*
     right : NodePtString*
     data : String*
   end
+
   fun setpt_string_create = setpt_String_create(func_compare : (String*, String* -> LibC::Int), esize : Uint16T) : SetPtString*
   fun setpt_string_destroy = setpt_String_destroy(set : SetPtString**, func_destroy : (String** -> Void))
   fun setpt_string_destroy = setpt_String_destroy(set : SetPtString**, func_destroy : (String** -> Void))
@@ -1691,21 +1777,25 @@ lib LibGUI
   fun setpt_string_prev_const = setpt_String_prev_const(set : SetPtString*) : String*
   fun setpt_string_end = setpt_String_end
   fun arrst_dir_entry_create = arrst_DirEntry_create(esize : Uint16T) : ArrStDirEntry*
+
   struct ArrStDirEntry
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : DirEntryData*
   end
+
   struct DirEntryData
     elem : DirEntry[1024]
   end
+
   struct X_DirentryT
     name : String*
     type : FileTypeT
     size : Uint64T
     date : Date
   end
+
   type DirEntry = X_DirentryT
   fun arrst_dir_entry_create = arrst_DirEntry_create(esize : Uint16T) : ArrStDirEntry*
   fun arrst_dir_entry_copy = arrst_DirEntry_copy(array : ArrStDirEntry*, func_copy : (DirEntry*, DirEntry* -> Void)) : ArrStDirEntry*
@@ -1758,6 +1848,7 @@ lib LibGUI
   fun arrst_dir_entry_bsearch_const = arrst_DirEntry_bsearch_const(array : ArrStDirEntry*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : DirEntry*
   fun arrst_dir_entry_end = arrst_DirEntry_end
   fun setst_dir_entry_create = setst_DirEntry_create(func_compare : (DirEntry*, DirEntry* -> LibC::Int), esize : Uint16T) : SetStDirEntry*
+
   struct SetStDirEntry
     elems : Uint32T
     esize : Uint16T
@@ -1765,12 +1856,14 @@ lib LibGUI
     root : NodeStDirEntry*
     func_compare : FPtrCompare
   end
+
   struct NodeStDirEntry
     rb : Uint32T
     left : NodeStDirEntry*
     right : NodeStDirEntry*
     data : DirEntry
   end
+
   fun setst_dir_entry_create = setst_DirEntry_create(func_compare : (DirEntry*, DirEntry* -> LibC::Int), esize : Uint16T) : SetStDirEntry*
   fun setst_dir_entry_destroy = setst_DirEntry_destroy(set : SetStDirEntry**, func_remove : (DirEntry* -> Void))
   fun setst_dir_entry_destroy = setst_DirEntry_destroy(set : SetStDirEntry**, func_remove : (DirEntry* -> Void))
@@ -1802,15 +1895,18 @@ lib LibGUI
   fun setst_dir_entry_prev_const = setst_DirEntry_prev_const(set : SetStDirEntry*) : DirEntry*
   fun setst_dir_entry_end = setst_DirEntry_end
   fun arrpt_res_pack_create = arrpt_ResPack_create(esize : Uint16T) : ArrPtResPack*
+
   struct ArrPtResPack
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : ResPackPtData*
   end
+
   struct ResPackPtData
     elem : ResPack[1024]
   end
+
   type ResPack = Void*
   fun arrpt_res_pack_create = arrpt_ResPack_create(esize : Uint16T) : ArrPtResPack*
   fun arrpt_res_pack_copy = arrpt_ResPack_copy(array : ArrPtResPack*, func_copy : (ResPack -> ResPack)) : ArrPtResPack*
@@ -1867,6 +1963,7 @@ lib LibGUI
   fun arrpt_res_pack_bsearch_const = arrpt_ResPack_bsearch_const(array : ArrPtResPack*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : ResPack
   fun arrpt_res_pack_end = arrpt_ResPack_end
   fun setpt_res_pack_create = setpt_ResPack_create(func_compare : (ResPack, ResPack -> LibC::Int), esize : Uint16T) : SetPtResPack*
+
   struct SetPtResPack
     elems : Uint32T
     esize : Uint16T
@@ -1874,12 +1971,14 @@ lib LibGUI
     root : NodePtResPack*
     func_compare : FPtrCompare
   end
+
   struct NodePtResPack
     rb : Uint32T
     left : NodePtResPack*
     right : NodePtResPack*
     data : ResPack
   end
+
   fun setpt_res_pack_create = setpt_ResPack_create(func_compare : (ResPack, ResPack -> LibC::Int), esize : Uint16T) : SetPtResPack*
   fun setpt_res_pack_destroy = setpt_ResPack_destroy(set : SetPtResPack**, func_destroy : (ResPack* -> Void))
   fun setpt_res_pack_destroy = setpt_ResPack_destroy(set : SetPtResPack**, func_destroy : (ResPack* -> Void))
@@ -1916,10 +2015,12 @@ lib LibGUI
   fun bhash_append_uint32(hash : Uint32T, value : Uint32T) : Uint32T
   fun bhash_append_real32(hash : Uint32T, value : Real32T) : Uint32T
   fun buffer_create(size : Uint32T) : Buffer*
+
   struct X_BufferT
     size : Uint32T
     data : LibC::Char[512]
   end
+
   type Buffer = X_BufferT
   fun buffer_with_data(data : ByteT*, size : Uint32T) : Buffer*
   fun buffer_destroy(buffer : Buffer**)
@@ -1945,18 +2046,18 @@ lib LibGUI
   fun date_yyyy_mm_dd_hh_mm_ss = date_YYYY_MM_DD_HH_MM_SS(date : Date*) : String*
   fun date_month_en(month : MonthT) : CharT*
   enum X_MonthT
-    EkJanuary = 1
-    EkFebruary = 2
-    EkMarch = 3
-    EkApril = 4
-    EkMay = 5
-    EkJune = 6
-    EkJuly = 7
-    EkAugust = 8
-    EkSeptember = 9
-    EkOctober = 10
-    EkNovember = 11
-    EkDecember = 12
+    EkJanuary   =  1
+    EkFebruary  =  2
+    EkMarch     =  3
+    EkApril     =  4
+    EkMay       =  5
+    EkJune      =  6
+    EkJuly      =  7
+    EkAugust    =  8
+    EkSeptember =  9
+    EkOctober   = 10
+    EkNovember  = 11
+    EkDecember  = 12
   end
   type MonthT = X_MonthT
   fun date_month_es(month : MonthT) : CharT*
@@ -2027,118 +2128,118 @@ lib LibGUI
   fun keybuf_destroy(buffer : KeyBuf*)
   fun keybuf_on_up = keybuf_OnUp(buffer : KeyBuf, key : VkeyT)
   enum X_KeyT
-    EkKeyUndef = 0
-    EkKeyA = 1
-    EkKeyS = 2
-    EkKeyD = 3
-    EkKeyF = 4
-    EkKeyH = 5
-    EkKeyG = 6
-    EkKeyZ = 7
-    EkKeyX = 8
-    EkKeyC = 9
-    EkKeyV = 10
-    EkKeyBslash = 11
-    EkKeyB = 12
-    EkKeyQ = 13
-    EkKeyW = 14
-    EkKeyE = 15
-    EkKeyR = 16
-    EkKeyY = 17
-    EkKeyT = 18
-    EkKey1 = 19
-    EkKey2 = 20
-    EkKey3 = 21
-    EkKey4 = 22
-    EkKey6 = 23
-    EkKey5 = 24
-    EkKey9 = 25
-    EkKey7 = 26
-    EkKey8 = 27
-    EkKey0 = 28
-    EkKeyRcurly = 29
-    EkKeyO = 30
-    EkKeyU = 31
-    EkKeyLcurly = 32
-    EkKeyI = 33
-    EkKeyP = 34
-    EkKeyReturn = 35
-    EkKeyL = 36
-    EkKeyJ = 37
-    EkKeySemicolon = 38
-    EkKeyK = 39
-    EkKeyQuest = 40
-    EkKeyComma = 41
-    EkKeyMinus = 42
-    EkKeyN = 43
-    EkKeyM = 44
-    EkKeyPeriod = 45
-    EkKeyTab = 46
-    EkKeySpace = 47
-    EkKeyGtlt = 48
-    EkKeyBack = 49
-    EkKeyEscape = 50
-    EkKeyF17 = 51
-    EkKeyNumdecimal = 52
-    EkKeyNummult = 53
-    EkKeyNumadd = 54
-    EkKeyNumlock = 55
-    EkKeyNumdiv = 56
-    EkKeyNumret = 57
-    EkKeyNumminus = 58
-    EkKeyF18 = 59
-    EkKeyF19 = 60
-    EkKeyNumequal = 61
-    EkKeyNum0 = 62
-    EkKeyNum1 = 63
-    EkKeyNum2 = 64
-    EkKeyNum3 = 65
-    EkKeyNum4 = 66
-    EkKeyNum5 = 67
-    EkKeyNum6 = 68
-    EkKeyNum7 = 69
-    EkKeyNum8 = 70
-    EkKeyNum9 = 71
-    EkKeyF5 = 72
-    EkKeyF6 = 73
-    EkKeyF7 = 74
-    EkKeyF3 = 75
-    EkKeyF8 = 76
-    EkKeyF9 = 77
-    EkKeyF11 = 78
-    EkKeyF13 = 79
-    EkKeyF16 = 80
-    EkKeyF14 = 81
-    EkKeyF10 = 82
-    EkKeyF12 = 83
-    EkKeyF15 = 84
-    EkKeyPageup = 85
-    EkKeyHome = 86
-    EkKeySupr = 87
-    EkKeyF4 = 88
-    EkKeyPagedown = 89
-    EkKeyF2 = 90
-    EkKeyEnd = 91
-    EkKeyF1 = 92
-    EkKeyLeft = 93
-    EkKeyRight = 94
-    EkKeyDown = 95
-    EkKeyUp = 96
-    EkKeyLshift = 97
-    EkKeyRshift = 98
-    EkKeyLctrl = 99
-    EkKeyRctrl = 100
-    EkKeyLalt = 101
-    EkKeyRalt = 102
-    EkKeyInsert = 103
-    EkKeyExclam = 104
-    EkKeyMenu = 105
-    EkKeyLwin = 106
-    EkKeyRwin = 107
-    EkKeyCaps = 108
-    EkKeyTilde = 109
-    EkKeyGrave = 110
-    EkKeyPlus = 111
+    EkKeyUndef      =   0
+    EkKeyA          =   1
+    EkKeyS          =   2
+    EkKeyD          =   3
+    EkKeyF          =   4
+    EkKeyH          =   5
+    EkKeyG          =   6
+    EkKeyZ          =   7
+    EkKeyX          =   8
+    EkKeyC          =   9
+    EkKeyV          =  10
+    EkKeyBslash     =  11
+    EkKeyB          =  12
+    EkKeyQ          =  13
+    EkKeyW          =  14
+    EkKeyE          =  15
+    EkKeyR          =  16
+    EkKeyY          =  17
+    EkKeyT          =  18
+    EkKey1          =  19
+    EkKey2          =  20
+    EkKey3          =  21
+    EkKey4          =  22
+    EkKey6          =  23
+    EkKey5          =  24
+    EkKey9          =  25
+    EkKey7          =  26
+    EkKey8          =  27
+    EkKey0          =  28
+    EkKeyRcurly     =  29
+    EkKeyO          =  30
+    EkKeyU          =  31
+    EkKeyLcurly     =  32
+    EkKeyI          =  33
+    EkKeyP          =  34
+    EkKeyReturn     =  35
+    EkKeyL          =  36
+    EkKeyJ          =  37
+    EkKeySemicolon  =  38
+    EkKeyK          =  39
+    EkKeyQuest      =  40
+    EkKeyComma      =  41
+    EkKeyMinus      =  42
+    EkKeyN          =  43
+    EkKeyM          =  44
+    EkKeyPeriod     =  45
+    EkKeyTab        =  46
+    EkKeySpace      =  47
+    EkKeyGtlt       =  48
+    EkKeyBack       =  49
+    EkKeyEscape     =  50
+    EkKeyF17        =  51
+    EkKeyNumdecimal =  52
+    EkKeyNummult    =  53
+    EkKeyNumadd     =  54
+    EkKeyNumlock    =  55
+    EkKeyNumdiv     =  56
+    EkKeyNumret     =  57
+    EkKeyNumminus   =  58
+    EkKeyF18        =  59
+    EkKeyF19        =  60
+    EkKeyNumequal   =  61
+    EkKeyNum0       =  62
+    EkKeyNum1       =  63
+    EkKeyNum2       =  64
+    EkKeyNum3       =  65
+    EkKeyNum4       =  66
+    EkKeyNum5       =  67
+    EkKeyNum6       =  68
+    EkKeyNum7       =  69
+    EkKeyNum8       =  70
+    EkKeyNum9       =  71
+    EkKeyF5         =  72
+    EkKeyF6         =  73
+    EkKeyF7         =  74
+    EkKeyF3         =  75
+    EkKeyF8         =  76
+    EkKeyF9         =  77
+    EkKeyF11        =  78
+    EkKeyF13        =  79
+    EkKeyF16        =  80
+    EkKeyF14        =  81
+    EkKeyF10        =  82
+    EkKeyF12        =  83
+    EkKeyF15        =  84
+    EkKeyPageup     =  85
+    EkKeyHome       =  86
+    EkKeySupr       =  87
+    EkKeyF4         =  88
+    EkKeyPagedown   =  89
+    EkKeyF2         =  90
+    EkKeyEnd        =  91
+    EkKeyF1         =  92
+    EkKeyLeft       =  93
+    EkKeyRight      =  94
+    EkKeyDown       =  95
+    EkKeyUp         =  96
+    EkKeyLshift     =  97
+    EkKeyRshift     =  98
+    EkKeyLctrl      =  99
+    EkKeyRctrl      = 100
+    EkKeyLalt       = 101
+    EkKeyRalt       = 102
+    EkKeyInsert     = 103
+    EkKeyExclam     = 104
+    EkKeyMenu       = 105
+    EkKeyLwin       = 106
+    EkKeyRwin       = 107
+    EkKeyCaps       = 108
+    EkKeyTilde      = 109
+    EkKeyGrave      = 110
+    EkKeyPlus       = 111
   end
   type VkeyT = X_KeyT
   fun keybuf_on_down = keybuf_OnDown(buffer : KeyBuf, key : VkeyT)
@@ -2182,10 +2283,10 @@ lib LibGUI
   fun stm_token_comments(stm : Stream, active_comments : BoolT)
   fun stm_state(stm : Stream) : SstateT
   enum X_SstateT
-    EkStok = 0
-    EkStend = 1
+    EkStok      = 0
+    EkStend     = 1
     EkStcorrupt = 2
-    EkStbroken = 3
+    EkStbroken  = 3
   end
   type SstateT = X_SstateT
   fun stm_file_err(stm : Stream) : FerrorT
@@ -2216,49 +2317,49 @@ lib LibGUI
   fun stm_read_trim(stm : Stream) : CharT*
   fun stm_read_token(stm : Stream) : LtokenT
   enum X_TokenT
-    EkTslcom = 1
-    EkTmlcom = 2
-    EkTspace = 3
-    EkTeol = 4
-    EkTless = 5
-    EkTgreat = 6
-    EkTcomma = 7
-    EkTperiod = 8
-    EkTscolon = 9
-    EkTcolon = 10
-    EkTopenpar = 11
-    EkTclospar = 12
+    EkTslcom    =  1
+    EkTmlcom    =  2
+    EkTspace    =  3
+    EkTeol      =  4
+    EkTless     =  5
+    EkTgreat    =  6
+    EkTcomma    =  7
+    EkTperiod   =  8
+    EkTscolon   =  9
+    EkTcolon    = 10
+    EkTopenpar  = 11
+    EkTclospar  = 12
     EkTopenbrac = 13
     EkTclosbrac = 14
     EkTopencurl = 15
     EkTcloscurl = 16
-    EkTplus = 17
-    EkTminus = 18
-    EkTasterk = 19
-    EkTequals = 20
-    EkTdollar = 21
-    EkTpercent = 22
-    EkTpound = 23
-    EkTamper = 24
-    EkTapost = 25
-    EkTquote = 26
-    EkTcircum = 27
-    EkTtilde = 28
-    EkTexcla = 29
-    EkTquest = 30
-    EkTvline = 31
-    EkTslash = 32
-    EkTbslash = 33
-    EkTat = 34
-    EkTinteger = 35
-    EkToctal = 36
-    EkThex = 37
-    EkTreal = 38
-    EkTstring = 39
-    EkTident = 40
-    EkTundef = 41
-    EkTcorrup = 42
-    EkTeof = 43
+    EkTplus     = 17
+    EkTminus    = 18
+    EkTasterk   = 19
+    EkTequals   = 20
+    EkTdollar   = 21
+    EkTpercent  = 22
+    EkTpound    = 23
+    EkTamper    = 24
+    EkTapost    = 25
+    EkTquote    = 26
+    EkTcircum   = 27
+    EkTtilde    = 28
+    EkTexcla    = 29
+    EkTquest    = 30
+    EkTvline    = 31
+    EkTslash    = 32
+    EkTbslash   = 33
+    EkTat       = 34
+    EkTinteger  = 35
+    EkToctal    = 36
+    EkThex      = 37
+    EkTreal     = 38
+    EkTstring   = 39
+    EkTident    = 40
+    EkTundef    = 41
+    EkTcorrup   = 42
+    EkTeof      = 43
     EkTreserved = 44
   end
   type LtokenT = X_TokenT
@@ -2354,19 +2455,23 @@ lib LibGUI
   fun str_to_r32(str : CharT*, error : BoolT*) : Real32T
   fun str_to_r64(str : CharT*, error : BoolT*) : Real64T
   fun arrst_v2_df_create = arrst_V2Df_create(esize : Uint16T) : ArrStV2Df*
+
   struct ArrStV2Df
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : V2DfData*
   end
+
   struct V2DfData
     elem : V2Df[1024]
   end
+
   struct X_V2dfT
     x : Real32T
     y : Real32T
   end
+
   type V2Df = X_V2dfT
   fun arrst_v2_df_create = arrst_V2Df_create(esize : Uint16T) : ArrStV2Df*
   fun arrst_v2_df_copy = arrst_V2Df_copy(array : ArrStV2Df*, func_copy : (V2Df*, V2Df* -> Void)) : ArrStV2Df*
@@ -2419,6 +2524,7 @@ lib LibGUI
   fun arrst_v2_df_bsearch_const = arrst_V2Df_bsearch_const(array : ArrStV2Df*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : V2Df*
   fun arrst_v2_df_end = arrst_V2Df_end
   fun setst_v2_df_create = setst_V2Df_create(func_compare : (V2Df*, V2Df* -> LibC::Int), esize : Uint16T) : SetStV2Df*
+
   struct SetStV2Df
     elems : Uint32T
     esize : Uint16T
@@ -2426,12 +2532,14 @@ lib LibGUI
     root : NodeStV2Df*
     func_compare : FPtrCompare
   end
+
   struct NodeStV2Df
     rb : Uint32T
     left : NodeStV2Df*
     right : NodeStV2Df*
     data : V2Df
   end
+
   fun setst_v2_df_create = setst_V2Df_create(func_compare : (V2Df*, V2Df* -> LibC::Int), esize : Uint16T) : SetStV2Df*
   fun setst_v2_df_destroy = setst_V2Df_destroy(set : SetStV2Df**, func_remove : (V2Df* -> Void))
   fun setst_v2_df_destroy = setst_V2Df_destroy(set : SetStV2Df**, func_remove : (V2Df* -> Void))
@@ -2463,19 +2571,23 @@ lib LibGUI
   fun setst_v2_df_prev_const = setst_V2Df_prev_const(set : SetStV2Df*) : V2Df*
   fun setst_v2_df_end = setst_V2Df_end
   fun arrst_v2_dd_create = arrst_V2Dd_create(esize : Uint16T) : ArrStV2Dd*
+
   struct ArrStV2Dd
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : V2DdData*
   end
+
   struct V2DdData
     elem : V2Dd[1024]
   end
+
   struct X_V2ddT
     x : Real64T
     y : Real64T
   end
+
   type V2Dd = X_V2ddT
   fun arrst_v2_dd_create = arrst_V2Dd_create(esize : Uint16T) : ArrStV2Dd*
   fun arrst_v2_dd_copy = arrst_V2Dd_copy(array : ArrStV2Dd*, func_copy : (V2Dd*, V2Dd* -> Void)) : ArrStV2Dd*
@@ -2528,6 +2640,7 @@ lib LibGUI
   fun arrst_v2_dd_bsearch_const = arrst_V2Dd_bsearch_const(array : ArrStV2Dd*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : V2Dd*
   fun arrst_v2_dd_end = arrst_V2Dd_end
   fun setst_v2_dd_create = setst_V2Dd_create(func_compare : (V2Dd*, V2Dd* -> LibC::Int), esize : Uint16T) : SetStV2Dd*
+
   struct SetStV2Dd
     elems : Uint32T
     esize : Uint16T
@@ -2535,12 +2648,14 @@ lib LibGUI
     root : NodeStV2Dd*
     func_compare : FPtrCompare
   end
+
   struct NodeStV2Dd
     rb : Uint32T
     left : NodeStV2Dd*
     right : NodeStV2Dd*
     data : V2Dd
   end
+
   fun setst_v2_dd_create = setst_V2Dd_create(func_compare : (V2Dd*, V2Dd* -> LibC::Int), esize : Uint16T) : SetStV2Dd*
   fun setst_v2_dd_destroy = setst_V2Dd_destroy(set : SetStV2Dd**, func_remove : (V2Dd* -> Void))
   fun setst_v2_dd_destroy = setst_V2Dd_destroy(set : SetStV2Dd**, func_remove : (V2Dd* -> Void))
@@ -2572,19 +2687,23 @@ lib LibGUI
   fun setst_v2_dd_prev_const = setst_V2Dd_prev_const(set : SetStV2Dd*) : V2Dd*
   fun setst_v2_dd_end = setst_V2Dd_end
   fun arrst_s2_df_create = arrst_S2Df_create(esize : Uint16T) : ArrStS2Df*
+
   struct ArrStS2Df
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : S2DfData*
   end
+
   struct S2DfData
     elem : S2Df[1024]
   end
+
   struct X_S2dfT
     width : Real32T
     height : Real32T
   end
+
   type S2Df = X_S2dfT
   fun arrst_s2_df_create = arrst_S2Df_create(esize : Uint16T) : ArrStS2Df*
   fun arrst_s2_df_copy = arrst_S2Df_copy(array : ArrStS2Df*, func_copy : (S2Df*, S2Df* -> Void)) : ArrStS2Df*
@@ -2637,6 +2756,7 @@ lib LibGUI
   fun arrst_s2_df_bsearch_const = arrst_S2Df_bsearch_const(array : ArrStS2Df*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : S2Df*
   fun arrst_s2_df_end = arrst_S2Df_end
   fun setst_s2_df_create = setst_S2Df_create(func_compare : (S2Df*, S2Df* -> LibC::Int), esize : Uint16T) : SetStS2Df*
+
   struct SetStS2Df
     elems : Uint32T
     esize : Uint16T
@@ -2644,12 +2764,14 @@ lib LibGUI
     root : NodeStS2Df*
     func_compare : FPtrCompare
   end
+
   struct NodeStS2Df
     rb : Uint32T
     left : NodeStS2Df*
     right : NodeStS2Df*
     data : S2Df
   end
+
   fun setst_s2_df_create = setst_S2Df_create(func_compare : (S2Df*, S2Df* -> LibC::Int), esize : Uint16T) : SetStS2Df*
   fun setst_s2_df_destroy = setst_S2Df_destroy(set : SetStS2Df**, func_remove : (S2Df* -> Void))
   fun setst_s2_df_destroy = setst_S2Df_destroy(set : SetStS2Df**, func_remove : (S2Df* -> Void))
@@ -2681,19 +2803,23 @@ lib LibGUI
   fun setst_s2_df_prev_const = setst_S2Df_prev_const(set : SetStS2Df*) : S2Df*
   fun setst_s2_df_end = setst_S2Df_end
   fun arrst_s2_dd_create = arrst_S2Dd_create(esize : Uint16T) : ArrStS2Dd*
+
   struct ArrStS2Dd
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : S2DdData*
   end
+
   struct S2DdData
     elem : S2Dd[1024]
   end
+
   struct X_S2ddT
     width : Real64T
     height : Real64T
   end
+
   type S2Dd = X_S2ddT
   fun arrst_s2_dd_create = arrst_S2Dd_create(esize : Uint16T) : ArrStS2Dd*
   fun arrst_s2_dd_copy = arrst_S2Dd_copy(array : ArrStS2Dd*, func_copy : (S2Dd*, S2Dd* -> Void)) : ArrStS2Dd*
@@ -2746,6 +2872,7 @@ lib LibGUI
   fun arrst_s2_dd_bsearch_const = arrst_S2Dd_bsearch_const(array : ArrStS2Dd*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : S2Dd*
   fun arrst_s2_dd_end = arrst_S2Dd_end
   fun setst_s2_dd_create = setst_S2Dd_create(func_compare : (S2Dd*, S2Dd* -> LibC::Int), esize : Uint16T) : SetStS2Dd*
+
   struct SetStS2Dd
     elems : Uint32T
     esize : Uint16T
@@ -2753,12 +2880,14 @@ lib LibGUI
     root : NodeStS2Dd*
     func_compare : FPtrCompare
   end
+
   struct NodeStS2Dd
     rb : Uint32T
     left : NodeStS2Dd*
     right : NodeStS2Dd*
     data : S2Dd
   end
+
   fun setst_s2_dd_create = setst_S2Dd_create(func_compare : (S2Dd*, S2Dd* -> LibC::Int), esize : Uint16T) : SetStS2Dd*
   fun setst_s2_dd_destroy = setst_S2Dd_destroy(set : SetStS2Dd**, func_remove : (S2Dd* -> Void))
   fun setst_s2_dd_destroy = setst_S2Dd_destroy(set : SetStS2Dd**, func_remove : (S2Dd* -> Void))
@@ -2790,19 +2919,23 @@ lib LibGUI
   fun setst_s2_dd_prev_const = setst_S2Dd_prev_const(set : SetStS2Dd*) : S2Dd*
   fun setst_s2_dd_end = setst_S2Dd_end
   fun arrst_r2_df_create = arrst_R2Df_create(esize : Uint16T) : ArrStR2Df*
+
   struct ArrStR2Df
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : R2DfData*
   end
+
   struct R2DfData
     elem : R2Df[1024]
   end
+
   struct X_R2dfT
     pos : V2Df
     size : S2Df
   end
+
   type R2Df = X_R2dfT
   fun arrst_r2_df_create = arrst_R2Df_create(esize : Uint16T) : ArrStR2Df*
   fun arrst_r2_df_copy = arrst_R2Df_copy(array : ArrStR2Df*, func_copy : (R2Df*, R2Df* -> Void)) : ArrStR2Df*
@@ -2855,6 +2988,7 @@ lib LibGUI
   fun arrst_r2_df_bsearch_const = arrst_R2Df_bsearch_const(array : ArrStR2Df*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : R2Df*
   fun arrst_r2_df_end = arrst_R2Df_end
   fun setst_r2_df_create = setst_R2Df_create(func_compare : (R2Df*, R2Df* -> LibC::Int), esize : Uint16T) : SetStR2Df*
+
   struct SetStR2Df
     elems : Uint32T
     esize : Uint16T
@@ -2862,12 +2996,14 @@ lib LibGUI
     root : NodeStR2Df*
     func_compare : FPtrCompare
   end
+
   struct NodeStR2Df
     rb : Uint32T
     left : NodeStR2Df*
     right : NodeStR2Df*
     data : R2Df
   end
+
   fun setst_r2_df_create = setst_R2Df_create(func_compare : (R2Df*, R2Df* -> LibC::Int), esize : Uint16T) : SetStR2Df*
   fun setst_r2_df_destroy = setst_R2Df_destroy(set : SetStR2Df**, func_remove : (R2Df* -> Void))
   fun setst_r2_df_destroy = setst_R2Df_destroy(set : SetStR2Df**, func_remove : (R2Df* -> Void))
@@ -2899,19 +3035,23 @@ lib LibGUI
   fun setst_r2_df_prev_const = setst_R2Df_prev_const(set : SetStR2Df*) : R2Df*
   fun setst_r2_df_end = setst_R2Df_end
   fun arrst_r2_dd_create = arrst_R2Dd_create(esize : Uint16T) : ArrStR2Dd*
+
   struct ArrStR2Dd
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : R2DdData*
   end
+
   struct R2DdData
     elem : R2Dd[1024]
   end
+
   struct X_R2ddT
     pos : V2Dd
     size : S2Dd
   end
+
   type R2Dd = X_R2ddT
   fun arrst_r2_dd_create = arrst_R2Dd_create(esize : Uint16T) : ArrStR2Dd*
   fun arrst_r2_dd_copy = arrst_R2Dd_copy(array : ArrStR2Dd*, func_copy : (R2Dd*, R2Dd* -> Void)) : ArrStR2Dd*
@@ -2964,6 +3104,7 @@ lib LibGUI
   fun arrst_r2_dd_bsearch_const = arrst_R2Dd_bsearch_const(array : ArrStR2Dd*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : R2Dd*
   fun arrst_r2_dd_end = arrst_R2Dd_end
   fun setst_r2_dd_create = setst_R2Dd_create(func_compare : (R2Dd*, R2Dd* -> LibC::Int), esize : Uint16T) : SetStR2Dd*
+
   struct SetStR2Dd
     elems : Uint32T
     esize : Uint16T
@@ -2971,12 +3112,14 @@ lib LibGUI
     root : NodeStR2Dd*
     func_compare : FPtrCompare
   end
+
   struct NodeStR2Dd
     rb : Uint32T
     left : NodeStR2Dd*
     right : NodeStR2Dd*
     data : R2Dd
   end
+
   fun setst_r2_dd_create = setst_R2Dd_create(func_compare : (R2Dd*, R2Dd* -> LibC::Int), esize : Uint16T) : SetStR2Dd*
   fun setst_r2_dd_destroy = setst_R2Dd_destroy(set : SetStR2Dd**, func_remove : (R2Dd* -> Void))
   fun setst_r2_dd_destroy = setst_R2Dd_destroy(set : SetStR2Dd**, func_remove : (R2Dd* -> Void))
@@ -3008,20 +3151,24 @@ lib LibGUI
   fun setst_r2_dd_prev_const = setst_R2Dd_prev_const(set : SetStR2Dd*) : R2Dd*
   fun setst_r2_dd_end = setst_R2Dd_end
   fun arrst_t2_df_create = arrst_T2Df_create(esize : Uint16T) : ArrStT2Df*
+
   struct ArrStT2Df
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : T2DfData*
   end
+
   struct T2DfData
     elem : T2Df[1024]
   end
+
   struct X_T2dfT
     i : V2Df
     j : V2Df
     p : V2Df
   end
+
   type T2Df = X_T2dfT
   fun arrst_t2_df_create = arrst_T2Df_create(esize : Uint16T) : ArrStT2Df*
   fun arrst_t2_df_copy = arrst_T2Df_copy(array : ArrStT2Df*, func_copy : (T2Df*, T2Df* -> Void)) : ArrStT2Df*
@@ -3074,6 +3221,7 @@ lib LibGUI
   fun arrst_t2_df_bsearch_const = arrst_T2Df_bsearch_const(array : ArrStT2Df*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : T2Df*
   fun arrst_t2_df_end = arrst_T2Df_end
   fun setst_t2_df_create = setst_T2Df_create(func_compare : (T2Df*, T2Df* -> LibC::Int), esize : Uint16T) : SetStT2Df*
+
   struct SetStT2Df
     elems : Uint32T
     esize : Uint16T
@@ -3081,12 +3229,14 @@ lib LibGUI
     root : NodeStT2Df*
     func_compare : FPtrCompare
   end
+
   struct NodeStT2Df
     rb : Uint32T
     left : NodeStT2Df*
     right : NodeStT2Df*
     data : T2Df
   end
+
   fun setst_t2_df_create = setst_T2Df_create(func_compare : (T2Df*, T2Df* -> LibC::Int), esize : Uint16T) : SetStT2Df*
   fun setst_t2_df_destroy = setst_T2Df_destroy(set : SetStT2Df**, func_remove : (T2Df* -> Void))
   fun setst_t2_df_destroy = setst_T2Df_destroy(set : SetStT2Df**, func_remove : (T2Df* -> Void))
@@ -3118,20 +3268,24 @@ lib LibGUI
   fun setst_t2_df_prev_const = setst_T2Df_prev_const(set : SetStT2Df*) : T2Df*
   fun setst_t2_df_end = setst_T2Df_end
   fun arrst_t2_dd_create = arrst_T2Dd_create(esize : Uint16T) : ArrStT2Dd*
+
   struct ArrStT2Dd
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : T2DdData*
   end
+
   struct T2DdData
     elem : T2Dd[1024]
   end
+
   struct X_T2ddT
     i : V2Dd
     j : V2Dd
     p : V2Dd
   end
+
   type T2Dd = X_T2ddT
   fun arrst_t2_dd_create = arrst_T2Dd_create(esize : Uint16T) : ArrStT2Dd*
   fun arrst_t2_dd_copy = arrst_T2Dd_copy(array : ArrStT2Dd*, func_copy : (T2Dd*, T2Dd* -> Void)) : ArrStT2Dd*
@@ -3184,6 +3338,7 @@ lib LibGUI
   fun arrst_t2_dd_bsearch_const = arrst_T2Dd_bsearch_const(array : ArrStT2Dd*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : T2Dd*
   fun arrst_t2_dd_end = arrst_T2Dd_end
   fun setst_t2_dd_create = setst_T2Dd_create(func_compare : (T2Dd*, T2Dd* -> LibC::Int), esize : Uint16T) : SetStT2Dd*
+
   struct SetStT2Dd
     elems : Uint32T
     esize : Uint16T
@@ -3191,12 +3346,14 @@ lib LibGUI
     root : NodeStT2Dd*
     func_compare : FPtrCompare
   end
+
   struct NodeStT2Dd
     rb : Uint32T
     left : NodeStT2Dd*
     right : NodeStT2Dd*
     data : T2Dd
   end
+
   fun setst_t2_dd_create = setst_T2Dd_create(func_compare : (T2Dd*, T2Dd* -> LibC::Int), esize : Uint16T) : SetStT2Dd*
   fun setst_t2_dd_destroy = setst_T2Dd_destroy(set : SetStT2Dd**, func_remove : (T2Dd* -> Void))
   fun setst_t2_dd_destroy = setst_T2Dd_destroy(set : SetStT2Dd**, func_remove : (T2Dd* -> Void))
@@ -3228,19 +3385,23 @@ lib LibGUI
   fun setst_t2_dd_prev_const = setst_T2Dd_prev_const(set : SetStT2Dd*) : T2Dd*
   fun setst_t2_dd_end = setst_T2Dd_end
   fun arrst_seg2_df_create = arrst_Seg2Df_create(esize : Uint16T) : ArrStSeg2Df*
+
   struct ArrStSeg2Df
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Seg2DfData*
   end
+
   struct Seg2DfData
     elem : Seg2Df[1024]
   end
+
   struct X_Seg2dfT
     p0 : V2Df
     p1 : V2Df
   end
+
   type Seg2Df = X_Seg2dfT
   fun arrst_seg2_df_create = arrst_Seg2Df_create(esize : Uint16T) : ArrStSeg2Df*
   fun arrst_seg2_df_copy = arrst_Seg2Df_copy(array : ArrStSeg2Df*, func_copy : (Seg2Df*, Seg2Df* -> Void)) : ArrStSeg2Df*
@@ -3293,6 +3454,7 @@ lib LibGUI
   fun arrst_seg2_df_bsearch_const = arrst_Seg2Df_bsearch_const(array : ArrStSeg2Df*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Seg2Df*
   fun arrst_seg2_df_end = arrst_Seg2Df_end
   fun setst_seg2_df_create = setst_Seg2Df_create(func_compare : (Seg2Df*, Seg2Df* -> LibC::Int), esize : Uint16T) : SetStSeg2Df*
+
   struct SetStSeg2Df
     elems : Uint32T
     esize : Uint16T
@@ -3300,12 +3462,14 @@ lib LibGUI
     root : NodeStSeg2Df*
     func_compare : FPtrCompare
   end
+
   struct NodeStSeg2Df
     rb : Uint32T
     left : NodeStSeg2Df*
     right : NodeStSeg2Df*
     data : Seg2Df
   end
+
   fun setst_seg2_df_create = setst_Seg2Df_create(func_compare : (Seg2Df*, Seg2Df* -> LibC::Int), esize : Uint16T) : SetStSeg2Df*
   fun setst_seg2_df_destroy = setst_Seg2Df_destroy(set : SetStSeg2Df**, func_remove : (Seg2Df* -> Void))
   fun setst_seg2_df_destroy = setst_Seg2Df_destroy(set : SetStSeg2Df**, func_remove : (Seg2Df* -> Void))
@@ -3337,19 +3501,23 @@ lib LibGUI
   fun setst_seg2_df_prev_const = setst_Seg2Df_prev_const(set : SetStSeg2Df*) : Seg2Df*
   fun setst_seg2_df_end = setst_Seg2Df_end
   fun arrst_seg2_dd_create = arrst_Seg2Dd_create(esize : Uint16T) : ArrStSeg2Dd*
+
   struct ArrStSeg2Dd
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Seg2DdData*
   end
+
   struct Seg2DdData
     elem : Seg2Dd[1024]
   end
+
   struct X_Seg2ddT
     p0 : V2Dd
     p1 : V2Dd
   end
+
   type Seg2Dd = X_Seg2ddT
   fun arrst_seg2_dd_create = arrst_Seg2Dd_create(esize : Uint16T) : ArrStSeg2Dd*
   fun arrst_seg2_dd_copy = arrst_Seg2Dd_copy(array : ArrStSeg2Dd*, func_copy : (Seg2Dd*, Seg2Dd* -> Void)) : ArrStSeg2Dd*
@@ -3402,6 +3570,7 @@ lib LibGUI
   fun arrst_seg2_dd_bsearch_const = arrst_Seg2Dd_bsearch_const(array : ArrStSeg2Dd*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Seg2Dd*
   fun arrst_seg2_dd_end = arrst_Seg2Dd_end
   fun setst_seg2_dd_create = setst_Seg2Dd_create(func_compare : (Seg2Dd*, Seg2Dd* -> LibC::Int), esize : Uint16T) : SetStSeg2Dd*
+
   struct SetStSeg2Dd
     elems : Uint32T
     esize : Uint16T
@@ -3409,12 +3578,14 @@ lib LibGUI
     root : NodeStSeg2Dd*
     func_compare : FPtrCompare
   end
+
   struct NodeStSeg2Dd
     rb : Uint32T
     left : NodeStSeg2Dd*
     right : NodeStSeg2Dd*
     data : Seg2Dd
   end
+
   fun setst_seg2_dd_create = setst_Seg2Dd_create(func_compare : (Seg2Dd*, Seg2Dd* -> LibC::Int), esize : Uint16T) : SetStSeg2Dd*
   fun setst_seg2_dd_destroy = setst_Seg2Dd_destroy(set : SetStSeg2Dd**, func_remove : (Seg2Dd* -> Void))
   fun setst_seg2_dd_destroy = setst_Seg2Dd_destroy(set : SetStSeg2Dd**, func_remove : (Seg2Dd* -> Void))
@@ -3446,19 +3617,23 @@ lib LibGUI
   fun setst_seg2_dd_prev_const = setst_Seg2Dd_prev_const(set : SetStSeg2Dd*) : Seg2Dd*
   fun setst_seg2_dd_end = setst_Seg2Dd_end
   fun arrst_cir2_df_create = arrst_Cir2Df_create(esize : Uint16T) : ArrStCir2Df*
+
   struct ArrStCir2Df
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Cir2DfData*
   end
+
   struct Cir2DfData
     elem : Cir2Df[1024]
   end
+
   struct X_Cir2dfT
     c : V2Df
     r : Real32T
   end
+
   type Cir2Df = X_Cir2dfT
   fun arrst_cir2_df_create = arrst_Cir2Df_create(esize : Uint16T) : ArrStCir2Df*
   fun arrst_cir2_df_copy = arrst_Cir2Df_copy(array : ArrStCir2Df*, func_copy : (Cir2Df*, Cir2Df* -> Void)) : ArrStCir2Df*
@@ -3511,6 +3686,7 @@ lib LibGUI
   fun arrst_cir2_df_bsearch_const = arrst_Cir2Df_bsearch_const(array : ArrStCir2Df*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Cir2Df*
   fun arrst_cir2_df_end = arrst_Cir2Df_end
   fun setst_cir2_df_create = setst_Cir2Df_create(func_compare : (Cir2Df*, Cir2Df* -> LibC::Int), esize : Uint16T) : SetStCir2Df*
+
   struct SetStCir2Df
     elems : Uint32T
     esize : Uint16T
@@ -3518,12 +3694,14 @@ lib LibGUI
     root : NodeStCir2Df*
     func_compare : FPtrCompare
   end
+
   struct NodeStCir2Df
     rb : Uint32T
     left : NodeStCir2Df*
     right : NodeStCir2Df*
     data : Cir2Df
   end
+
   fun setst_cir2_df_create = setst_Cir2Df_create(func_compare : (Cir2Df*, Cir2Df* -> LibC::Int), esize : Uint16T) : SetStCir2Df*
   fun setst_cir2_df_destroy = setst_Cir2Df_destroy(set : SetStCir2Df**, func_remove : (Cir2Df* -> Void))
   fun setst_cir2_df_destroy = setst_Cir2Df_destroy(set : SetStCir2Df**, func_remove : (Cir2Df* -> Void))
@@ -3555,19 +3733,23 @@ lib LibGUI
   fun setst_cir2_df_prev_const = setst_Cir2Df_prev_const(set : SetStCir2Df*) : Cir2Df*
   fun setst_cir2_df_end = setst_Cir2Df_end
   fun arrst_cir2_dd_create = arrst_Cir2Dd_create(esize : Uint16T) : ArrStCir2Dd*
+
   struct ArrStCir2Dd
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Cir2DdData*
   end
+
   struct Cir2DdData
     elem : Cir2Dd[1024]
   end
+
   struct X_Cir2ddT
     c : V2Dd
     r : Real64T
   end
+
   type Cir2Dd = X_Cir2ddT
   fun arrst_cir2_dd_create = arrst_Cir2Dd_create(esize : Uint16T) : ArrStCir2Dd*
   fun arrst_cir2_dd_copy = arrst_Cir2Dd_copy(array : ArrStCir2Dd*, func_copy : (Cir2Dd*, Cir2Dd* -> Void)) : ArrStCir2Dd*
@@ -3620,6 +3802,7 @@ lib LibGUI
   fun arrst_cir2_dd_bsearch_const = arrst_Cir2Dd_bsearch_const(array : ArrStCir2Dd*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Cir2Dd*
   fun arrst_cir2_dd_end = arrst_Cir2Dd_end
   fun setst_cir2_dd_create = setst_Cir2Dd_create(func_compare : (Cir2Dd*, Cir2Dd* -> LibC::Int), esize : Uint16T) : SetStCir2Dd*
+
   struct SetStCir2Dd
     elems : Uint32T
     esize : Uint16T
@@ -3627,12 +3810,14 @@ lib LibGUI
     root : NodeStCir2Dd*
     func_compare : FPtrCompare
   end
+
   struct NodeStCir2Dd
     rb : Uint32T
     left : NodeStCir2Dd*
     right : NodeStCir2Dd*
     data : Cir2Dd
   end
+
   fun setst_cir2_dd_create = setst_Cir2Dd_create(func_compare : (Cir2Dd*, Cir2Dd* -> LibC::Int), esize : Uint16T) : SetStCir2Dd*
   fun setst_cir2_dd_destroy = setst_Cir2Dd_destroy(set : SetStCir2Dd**, func_remove : (Cir2Dd* -> Void))
   fun setst_cir2_dd_destroy = setst_Cir2Dd_destroy(set : SetStCir2Dd**, func_remove : (Cir2Dd* -> Void))
@@ -3664,19 +3849,23 @@ lib LibGUI
   fun setst_cir2_dd_prev_const = setst_Cir2Dd_prev_const(set : SetStCir2Dd*) : Cir2Dd*
   fun setst_cir2_dd_end = setst_Cir2Dd_end
   fun arrst_box2_df_create = arrst_Box2Df_create(esize : Uint16T) : ArrStBox2Df*
+
   struct ArrStBox2Df
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Box2DfData*
   end
+
   struct Box2DfData
     elem : Box2Df[1024]
   end
+
   struct X_Box2dfT
     min : V2Df
     max : V2Df
   end
+
   type Box2Df = X_Box2dfT
   fun arrst_box2_df_create = arrst_Box2Df_create(esize : Uint16T) : ArrStBox2Df*
   fun arrst_box2_df_copy = arrst_Box2Df_copy(array : ArrStBox2Df*, func_copy : (Box2Df*, Box2Df* -> Void)) : ArrStBox2Df*
@@ -3729,6 +3918,7 @@ lib LibGUI
   fun arrst_box2_df_bsearch_const = arrst_Box2Df_bsearch_const(array : ArrStBox2Df*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Box2Df*
   fun arrst_box2_df_end = arrst_Box2Df_end
   fun setst_box2_df_create = setst_Box2Df_create(func_compare : (Box2Df*, Box2Df* -> LibC::Int), esize : Uint16T) : SetStBox2Df*
+
   struct SetStBox2Df
     elems : Uint32T
     esize : Uint16T
@@ -3736,12 +3926,14 @@ lib LibGUI
     root : NodeStBox2Df*
     func_compare : FPtrCompare
   end
+
   struct NodeStBox2Df
     rb : Uint32T
     left : NodeStBox2Df*
     right : NodeStBox2Df*
     data : Box2Df
   end
+
   fun setst_box2_df_create = setst_Box2Df_create(func_compare : (Box2Df*, Box2Df* -> LibC::Int), esize : Uint16T) : SetStBox2Df*
   fun setst_box2_df_destroy = setst_Box2Df_destroy(set : SetStBox2Df**, func_remove : (Box2Df* -> Void))
   fun setst_box2_df_destroy = setst_Box2Df_destroy(set : SetStBox2Df**, func_remove : (Box2Df* -> Void))
@@ -3773,19 +3965,23 @@ lib LibGUI
   fun setst_box2_df_prev_const = setst_Box2Df_prev_const(set : SetStBox2Df*) : Box2Df*
   fun setst_box2_df_end = setst_Box2Df_end
   fun arrst_box2_dd_create = arrst_Box2Dd_create(esize : Uint16T) : ArrStBox2Dd*
+
   struct ArrStBox2Dd
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Box2DdData*
   end
+
   struct Box2DdData
     elem : Box2Dd[1024]
   end
+
   struct X_Box2ddT
     min : V2Dd
     max : V2Dd
   end
+
   type Box2Dd = X_Box2ddT
   fun arrst_box2_dd_create = arrst_Box2Dd_create(esize : Uint16T) : ArrStBox2Dd*
   fun arrst_box2_dd_copy = arrst_Box2Dd_copy(array : ArrStBox2Dd*, func_copy : (Box2Dd*, Box2Dd* -> Void)) : ArrStBox2Dd*
@@ -3838,6 +4034,7 @@ lib LibGUI
   fun arrst_box2_dd_bsearch_const = arrst_Box2Dd_bsearch_const(array : ArrStBox2Dd*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Box2Dd*
   fun arrst_box2_dd_end = arrst_Box2Dd_end
   fun setst_box2_dd_create = setst_Box2Dd_create(func_compare : (Box2Dd*, Box2Dd* -> LibC::Int), esize : Uint16T) : SetStBox2Dd*
+
   struct SetStBox2Dd
     elems : Uint32T
     esize : Uint16T
@@ -3845,12 +4042,14 @@ lib LibGUI
     root : NodeStBox2Dd*
     func_compare : FPtrCompare
   end
+
   struct NodeStBox2Dd
     rb : Uint32T
     left : NodeStBox2Dd*
     right : NodeStBox2Dd*
     data : Box2Dd
   end
+
   fun setst_box2_dd_create = setst_Box2Dd_create(func_compare : (Box2Dd*, Box2Dd* -> LibC::Int), esize : Uint16T) : SetStBox2Dd*
   fun setst_box2_dd_destroy = setst_Box2Dd_destroy(set : SetStBox2Dd**, func_remove : (Box2Dd* -> Void))
   fun setst_box2_dd_destroy = setst_Box2Dd_destroy(set : SetStBox2Dd**, func_remove : (Box2Dd* -> Void))
@@ -3882,20 +4081,24 @@ lib LibGUI
   fun setst_box2_dd_prev_const = setst_Box2Dd_prev_const(set : SetStBox2Dd*) : Box2Dd*
   fun setst_box2_dd_end = setst_Box2Dd_end
   fun arrst_tri2_df_create = arrst_Tri2Df_create(esize : Uint16T) : ArrStTri2Df*
+
   struct ArrStTri2Df
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Tri2DfData*
   end
+
   struct Tri2DfData
     elem : Tri2Df[1024]
   end
+
   struct X_Tri2dfT
     p0 : V2Df
     p1 : V2Df
     p2 : V2Df
   end
+
   type Tri2Df = X_Tri2dfT
   fun arrst_tri2_df_create = arrst_Tri2Df_create(esize : Uint16T) : ArrStTri2Df*
   fun arrst_tri2_df_copy = arrst_Tri2Df_copy(array : ArrStTri2Df*, func_copy : (Tri2Df*, Tri2Df* -> Void)) : ArrStTri2Df*
@@ -3948,6 +4151,7 @@ lib LibGUI
   fun arrst_tri2_df_bsearch_const = arrst_Tri2Df_bsearch_const(array : ArrStTri2Df*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Tri2Df*
   fun arrst_tri2_df_end = arrst_Tri2Df_end
   fun setst_tri2_df_create = setst_Tri2Df_create(func_compare : (Tri2Df*, Tri2Df* -> LibC::Int), esize : Uint16T) : SetStTri2Df*
+
   struct SetStTri2Df
     elems : Uint32T
     esize : Uint16T
@@ -3955,12 +4159,14 @@ lib LibGUI
     root : NodeStTri2Df*
     func_compare : FPtrCompare
   end
+
   struct NodeStTri2Df
     rb : Uint32T
     left : NodeStTri2Df*
     right : NodeStTri2Df*
     data : Tri2Df
   end
+
   fun setst_tri2_df_create = setst_Tri2Df_create(func_compare : (Tri2Df*, Tri2Df* -> LibC::Int), esize : Uint16T) : SetStTri2Df*
   fun setst_tri2_df_destroy = setst_Tri2Df_destroy(set : SetStTri2Df**, func_remove : (Tri2Df* -> Void))
   fun setst_tri2_df_destroy = setst_Tri2Df_destroy(set : SetStTri2Df**, func_remove : (Tri2Df* -> Void))
@@ -3992,20 +4198,24 @@ lib LibGUI
   fun setst_tri2_df_prev_const = setst_Tri2Df_prev_const(set : SetStTri2Df*) : Tri2Df*
   fun setst_tri2_df_end = setst_Tri2Df_end
   fun arrst_tri2_dd_create = arrst_Tri2Dd_create(esize : Uint16T) : ArrStTri2Dd*
+
   struct ArrStTri2Dd
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Tri2DdData*
   end
+
   struct Tri2DdData
     elem : Tri2Dd[1024]
   end
+
   struct X_Tri2ddT
     p0 : V2Dd
     p1 : V2Dd
     p2 : V2Dd
   end
+
   type Tri2Dd = X_Tri2ddT
   fun arrst_tri2_dd_create = arrst_Tri2Dd_create(esize : Uint16T) : ArrStTri2Dd*
   fun arrst_tri2_dd_copy = arrst_Tri2Dd_copy(array : ArrStTri2Dd*, func_copy : (Tri2Dd*, Tri2Dd* -> Void)) : ArrStTri2Dd*
@@ -4058,6 +4268,7 @@ lib LibGUI
   fun arrst_tri2_dd_bsearch_const = arrst_Tri2Dd_bsearch_const(array : ArrStTri2Dd*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Tri2Dd*
   fun arrst_tri2_dd_end = arrst_Tri2Dd_end
   fun setst_tri2_dd_create = setst_Tri2Dd_create(func_compare : (Tri2Dd*, Tri2Dd* -> LibC::Int), esize : Uint16T) : SetStTri2Dd*
+
   struct SetStTri2Dd
     elems : Uint32T
     esize : Uint16T
@@ -4065,12 +4276,14 @@ lib LibGUI
     root : NodeStTri2Dd*
     func_compare : FPtrCompare
   end
+
   struct NodeStTri2Dd
     rb : Uint32T
     left : NodeStTri2Dd*
     right : NodeStTri2Dd*
     data : Tri2Dd
   end
+
   fun setst_tri2_dd_create = setst_Tri2Dd_create(func_compare : (Tri2Dd*, Tri2Dd* -> LibC::Int), esize : Uint16T) : SetStTri2Dd*
   fun setst_tri2_dd_destroy = setst_Tri2Dd_destroy(set : SetStTri2Dd**, func_remove : (Tri2Dd* -> Void))
   fun setst_tri2_dd_destroy = setst_Tri2Dd_destroy(set : SetStTri2Dd**, func_remove : (Tri2Dd* -> Void))
@@ -4102,15 +4315,18 @@ lib LibGUI
   fun setst_tri2_dd_prev_const = setst_Tri2Dd_prev_const(set : SetStTri2Dd*) : Tri2Dd*
   fun setst_tri2_dd_end = setst_Tri2Dd_end
   fun arrpt_pol2_df_create = arrpt_Pol2Df_create(esize : Uint16T) : ArrPtPol2Df*
+
   struct ArrPtPol2Df
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Pol2DfPtData*
   end
+
   struct Pol2DfPtData
     elem : Pol2Df[1024]
   end
+
   type Pol2Df = Void*
   fun arrpt_pol2_df_create = arrpt_Pol2Df_create(esize : Uint16T) : ArrPtPol2Df*
   fun arrpt_pol2_df_copy = arrpt_Pol2Df_copy(array : ArrPtPol2Df*, func_copy : (Pol2Df -> Pol2Df)) : ArrPtPol2Df*
@@ -4167,6 +4383,7 @@ lib LibGUI
   fun arrpt_pol2_df_bsearch_const = arrpt_Pol2Df_bsearch_const(array : ArrPtPol2Df*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Pol2Df
   fun arrpt_pol2_df_end = arrpt_Pol2Df_end
   fun setpt_pol2_df_create = setpt_Pol2Df_create(func_compare : (Pol2Df, Pol2Df -> LibC::Int), esize : Uint16T) : SetPtPol2Df*
+
   struct SetPtPol2Df
     elems : Uint32T
     esize : Uint16T
@@ -4174,12 +4391,14 @@ lib LibGUI
     root : NodePtPol2Df*
     func_compare : FPtrCompare
   end
+
   struct NodePtPol2Df
     rb : Uint32T
     left : NodePtPol2Df*
     right : NodePtPol2Df*
     data : Pol2Df
   end
+
   fun setpt_pol2_df_create = setpt_Pol2Df_create(func_compare : (Pol2Df, Pol2Df -> LibC::Int), esize : Uint16T) : SetPtPol2Df*
   fun setpt_pol2_df_destroy = setpt_Pol2Df_destroy(set : SetPtPol2Df**, func_destroy : (Pol2Df* -> Void))
   fun setpt_pol2_df_destroy = setpt_Pol2Df_destroy(set : SetPtPol2Df**, func_destroy : (Pol2Df* -> Void))
@@ -4211,15 +4430,18 @@ lib LibGUI
   fun setpt_pol2_df_prev_const = setpt_Pol2Df_prev_const(set : SetPtPol2Df*) : Pol2Df
   fun setpt_pol2_df_end = setpt_Pol2Df_end
   fun arrpt_pol2_dd_create = arrpt_Pol2Dd_create(esize : Uint16T) : ArrPtPol2Dd*
+
   struct ArrPtPol2Dd
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Pol2DdPtData*
   end
+
   struct Pol2DdPtData
     elem : Pol2Dd[1024]
   end
+
   type Pol2Dd = Void*
   fun arrpt_pol2_dd_create = arrpt_Pol2Dd_create(esize : Uint16T) : ArrPtPol2Dd*
   fun arrpt_pol2_dd_copy = arrpt_Pol2Dd_copy(array : ArrPtPol2Dd*, func_copy : (Pol2Dd -> Pol2Dd)) : ArrPtPol2Dd*
@@ -4276,6 +4498,7 @@ lib LibGUI
   fun arrpt_pol2_dd_bsearch_const = arrpt_Pol2Dd_bsearch_const(array : ArrPtPol2Dd*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Pol2Dd
   fun arrpt_pol2_dd_end = arrpt_Pol2Dd_end
   fun setpt_pol2_dd_create = setpt_Pol2Dd_create(func_compare : (Pol2Dd, Pol2Dd -> LibC::Int), esize : Uint16T) : SetPtPol2Dd*
+
   struct SetPtPol2Dd
     elems : Uint32T
     esize : Uint16T
@@ -4283,12 +4506,14 @@ lib LibGUI
     root : NodePtPol2Dd*
     func_compare : FPtrCompare
   end
+
   struct NodePtPol2Dd
     rb : Uint32T
     left : NodePtPol2Dd*
     right : NodePtPol2Dd*
     data : Pol2Dd
   end
+
   fun setpt_pol2_dd_create = setpt_Pol2Dd_create(func_compare : (Pol2Dd, Pol2Dd -> LibC::Int), esize : Uint16T) : SetPtPol2Dd*
   fun setpt_pol2_dd_destroy = setpt_Pol2Dd_destroy(set : SetPtPol2Dd**, func_destroy : (Pol2Dd* -> Void))
   fun setpt_pol2_dd_destroy = setpt_Pol2Dd_destroy(set : SetPtPol2Dd**, func_destroy : (Pol2Dd* -> Void))
@@ -4320,20 +4545,24 @@ lib LibGUI
   fun setpt_pol2_dd_prev_const = setpt_Pol2Dd_prev_const(set : SetPtPol2Dd*) : Pol2Dd
   fun setpt_pol2_dd_end = setpt_Pol2Dd_end
   fun arrst_col2_df_create = arrst_Col2Df_create(esize : Uint16T) : ArrStCol2Df*
+
   struct ArrStCol2Df
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Col2DfData*
   end
+
   struct Col2DfData
     elem : Col2Df[1024]
   end
+
   struct X_Col2dfT
     p : V2Df
     n : V2Df
     d : Real32T
   end
+
   type Col2Df = X_Col2dfT
   fun arrst_col2_df_create = arrst_Col2Df_create(esize : Uint16T) : ArrStCol2Df*
   fun arrst_col2_df_copy = arrst_Col2Df_copy(array : ArrStCol2Df*, func_copy : (Col2Df*, Col2Df* -> Void)) : ArrStCol2Df*
@@ -4386,6 +4615,7 @@ lib LibGUI
   fun arrst_col2_df_bsearch_const = arrst_Col2Df_bsearch_const(array : ArrStCol2Df*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Col2Df*
   fun arrst_col2_df_end = arrst_Col2Df_end
   fun setst_col2_df_create = setst_Col2Df_create(func_compare : (Col2Df*, Col2Df* -> LibC::Int), esize : Uint16T) : SetStCol2Df*
+
   struct SetStCol2Df
     elems : Uint32T
     esize : Uint16T
@@ -4393,12 +4623,14 @@ lib LibGUI
     root : NodeStCol2Df*
     func_compare : FPtrCompare
   end
+
   struct NodeStCol2Df
     rb : Uint32T
     left : NodeStCol2Df*
     right : NodeStCol2Df*
     data : Col2Df
   end
+
   fun setst_col2_df_create = setst_Col2Df_create(func_compare : (Col2Df*, Col2Df* -> LibC::Int), esize : Uint16T) : SetStCol2Df*
   fun setst_col2_df_destroy = setst_Col2Df_destroy(set : SetStCol2Df**, func_remove : (Col2Df* -> Void))
   fun setst_col2_df_destroy = setst_Col2Df_destroy(set : SetStCol2Df**, func_remove : (Col2Df* -> Void))
@@ -4430,20 +4662,24 @@ lib LibGUI
   fun setst_col2_df_prev_const = setst_Col2Df_prev_const(set : SetStCol2Df*) : Col2Df*
   fun setst_col2_df_end = setst_Col2Df_end
   fun arrst_col2_dd_create = arrst_Col2Dd_create(esize : Uint16T) : ArrStCol2Dd*
+
   struct ArrStCol2Dd
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : Col2DdData*
   end
+
   struct Col2DdData
     elem : Col2Dd[1024]
   end
+
   struct X_Col2ddT
     p : V2Dd
     n : V2Dd
     d : Real64T
   end
+
   type Col2Dd = X_Col2ddT
   fun arrst_col2_dd_create = arrst_Col2Dd_create(esize : Uint16T) : ArrStCol2Dd*
   fun arrst_col2_dd_copy = arrst_Col2Dd_copy(array : ArrStCol2Dd*, func_copy : (Col2Dd*, Col2Dd* -> Void)) : ArrStCol2Dd*
@@ -4496,6 +4732,7 @@ lib LibGUI
   fun arrst_col2_dd_bsearch_const = arrst_Col2Dd_bsearch_const(array : ArrStCol2Dd*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Col2Dd*
   fun arrst_col2_dd_end = arrst_Col2Dd_end
   fun setst_col2_dd_create = setst_Col2Dd_create(func_compare : (Col2Dd*, Col2Dd* -> LibC::Int), esize : Uint16T) : SetStCol2Dd*
+
   struct SetStCol2Dd
     elems : Uint32T
     esize : Uint16T
@@ -4503,12 +4740,14 @@ lib LibGUI
     root : NodeStCol2Dd*
     func_compare : FPtrCompare
   end
+
   struct NodeStCol2Dd
     rb : Uint32T
     left : NodeStCol2Dd*
     right : NodeStCol2Dd*
     data : Col2Dd
   end
+
   fun setst_col2_dd_create = setst_Col2Dd_create(func_compare : (Col2Dd*, Col2Dd* -> LibC::Int), esize : Uint16T) : SetStCol2Dd*
   fun setst_col2_dd_destroy = setst_Col2Dd_destroy(set : SetStCol2Dd**, func_remove : (Col2Dd* -> Void))
   fun setst_col2_dd_destroy = setst_Col2Dd_destroy(set : SetStCol2Dd**, func_remove : (Col2Dd* -> Void))
@@ -4794,17 +5033,21 @@ lib LibGUI
   fun v2d_angled(v1 : V2Dd*, v2 : V2Dd*) : Real64T
   fun v2d_rotatef(v : V2Df*, a : Real32T)
   fun v2d_rotated(v : V2Dd*, a : Real64T)
+
   struct ColorTData
     elem : ColorT[1024]
   end
+
   alias ColorT = Uint32T
   fun arrst_color_t_create(esize : Uint16T) : ArrStcolorT*
+
   struct ArrStcolorT
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : ColorTData*
   end
+
   fun arrst_color_t_create(esize : Uint16T) : ArrStcolorT*
   fun arrst_color_t_copy(array : ArrStcolorT*, func_copy : (ColorT*, ColorT* -> Void)) : ArrStcolorT*
   fun arrst_color_t_copy(array : ArrStcolorT*, func_copy : (ColorT*, ColorT* -> Void)) : ArrStcolorT*
@@ -4856,6 +5099,7 @@ lib LibGUI
   fun arrst_color_t_bsearch_const(array : ArrStcolorT*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : ColorT*
   fun arrst_color_t_end
   fun setst_color_t_create(func_compare : (ColorT*, ColorT* -> LibC::Int), esize : Uint16T) : SetStcolorT*
+
   struct SetStcolorT
     elems : Uint32T
     esize : Uint16T
@@ -4863,12 +5107,14 @@ lib LibGUI
     root : NodeStcolorT*
     func_compare : FPtrCompare
   end
+
   struct NodeStcolorT
     rb : Uint32T
     left : NodeStcolorT*
     right : NodeStcolorT*
     data : ColorT
   end
+
   fun setst_color_t_create(func_compare : (ColorT*, ColorT* -> LibC::Int), esize : Uint16T) : SetStcolorT*
   fun setst_color_t_destroy(set : SetStcolorT**, func_remove : (ColorT* -> Void))
   fun setst_color_t_destroy(set : SetStcolorT**, func_remove : (ColorT* -> Void))
@@ -4900,15 +5146,18 @@ lib LibGUI
   fun setst_color_t_prev_const(set : SetStcolorT*) : ColorT*
   fun setst_color_t_end
   fun arrpt_image_create = arrpt_Image_create(esize : Uint16T) : ArrPtImage*
+
   struct ArrPtImage
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : ImagePtData*
   end
+
   struct ImagePtData
     elem : Image[1024]
   end
+
   type Image = Void*
   fun arrpt_image_create = arrpt_Image_create(esize : Uint16T) : ArrPtImage*
   fun arrpt_image_copy = arrpt_Image_copy(array : ArrPtImage*, func_copy : (Image -> Image)) : ArrPtImage*
@@ -4965,6 +5214,7 @@ lib LibGUI
   fun arrpt_image_bsearch_const = arrpt_Image_bsearch_const(array : ArrPtImage*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : Image
   fun arrpt_image_end = arrpt_Image_end
   fun setpt_image_create = setpt_Image_create(func_compare : (Image, Image -> LibC::Int), esize : Uint16T) : SetPtImage*
+
   struct SetPtImage
     elems : Uint32T
     esize : Uint16T
@@ -4972,12 +5222,14 @@ lib LibGUI
     root : NodePtImage*
     func_compare : FPtrCompare
   end
+
   struct NodePtImage
     rb : Uint32T
     left : NodePtImage*
     right : NodePtImage*
     data : Image
   end
+
   fun setpt_image_create = setpt_Image_create(func_compare : (Image, Image -> LibC::Int), esize : Uint16T) : SetPtImage*
   fun setpt_image_destroy = setpt_Image_destroy(set : SetPtImage**, func_destroy : (Image* -> Void))
   fun setpt_image_destroy = setpt_Image_destroy(set : SetPtImage**, func_destroy : (Image* -> Void))
@@ -5033,8 +5285,8 @@ lib LibGUI
     EkIndex2 = 1
     EkIndex4 = 2
     EkIndex8 = 3
-    EkGray8 = 4
-    EkRgb24 = 5
+    EkGray8  = 4
+    EkRgb24  = 5
     EkRgba32 = 6
     EkFimage = 7
   end
@@ -5056,9 +5308,9 @@ lib LibGUI
   fun draw_line_width(ctx : DCtx, width : Real32T)
   fun draw_line_cap(ctx : DCtx, cap : LinecapT)
   enum X_LinecapT
-    EkLcflat = 0
+    EkLcflat   = 0
     EkLcsquare = 1
-    EkLcround = 2
+    EkLcround  = 2
   end
   type LinecapT = X_LinecapT
   fun draw_line_join(ctx : DCtx, join : LinejoinT)
@@ -5072,7 +5324,7 @@ lib LibGUI
   fun draw_rect(ctx : DCtx, op : DrawopT, x : Real32T, y : Real32T, width : Real32T, height : Real32T)
   enum X_DrawopT
     EkStroke = 1
-    EkFill = 2
+    EkFill   = 2
     EkSkfill = 3
     EkFillsk = 4
   end
@@ -5087,8 +5339,8 @@ lib LibGUI
   fun draw_fill_wrap(ctx : DCtx, wrap : FillwrapT)
   enum X_FillwrapT
     EkFclamp = 0
-    EkFtile = 1
-    EkFflip = 2
+    EkFtile  = 1
+    EkFflip  = 2
   end
   type FillwrapT = X_FillwrapT
   fun draw_font(ctx : DCtx, font : Font)
@@ -5099,20 +5351,20 @@ lib LibGUI
   fun draw_text_width(ctx : DCtx, width : Real32T)
   fun draw_text_trim(ctx : DCtx, ellipsis : EllipsisT)
   enum X_EllipsisT
-    EkEllipnone = 1
-    EkEllipbegin = 2
+    EkEllipnone   = 1
+    EkEllipbegin  = 2
     EkEllipmiddle = 3
-    EkEllipend = 4
-    EkEllipmline = 5
+    EkEllipend    = 4
+    EkEllipmline  = 5
   end
   type EllipsisT = X_EllipsisT
   fun draw_text_align(ctx : DCtx, halign : AlignT, valign : AlignT)
   enum X_AlignT
-    EkLeft = 1
-    EkTop = 1
-    EkCenter = 2
-    EkRight = 3
-    EkBottom = 3
+    EkLeft    = 1
+    EkTop     = 1
+    EkCenter  = 2
+    EkRight   = 3
+    EkBottom  = 3
     EkJustify = 4
   end
   type AlignT = X_AlignT
@@ -5217,15 +5469,18 @@ lib LibGUI
   fun pixbuf_get(pixbuf : Pixbuf, x : Uint32T, y : Uint32T) : Uint32T
   fun pixbuf_set(pixbuf : Pixbuf, x : Uint32T, y : Uint32T, value : Uint32T)
   fun arrst_f_ptr_respack_create = arrst_FPtr_respack_create(esize : Uint16T) : ArrStFPtrRespack*
+
   struct ArrStFPtrRespack
     reserved : Uint32T
     size : Uint32T
     elem_sizeof : Uint16T
     content : FPtrRespackData*
   end
+
   struct FPtrRespackData
     elem : FPtrRespack[1024]
   end
+
   alias FPtrRespack = (CharT* -> ResPack)
   fun arrst_f_ptr_respack_create = arrst_FPtr_respack_create(esize : Uint16T) : ArrStFPtrRespack*
   fun arrst_f_ptr_respack_copy = arrst_FPtr_respack_copy(array : ArrStFPtrRespack*, func_copy : (FPtrRespack*, FPtrRespack* -> Void)) : ArrStFPtrRespack*
@@ -5278,6 +5533,7 @@ lib LibGUI
   fun arrst_f_ptr_respack_bsearch_const = arrst_FPtr_respack_bsearch_const(array : ArrStFPtrRespack*, func_compare : FPtrCompare, key : Void*, pos : Uint32T*) : FPtrRespack*
   fun arrst_f_ptr_respack_end = arrst_FPtr_respack_end
   fun setst_f_ptr_respack_create = setst_FPtr_respack_create(func_compare : (FPtrRespack*, FPtrRespack* -> LibC::Int), esize : Uint16T) : SetStFPtrRespack*
+
   struct SetStFPtrRespack
     elems : Uint32T
     esize : Uint16T
@@ -5285,12 +5541,14 @@ lib LibGUI
     root : NodeStFPtrRespack*
     func_compare : FPtrCompare
   end
+
   struct NodeStFPtrRespack
     rb : Uint32T
     left : NodeStFPtrRespack*
     right : NodeStFPtrRespack*
     data : FPtrRespack
   end
+
   fun setst_f_ptr_respack_create = setst_FPtr_respack_create(func_compare : (FPtrRespack*, FPtrRespack* -> LibC::Int), esize : Uint16T) : SetStFPtrRespack*
   fun setst_f_ptr_respack_destroy = setst_FPtr_respack_destroy(set : SetStFPtrRespack**, func_remove : (FPtrRespack* -> Void))
   fun setst_f_ptr_respack_destroy = setst_FPtr_respack_destroy(set : SetStFPtrRespack**, func_remove : (FPtrRespack* -> Void))
@@ -5337,8 +5595,8 @@ lib LibGUI
   fun button_image_alt(button : Button, image : Image)
   fun button_state(button : Button, state : GuiStateT)
   enum X_GuiStateT
-    EkGuiOff = 0
-    EkGuiOn = 1
+    EkGuiOff   = 0
+    EkGuiOn    = 1
     EkGuiMixed = 2
   end
   type GuiStateT = X_GuiStateT
@@ -5404,8 +5662,8 @@ lib LibGUI
   fun globals_device : DeviceT
   enum X_DeviceT
     EkDesktop = 1
-    EkPhone = 2
-    EkTablet = 3
+    EkPhone   = 2
+    EkTablet  = 3
   end
   type DeviceT = X_DeviceT
   fun globals_resolution(resolution : S2Df*)
@@ -5437,9 +5695,9 @@ lib LibGUI
   fun imageview_size(view : ImageView, size : S2Df)
   fun imageview_scale(view : ImageView, scale : GuiScaleT)
   enum X_GuiScaleT
-    EkGuiScaleAuto = 1
-    EkGuiScaleNone = 2
-    EkGuiScaleAspect = 3
+    EkGuiScaleAuto     = 1
+    EkGuiScaleNone     = 2
+    EkGuiScaleAspect   = 3
     EkGuiScaleAspectdw = 4
   end
   type GuiScaleT = X_GuiScaleT
@@ -5491,7 +5749,7 @@ lib LibGUI
   fun layout_taborder(layout : Layout, order : GuiOrientT)
   enum X_GuiOrientT
     EkGuiHorizontal = 1
-    EkGuiVertical = 2
+    EkGuiVertical   = 2
   end
   type GuiOrientT = X_GuiOrientT
   fun layout_tabstop(layout : Layout, col : Uint32T, row : Uint32T, tabstop : BoolT)
@@ -5689,13 +5947,13 @@ lib LibGUI
   fun window_defbutton(window : Window, button : Button)
   fun window_cursor(window : Window, cursor : GuiCursorT, image : Image, hot_x : Real32T, hot_y : Real32T)
   enum X_GuiCursorT
-    EkGuiCursorArrow = 1
-    EkGuiCursorHand = 2
-    EkGuiCursorIbeam = 3
-    EkGuiCursorCross = 4
+    EkGuiCursorArrow  = 1
+    EkGuiCursorHand   = 2
+    EkGuiCursorIbeam  = 3
+    EkGuiCursorCross  = 4
     EkGuiCursorSizewe = 5
     EkGuiCursorSizens = 6
-    EkGuiCursorUser = 7
+    EkGuiCursorUser   = 7
   end
   type GuiCursorT = X_GuiCursorT
   fun window_imp(window : Window) : Void*

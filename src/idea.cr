@@ -36,20 +36,32 @@
 #   ...
 # end
 
-def gui
-  window(origin: {500, 200}, title: "Hello, World!", flags: 2 + 4 + 8 + 16 + 32) do
-    margin 5
-    column do
-      width 250
-      label(text: "Hello!, I'm a label")
-      space 5
-      bt = button(:push, text: "Click Me!")
-      space 5
-      txt = textview(height: 100)
+class SimpleApp < GUI::Application
+  @counter = 0
 
-      bt.on_click do
-        txt.
+  def gui
+    window(origin: {500, 200}, title: "Hello, World!", flags: 2 + 4 + 8 + 16 + 32, margin: 5) do
+      column(width: 250) do
+        label(text: "Hello!, I'm a label")
+        space 5
+        bt = button(:push, text: "Click Me!")
+        space 5
+        txt = textview(height: 100)
+        bt.on_click do
+          txt.write("Button click (#{@counter})\n")
+          @counter += 1
+        end
       end
     end
   end
+
+  def init
+    puts "init"
+  end
+
+  def done
+    puts "done"
+  end
 end
+
+SimpleApp.new.run

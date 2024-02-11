@@ -20,8 +20,8 @@ lib LibGUI
   fun button_image_alt(button : Button, image : Image)
   fun button_state(button : Button, state : GuiStateT)
   enum X_GuiStateT
-    EkGuiOff = 0
-    EkGuiOn = 1
+    EkGuiOff   = 0
+    EkGuiOn    = 1
     EkGuiMixed = 2
   end
   type GuiStateT = X_GuiStateT
@@ -46,11 +46,11 @@ lib LibGUI
   fun combo_text(combo : Combo, text : CharT*)
   fun combo_align(combo : Combo, align : AlignT)
   enum X_AlignT
-    EkLeft = 1
-    EkTop = 1
-    EkCenter = 2
-    EkRight = 3
-    EkBottom = 3
+    EkLeft    = 1
+    EkTop     = 1
+    EkCenter  = 2
+    EkRight   = 3
+    EkBottom  = 3
     EkJustify = 4
   end
   type AlignT = X_AlignT
@@ -97,21 +97,25 @@ lib LibGUI
   fun globals_device : DeviceT
   enum X_DeviceT
     EkDesktop = 1
-    EkPhone = 2
-    EkTablet = 3
+    EkPhone   = 2
+    EkTablet  = 3
   end
   type DeviceT = X_DeviceT
   fun globals_resolution(resolution : S2Df*)
+
   struct X_S2dfT
     width : Float32
     height : Float32
   end
+
   type S2Df = X_S2dfT
   fun globals_mouse_position : V2Df
+
   struct X_V2dfT
     x : Float32
     y : Float32
   end
+
   alias V2Df = X_V2dfT
   fun gui_start
   fun gui_finish
@@ -141,9 +145,9 @@ lib LibGUI
   fun imageview_size(view : ImageView, size : S2Df)
   fun imageview_scale(view : ImageView, scale : GuiScaleT)
   enum X_GuiScaleT
-    EkGuiScaleAuto = 1
-    EkGuiScaleNone = 2
-    EkGuiScaleAspect = 3
+    EkGuiScaleAuto     = 1
+    EkGuiScaleNone     = 2
+    EkGuiScaleAspect   = 3
     EkGuiScaleAspectdw = 4
   end
   type GuiScaleT = X_GuiScaleT
@@ -195,7 +199,7 @@ lib LibGUI
   fun layout_taborder(layout : Layout, order : GuiOrientT)
   enum X_GuiOrientT
     EkGuiHorizontal = 1
-    EkGuiVertical = 2
+    EkGuiVertical   = 2
   end
   type GuiOrientT = X_GuiOrientT
   fun layout_tabstop(layout : Layout, col : UInt32, row : UInt32, tabstop : BoolT)
@@ -322,15 +326,18 @@ lib LibGUI
   fun tableview_deselect(view : TableView, rows : UInt32*, n : UInt32)
   fun tableview_deselect_all(view : TableView)
   fun tableview_selected(view : TableView) : ArrStUInt32*
+
   struct ArrStUInt32
     reserved : UInt32
     size : UInt32
     elem_sizeof : UInt16
     content : UInt32Data*
   end
+
   struct UInt32Data
     elem : UInt32[1024]
   end
+
   fun textview_create : TextView
   fun textview_size(view : TextView, size : S2Df)
   fun textview_clear(view : TextView)
@@ -403,13 +410,13 @@ lib LibGUI
   fun window_defbutton(window : Window, button : Button)
   fun window_cursor(window : Window, cursor : GuiCursorT, image : Image, hot_x : Float32, hot_y : Float32)
   enum X_GuiCursorT
-    EkGuiCursorArrow = 1
-    EkGuiCursorHand = 2
-    EkGuiCursorIbeam = 3
-    EkGuiCursorCross = 4
+    EkGuiCursorArrow  = 1
+    EkGuiCursorHand   = 2
+    EkGuiCursorIbeam  = 3
+    EkGuiCursorCross  = 4
     EkGuiCursorSizewe = 5
     EkGuiCursorSizens = 6
-    EkGuiCursorUser = 7
+    EkGuiCursorUser   = 7
   end
   type GuiCursorT = X_GuiCursorT
   fun window_imp(window : Window) : Void*

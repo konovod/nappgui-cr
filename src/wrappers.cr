@@ -24,6 +24,9 @@ module GUI
 
   alias Color = UInt32
 
+  annotation VirtualField
+  end
+
   abstract class Widget
     abstract def place(layout : Layout, x : Int32, y : Int32)
 
@@ -38,6 +41,7 @@ module GUI
     end
 
     macro lib_setter(name, typ)
+
       def {{name}}=(value : {{typ}})
         LibGUI.{{@type.stringify.split("::").last.downcase.id}}_{{name}}(self, value)
       end

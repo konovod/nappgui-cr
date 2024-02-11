@@ -10,6 +10,6 @@ lib LibGUI
   fun osapp_menubar(menu : Menu, window : Window)
   fun osapp_open_url(url : CharT*)
   fun osmain_imp(argc : UInt32, argv : CharT**, instance : Void*, lframe : Float64, func_create : FPtrAppCreate, func_update : FPtrAppUpdate, func_destroy : FPtrDestroy, options : CharT*)
-  alias FPtrAppCreate = ( -> Void)
+  alias FPtrAppCreate = (-> Void)
   alias FPtrAppUpdate = (Void*, Float64, Float64 -> Void)
 end
