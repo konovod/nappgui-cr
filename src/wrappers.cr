@@ -300,4 +300,46 @@ module GUI
     lib_setter(bgcolor, Color)
     lib_setter(bgcolor_over, Color)
   end
+
+  class Window < Widget
+    @raw : LibGUI::Window
+
+    def initialize(flags, **args)
+      @raw = LibGUI.window_create(flags)
+      apply_args(**args)
+    end
+
+    def place(layout : Layout, x : Int32, y : Int32)
+      raise "Window cannot be placed to layout"
+    end
+
+    event(on_close)
+    event(on_moved)
+    event(on_resize)
+
+    lib_setter(title, String)
+    lib_property(origin)
+    lib_property(size)
+    lib_property(panel)
+
+    def show
+      LibGUI.window_show(@raw)
+    end
+
+    def hide
+      LibGUI.window_hide(@raw)
+    end
+
+    def destroy
+      LibGUI.window_destroy(pointerof(@raw))
+    end
+
+    #   fun window_modal(window : Window, parent : Window) : UInt32
+    #   fun window_stop_modal(window : Window, return_value : UInt32)
+    #   fun window_hotkey(window : Window, key : VkeyT, modifiers : UInt32, listener : Listener)
+    #   fun window_update(window : Window)
+    #   fun window_get_client_size(window : Window) : S2Df
+    #   fun window_defbutton(window : Window, button : Button)
+    #   fun window_cursor(window : Window, cursor : GuiCursorT, image : Image, hot_x : Float32, hot_y : Float32)
+  end
 end

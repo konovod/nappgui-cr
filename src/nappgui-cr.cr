@@ -4,7 +4,7 @@ require "./wrappers"
 class App
   class_getter! instance : App
 
-  getter window : LibGUI::Window
+  getter window : GUI::Window
 
   def initialize(@window)
     @@instance = self
@@ -34,15 +34,16 @@ def init : Nil
   layout.rows[0].margin = 5
   layout.rows[1].margin = 5
   LibGUI.panel_layout(panel, layout)
-  window = LibGUI.window_create(2 + 4 + 8 + 16 + 32)
-  LibGUI.window_panel(window, panel)
-  LibGUI.window_origin(window, v2df(500, 200))
-  LibGUI.window_title(window, "Hello, World!")
 
-  listen = LibGUI.listener_imp(window.as(Void*), ->(obj : Void*, event : LibGUI::Event) { LibGUI.osapp_finish })
-  LibGUI.window_on_close(window, listen)
+  window = GUI::Window.new(2 + 4 + 8 + 16 + 32, title: "Hello, World!")
+  window.panel = panel
+  window.origin = v2df(500, 200)
 
-  LibGUI.window_show(window)
+  window.on_close do
+    LibGUI.osapp_finish
+  end
+
+  window.show
   App.new(window)
 end
 
@@ -52,9 +53,7 @@ def update(data, ltime, ctime)
 end
 
 def done(something)
-  w = App.instance.window
-  LibGUI.window_destroy(pointerof(w))
-
+  App.instance.window.destroy
   puts "done"
 end
 
