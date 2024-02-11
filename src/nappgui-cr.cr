@@ -14,7 +14,7 @@ end
 def init : Nil
   puts "init"
   panel = LibGUI.panel_create
-  layout = GUI::Layout.new(1, 3)
+  layout = GUI::Layout.new(1, 3, margin: 5)
   label = GUI::Label.new
   label.text = "Hello!, I'm a label"
   label.place(layout, 0, 0)
@@ -30,7 +30,7 @@ def init : Nil
     counter += 1
   end
 
-  layout.margin = 5
+  # layout.margin = 5
   layout.cols[0].size = 250
   layout.rows[2].size = 100
   layout.rows[0].margin = 5

@@ -41,7 +41,7 @@ module GUI
     end
 
     macro lib_setter(name, typ)
-
+      @[VirtualField]
       def {{name}}=(value : {{typ}})
         LibGUI.{{@type.stringify.split("::").last.downcase.id}}_{{name}}(self, value)
       end
@@ -63,12 +63,27 @@ module GUI
     end
 
     macro lib_property(name, type)
+      @[VirtualField]
       def {{name}}=(value : {{type}})
         LibGUI.{{@type.stringify.split("::").last.downcase.id}}_{{name}}(self, value)
       end
       def {{name}}
         {{type}}.new(LibGUI.{{@type.stringify.split("::").last.downcase.id}}_get_{{name}}(self, value))
       end
+    end
+
+    private def apply_args(**args)
+      detected = 0
+      {% for field in @type.methods.select(&.annotation(VirtualField)) %}
+        {% name = field.name.gsub(/=/, "")
+           typ = field.args.first.restriction %}
+        if args[:{{name}}]?
+          detected += 1
+          self.{{name}} = {{typ}}.new(args[:{{name}}]?.not_nil!)
+        end
+      {% end %}
+      # TODO - detect exact names
+      raise "Some arguments (#{args.size - detected}) don't match gui properties: #{args}" if detected < args.size
     end
 
     macro event(name)
@@ -85,11 +100,17 @@ module GUI
     end
   end
 
+  wrap_enum(Orientation, GuiOrientT) do
+    Horizontal = 1
+    Vertical   = 2
+  end
+
   class Layout < Widget
     @raw : LibGUI::Layout
 
-    def initialize(@cols : Int32, @rows : Int32)
+    def initialize(@cols : Int32, @rows : Int32, **args)
       @raw = LibGUI.layout_create(@cols, @rows)
+      apply_args(**args)
     end
 
     define_place
@@ -102,10 +123,6 @@ module GUI
       LigGUI.layout_update(self)
     end
 
-    GUI.wrap_enum(Orientation, GuiOrientT) do
-      Horizontal = 1
-      Vertical   = 2
-    end
     lib_setter(taborder, Orientation)
     lib_setter(margin, Float32)
     lib_setter(bgcolor, Color)
@@ -205,7 +222,6 @@ module GUI
     # fun layout_tabstop(layout : Layout, col : Uint32T, row : Uint32T, tabstop : BoolT)
     # fun layout_halign(layout : Layout, col : Uint32T, row : Uint32T, align : AlignT)
     # fun layout_valign(layout : Layout, col : Uint32T, row : Uint32T, align : AlignT)
-
   end
 
   class Button < Widget
