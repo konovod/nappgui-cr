@@ -48,12 +48,14 @@ module GUI
     end
 
     macro lib_setter(name)
+      @[VirtualField]
       def {{name}}=(value)
         LibGUI.{{@type.stringify.split("::").last.downcase.id}}_{{name}}(self, value)
       end
     end
 
     macro lib_property(name)
+      @[VirtualField]
       def {{name}}=(value)
         LibGUI.{{@type.stringify.split("::").last.downcase.id}}_{{name}}(self, value)
       end
@@ -79,7 +81,7 @@ module GUI
            typ = field.args.first.restriction %}
         if args[:{{name}}]?
           detected += 1
-          {% if typ.stringify == "String" %}
+          {% if typ.stringify == "String" || typ.is_a?(Nop) %}
             self.{{name}} = args[:{{name}}]?.not_nil!
           {% else %}
             self.{{name}} = {{typ}}.new(args[:{{name}}]?.not_nil!)

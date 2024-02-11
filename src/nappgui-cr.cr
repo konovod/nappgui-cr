@@ -28,17 +28,14 @@ def init : Nil
     counter += 1
   end
 
-  # layout.margin = 5
   layout.cols[0].size = 250
   layout.rows[2].size = 100
   layout.rows[0].margin = 5
   layout.rows[1].margin = 5
   LibGUI.panel_layout(panel, layout)
 
-  window = GUI::Window.new(2 + 4 + 8 + 16 + 32, title: "Hello, World!")
+  window = GUI::Window.new(2 + 4 + 8 + 16 + 32, title: "Hello, World!", origin: v2df(500, 200))
   window.panel = panel
-  window.origin = v2df(500, 200)
-
   window.on_close do
     LibGUI.osapp_finish
   end
