@@ -1,4 +1,4 @@
-require "./libFull"
+require "./bindings/*"
 require "./wrappers"
 
 class App
@@ -9,14 +9,6 @@ class App
   def initialize(@window)
     @@instance = self
   end
-
-  def close
-    LibGUI.osapp_finish
-  end
-end
-
-def on_close(obj, event)
-  App.instance.close
 end
 
 def init : Nil
@@ -49,7 +41,7 @@ def init : Nil
   LibGUI.window_origin(window, v2df(500, 200))
   LibGUI.window_title(window, "Hello, World!")
 
-  listen = LibGUI.listener_imp(window.as(Void*), ->(obj : Void*, event : LibGUI::Event) { on_close(obj, event) })
+  listen = LibGUI.listener_imp(window.as(Void*), ->(obj : Void*, event : LibGUI::Event) { LibGUI.osapp_finish })
   LibGUI.window_on_close(window, listen)
 
   LibGUI.window_show(window)
