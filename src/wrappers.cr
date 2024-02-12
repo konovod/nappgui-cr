@@ -344,4 +344,42 @@ module GUI
     #   fun window_defbutton(window : Window, button : Button)
     #   fun window_cursor(window : Window, cursor : GuiCursorT, image : Image, hot_x : Float32, hot_y : Float32)
   end
+
+  class TextView < Widget
+    @raw : LibGUI::TextView
+
+    def initialize(**args)
+      @raw = LibGUI.textview_create
+      apply_args(**args)
+    end
+
+    define_place
+
+    lib_setter(size)
+    lib_setter(units, Int32)
+    lib_setter(family, String)
+    lib_setter(fsize, Float32)
+    lib_setter(fstyle, Int32)
+    lib_setter(color, Color)
+    lib_setter(bgcolor, Color)
+    lib_setter(pgcolor, Color)
+    lib_setter(halign, Align)
+
+    lib_setter(lspacing, Float32)
+    lib_setter(bfspace, Float32)
+    lib_setter(afspace, Float32)
+
+    def write(text : String)
+      LibGUI.textview_writef(self, text)
+    end
+
+    def clear
+      LibGUI.textview_clear(self)
+    end
+
+    # fun textview_rtf(view : TextView, rtf_in : Stream)
+    # fun textview_scroll_down(view : TextView)
+    # fun textview_editable(view : TextView, is_editable : BoolT)
+
+  end
 end

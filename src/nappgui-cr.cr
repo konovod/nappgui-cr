@@ -12,11 +12,11 @@ class SimpleApp < GUI::Application
     label.place(layout, 0, 0)
     button = GUI::Button.new(:push, text: "Click Me!")
     button.place(layout, 0, 1)
-    text = LibGUI.textview_create
-    LibGUI.layout_textview(layout, text, 0, 2)
+    text = GUI::TextView.new
+    text.place(layout, 0, 2)
 
     button.on_click do
-      LibGUI.textview_writef(text, "Button click (#{@counter})\n")
+      text.write("Button click (#{@counter})\n")
       @counter += 1
     end
 
