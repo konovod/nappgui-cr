@@ -14,9 +14,21 @@ module GUI
     def update
     end
 
+    def finish
+      LibGUI.osapp_finish
+    end
+
     protected def do_init
       @window = gui
       init
+
+      unless window.@on_close_box
+        listen = LibGUI.listener_imp(nil, ->(obj : Void*, event : LibGUI::Event) {
+          Application.instance.finish
+        })
+        LibGUI.window_on_close(window, listen)
+      end
+
       window.show
     end
 

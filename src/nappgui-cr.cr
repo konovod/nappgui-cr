@@ -28,9 +28,6 @@ class SimpleApp < GUI::Application
 
     window = GUI::Window.new(2 + 4 + 8 + 16 + 32, title: "Hello, World!", origin: v2df(500, 200))
     window.panel = panel
-    window.on_close do
-      LibGUI.osapp_finish
-    end
     window
   end
 
