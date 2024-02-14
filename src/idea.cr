@@ -8,7 +8,7 @@ class SimpleApp < GUI::Application
 
   def gui : GUI::Window
     window(origin: v2df(500, 200), title: "Hello, World!", flags: 2 + 4 + 8 + 16 + 32) do
-      space 5
+      # space 5
       column(width: 250) do
         label(text: "Hello!, I'm a label")
         space 5
