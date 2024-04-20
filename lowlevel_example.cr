@@ -27,6 +27,16 @@ class SimpleApp < GUI::Application
       @counter += 1
     end
 
+    window2 = GUI::Window.new(2 + 4 + 8 + 16 + 32, title: "This is a second window")
+    window2.on_close do
+      true
+    end
+    button2 = GUI::Button.new(:push, text: "Second window")
+    button2.on_click do
+      window2.show
+    end
+    button2.place(layout, 0, 5)
+
     layout.cols[0].size = 250
     layout.rows[2].size = 100
     layout.rows[0].margin = 5
