@@ -10,9 +10,15 @@
       "problemMatcher": []
     },
     {
-      "label": "demo",
+      "label": "low level",
       "type": "shell",
-      "command": "crystal src/idea.cr",
+      "command": "crystal lowlevel_example.cr",
+      "problemMatcher": []
+    },
+    {
+      "label": "high level",
+      "type": "shell",
+      "command": "crystal highlevel_example.cr",
       "problemMatcher": []
     }
   ]

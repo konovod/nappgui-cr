@@ -1,7 +1,5 @@
-require "./bindings/*"
-require "./wrappers"
-require "./app"
-require "./highlevel"
+require "./src/nappgui-cr"
+require "./src/highlevel"
 
 class SimpleApp < GUI::Application
   @counter = 0
