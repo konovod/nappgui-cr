@@ -7,13 +7,22 @@ class SimpleApp < GUI::Application
 
   def gui : GUI::Window
     panel = LibGUI.panel_create
-    layout = GUI::Layout.new(1, 3, margin: 5)
+    layout = GUI::Layout.new(1, 6, margin: 5)
     label = GUI::Label.new(text: "Hello!, I'm a label")
     label.place(layout, 0, 0)
     button = GUI::Button.new(:push, text: "Click Me!")
     button.place(layout, 0, 1)
     text = GUI::TextView.new
     text.place(layout, 0, 2)
+
+    slider = GUI::Slider.new(vertical: false)
+    slider.place(layout, 0, 3)
+    progress = GUI::Progress.new
+    progress.place(layout, 0, 4)
+
+    slider.on_moved do
+      progress.value = slider.value
+    end
 
     button.on_click do
       text.write("Button click (#{@counter})\n")
