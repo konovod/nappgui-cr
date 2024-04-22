@@ -60,7 +60,7 @@ module GUI
         LibGUI.{{@type.stringify.split("::").last.downcase.id}}_{{name}}(self, value)
       end
       def {{name}}
-        LibGUI.{{@type.stringify.split("::").last.downcase.id}}_get_{{name}}(self, value)
+        LibGUI.{{@type.stringify.split("::").last.downcase.id}}_get_{{name}}(self)
       end
     end
 
@@ -70,7 +70,7 @@ module GUI
         LibGUI.{{@type.stringify.split("::").last.downcase.id}}_{{name}}(self, value)
       end
       def {{name}}
-        {{type}}.new(LibGUI.{{@type.stringify.split("::").last.downcase.id}}_get_{{name}}(self, value))
+        {{type}}.new(LibGUI.{{@type.stringify.split("::").last.downcase.id}}_get_{{name}}(self))
       end
     end
 
@@ -368,6 +368,7 @@ module GUI
     lib_setter(lspacing, Float32)
     lib_setter(bfspace, Float32)
     lib_setter(afspace, Float32)
+    lib_setter(editable, Bool)
 
     def write(text : String)
       LibGUI.textview_writef(self, text)
@@ -377,9 +378,145 @@ module GUI
       LibGUI.textview_clear(self)
     end
 
-    # fun textview_rtf(view : TextView, rtf_in : Stream)
-    # fun textview_scroll_down(view : TextView)
-    # fun textview_editable(view : TextView, is_editable : BoolT)
+    def scroll_down
+      LibGUI.textview_scroll_down(self)
+    end
 
+    # fun textview_rtf(view : TextView, rtf_in : Stream)
+  end
+
+  class Progress < Widget
+    @raw : LibGUI::Progress
+
+    def initialize(**args)
+      @raw = LibGUI.progress_create
+      apply_args(**args)
+    end
+
+    define_place
+
+    lib_setter(value, Float64)
+
+    def undefined(running)
+      LibGUI.progress_undefined(self, running)
+    end
+  end
+
+  class Slider < Widget
+    @raw : LibGUI::Slider
+
+    def initialize(*, vertical = false, **args)
+      @raw = vertical ? LibGUI.slider_vertical : LibGUI.slider_create
+      apply_args(**args)
+    end
+
+    define_place
+
+    event(on_moved)
+    lib_property(value, Float64)
+    lib_setter(tooltip, String)
+    lib_setter(steps, Int32)
+  end
+
+  class Image
+    @raw : LibGUI::Image
+
+    def to_unsafe
+      @raw
+    end
+
+    def initialize(@raw)
+    end
+  end
+
+  class Popup < Widget
+    @raw : LibGUI::PopUp
+
+    def initialize(**args)
+      @raw = LibGUI.popup_vertical
+      apply_args(**args)
+    end
+
+    define_place
+
+    event(on_select)
+    lib_setter(tooltip, String)
+    lib_property(selected, Int32)
+    lib_setter(list_height, Int32)
+
+    def count
+      LibGUI.popup_count(self)
+    end
+
+    def clear
+      LibGUI.popup_clear(self)
+    end
+
+    def []=(index, text : String, image : Image? = nil)
+      LibGUI.popup_set_elem(self, index, text, image || LibGUI::Image.null)
+    end
+
+    def add(text : String, image : Image? = nil)
+      LibGUI.popup_add_elem(self, index, text, image || LibGUI::Image.null)
+    end
+
+    def items=(items : Enumerable(String))
+      clear
+      items.each do |s|
+        add(s)
+      end
+    end
+  end
+
+  class Edit < Widget
+    @raw : LibGUI::Edit
+
+    def initialize(*, multiline : Bool = false, **args)
+      @raw = if multiline
+               LibGUI.edit_multiline
+             else
+               LibGUI.edit_create
+             end
+      apply_args(**args)
+    end
+
+    define_place
+
+    event(on_filter)
+    event(on_change)
+    lib_property(text, String)
+    lib_setter(font)
+    lib_setter(align, Align)
+    lib_setter(passmode, Bool)
+    lib_setter(editable, Bool)
+    lib_setter(autoselect, Bool)
+    lib_setter(tooltip, String)
+    lib_setter(color, Color)
+    lib_setter(color_focus, Color)
+    lib_setter(bgcolor, Color)
+    lib_setter(bgcolor_focus, Color)
+    lib_setter(phtext, String)
+    lib_setter(phcolor, Color)
+    lib_setter(phstyle, UInt32)
+  end
+
+  class ImageView < Widget
+    @raw : LibGUI::Edit
+
+    def initialize(*, multiline : Bool = false, **args)
+      @raw = if multiline
+               LibGUI.edit_multiline
+             else
+               LibGUI.edit_create
+             end
+      apply_args(**args)
+    end
+
+    define_place
+    event(on_click)
+    event(on_over_draw)
+    lib_setter(size)
+    lib_setter(scale)
+    lib_setter(image, Image)
   end
 end

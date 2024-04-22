@@ -1,28 +1,3 @@
-# nappgui-cr
-
-Crystal wrappers for NAppGUI library (https://nappgui.com/)
-WIP, preprealpha version
-
-## Installation
-
-1. Add the dependency to your `shard.yml`:
-
-   ```yaml
-   dependencies:
-     nappgui-cr:
-       github: konovod/nappgui-cr
-   ```
-
-dll and libs for Windows are currently included in repository, but you may need to update them to latest version.
-See https://nappgui.com/ for building instructions
-
-
-2. Run `shards install`
-
-## Usage
-
-lowlevel example (https://github.com/konovod/nappgui-cr/blob/master/lowlevel_example.cr)
-```crystal
 require "./src/nappgui-cr"
 
 # inherit from GUI::Application class
@@ -106,49 +81,3 @@ end
 
 # run the application
 SimpleApp.new.run
-```
-
-more highlevel dsl is WIP
-
-## Development
-
-
- - [ ] Low level wrappers
-    - [x] button
-    - [ ] cell
-    - [ ] combo
-    - [ ] comwin
-    - [x] edit
-    - [x] imageview
-    - [x] label
-    - [ ] layout - started
-    - [ ] listbox
-    - [ ] menu
-    - [ ] menuitem
-    - [ ] panel
-    - [x] popup
-    - [x] progress
-    - [x] slider
-    - [ ] splitview
-    - [ ] tableview
-    - [ ] textview - started
-    - [ ] updown
-    - [ ] view
-    - [ ] window - started
- - [ ] high level wrappers
-    - [ ] inner layouts
-    - [ ] margins
-    - [ ] padding
-
-
-## Contributing
-
-1. Fork it (<https://github.com/konovod/nappgui-cr/fork>)
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
-
-## Contributors
-
-- [konovod](https://github.com/konovod) - creator and maintainer
