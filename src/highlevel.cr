@@ -1,6 +1,8 @@
 module GUI
   WIDGET_CLASSES = %w(Button Combo Edit ImageView Label ListBox Panel PopUp Progress Slider SplitView TableView TextView UpDown View WebView)
 
+  record PlacedControl, control : Widget, col : Int32, row : Int32
+
   abstract class GUIBuilder
     getter row : Int32
     getter column : Int32
@@ -12,132 +14,92 @@ module GUI
     abstract def space(value : Int32)
   end
 
-  abstract class ActualGUIBuilder < GUIBuilder
-    @owner : Application
-    @window : Window
-    @layout : Layout
+  abstract class LazyLayoutBuilder < GUIBuilder
+    @placed_controls = [] of PlacedControl
 
-    def initialize(@owner, @window, @layout, @column = 0, @row = 0)
+    def space(value : Int32)
     end
 
     {% for klass in WIDGET_CLASSES %}
       def {{klass.downcase.id}}(*args, **args2)
         result = {{klass.id}}.new(*args, **args2)
-        result.place(@layout, @column, @row)
+        @placed_controls << PlacedControl.new(result, @column, @row)
+        puts "#{{{klass}}} at #{@column} #{@row}"
         next_cell
         result
       end
     {% end %}
+
+    abstract def calc_size(ncols, nrows)
+
+    def place_controls(layout : Layout)
+      @placed_controls.each do |pc|
+        pc.control.place(layout, pc.col, pc.row)
+      end
+    end
   end
 
-  class ColumnsBuilder < ActualGUIBuilder
+  class ColumnsBuilder < LazyLayoutBuilder
+    def initialize(column : Int32)
+      super(column: column, row: 0)
+    end
+
     def next_cell
       @row += 1
     end
 
     def space(value)
-      if @row > 0
-        @layout.rows[@row - 1].margin = value.to_f32
-      else
-        # TODO keep current layout margin
-      end
+    end
+
+    def calc_size(ncols, nrows)
+      return {ncols + 1, {nrows, @row + 1}.max}
     end
   end
 
-  class RootBuilder < ActualGUIBuilder
-    @child : ActualGUIBuilder?
+  class RootBuilder < LazyLayoutBuilder
+    @children = [] of LazyLayoutBuilder
 
     def next_cell
       raise "next_cell must be called inside column or row"
     end
 
     def space(value)
-      @layout.margin = value.to_f32
+      # Margin will be applied after layout is created
     end
 
     def column(**args, &)
-      if child = @child
+      if child = @children.last?
         raise "column cannot be called after row or grid" unless child.is_a? ColumnsBuilder
         col = child.column + 1
       else
         col = 0
       end
-      # TODO - apply args
-      @child = ColumnsBuilder.new(@owner, @window, @layout, column: col)
-      with @child.not_nil! yield
-    end
-  end
-
-  class CountingBuilder < GUIBuilder
-    @column_mode = false
-    getter max_row = 0
-    getter max_col = 0
-
-    def column(**args, &)
-      puts self
-      puts "found column"
-      @column += 1
-      @max_col = @column
-      @column_mode = true
-      @row = 0
-      with self yield
+      child = ColumnsBuilder.new(column: col)
+      @children << child
+      with child yield
     end
 
-    def row(**args, &)
-      @row += 1
-      @max_row = @row
-      @column_mode = false
-      @column = 0
-      with self yield
-    end
-
-    def grid(&)
-      with self yield
-    end
-
-    def grid(cols, rows, &)
-      @max_col = cols - 1
-      @max_row = rows - 1
-    end
-
-    def space(value)
-      # do nothing
-    end
-
-    def next_cell
-      if @column_mode
-        @row += 1
-        @max_row = {@row, @max_row}.max
-      else
-        @column += 1
-        @max_col = {@column, @max_col}.max
+    def calc_size(ncols, nrows)
+      ncols, nrows = 0, 0
+      @children.each do |child|
+        ncols, nrows = child.calc_size(ncols, nrows)
       end
+      return ncols, nrows
     end
 
-    {% for klass in WIDGET_CLASSES %}
-    def {{klass.downcase.id}}(*args, **args2)
-      next_cell
-    end
-    {% end %}
-
-    def cell(col, row, **args, &)
-      @max_row = {@row, @max_row}.max
-      @max_col = {@column, @max_col}.max
+    def place_controls(layout : Layout)
+      @children.each &.place_controls(layout)
     end
   end
 
   abstract class Application
     def window(**args, &)
       window = Window.new(**args)
-      counter = CountingBuilder.new
-      # with counter yield
       panel = LibGUI.panel_create
-      # layout = GUI::Layout.new(counter.max_col + 1, counter.max_row + 1) # , margin: 5
-      layout = GUI::Layout.new(1, 5) # , margin: 5
-      builder = RootBuilder.new(self, window, layout)
-      puts "second pass"
+      builder = RootBuilder.new
       with builder yield
-      puts "second done"
+      layout = GUI::Layout.new(*builder.calc_size(0, 0))
+      builder.place_controls layout
       LibGUI.panel_layout(panel, layout)
       window.panel = panel
       window
