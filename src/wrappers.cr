@@ -281,12 +281,8 @@ module GUI
   class Label < Widget
     @raw : LibGUI::Label
 
-    def initialize(*, multiline : Bool = false, **args)
-      @raw = if multiline
-               LibGUI.label_multiline
-             else
-               LibGUI.label_create
-             end
+    def initialize(**args)
+      @raw = LibGUI.label_create
       apply_args(**args)
     end
 
