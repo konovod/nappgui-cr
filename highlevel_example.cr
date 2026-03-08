@@ -17,6 +17,11 @@ class SimpleApp < GUI::Application
           txt.write("Button click (#{@counter})\n")
           @counter += 1
         end
+        slider = slider(vertical: false)
+        progress = progress()
+        slider.on_moved do
+          progress.value = slider.value
+        end
       end
     end
   end

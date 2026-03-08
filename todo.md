@@ -18,10 +18,10 @@
   - [x] progress
   - [x] slider
   - [x] splitview
-  - [ ] tableview
+  - [x] tableview
   - [x] textview
   - [x] updown
-  - [ ] view
+  - [x] view
   - [x] webview
   - [x] window
 - [ ] high level wrappers

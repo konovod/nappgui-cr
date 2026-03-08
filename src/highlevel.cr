@@ -1,4 +1,6 @@
 module GUI
+  WIDGET_CLASSES = %w(Button Combo Edit ImageView Label ListBox Panel PopUp Progress Slider SplitView TableView TextView UpDown View WebView)
+
   abstract class GUIBuilder
     getter row : Int32
     getter column : Int32
@@ -18,26 +20,14 @@ module GUI
     def initialize(@owner, @window, @layout, @column = 0, @row = 0)
     end
 
-    def label(*args, **args2)
-      result = Label.new(*args, **args2)
-      result.place(@layout, @column, @row)
-      next_cell
-      result
-    end
-
-    def button(*args, **args2)
-      result = Button.new(*args, **args2)
-      result.place(@layout, @column, @row)
-      next_cell
-      result
-    end
-
-    def textview(*args, **args2)
-      result = TextView.new(*args, **args2)
-      result.place(@layout, @column, @row)
-      next_cell
-      result
-    end
+    {% for klass in WIDGET_CLASSES %}
+      def {{klass.downcase.id}}(*args, **args2)
+        result = {{klass.id}}.new(*args, **args2)
+        result.place(@layout, @column, @row)
+        next_cell
+        result
+      end
+    {% end %}
   end
 
   class ColumnsBuilder < ActualGUIBuilder
@@ -124,17 +114,11 @@ module GUI
       end
     end
 
-    def label(*args, **args2)
+    {% for klass in WIDGET_CLASSES %}
+    def {{klass.downcase.id}}(*args, **args2)
       next_cell
     end
-
-    def button(*args, **args2)
-      next_cell
-    end
-
-    def textview(*args, **args2)
-      next_cell
-    end
+    {% end %}
 
     def cell(col, row, **args, &)
       @max_row = {@row, @max_row}.max
@@ -149,7 +133,7 @@ module GUI
       # with counter yield
       panel = LibGUI.panel_create
       # layout = GUI::Layout.new(counter.max_col + 1, counter.max_row + 1) # , margin: 5
-      layout = GUI::Layout.new(1, 3) # , margin: 5
+      layout = GUI::Layout.new(1, 5) # , margin: 5
       builder = RootBuilder.new(self, window, layout)
       puts "second pass"
       with builder yield
