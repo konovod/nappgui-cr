@@ -1,5 +1,5 @@
-require "./src/nappgui-cr"
-require "./src/highlevel"
+require "../src/nappgui-cr"
+require "../src/highlevel"
 
 class SimpleApp < GUI::Application
   @counter = 0
@@ -22,6 +22,14 @@ class SimpleApp < GUI::Application
         slider.on_moved do
           progress.value = slider.value
         end
+        view(scroll: false, border: true)
+        updown
+        tableview
+        panel(border: true) do
+          label(text: "This is a subpanel")
+          edit
+        end
+        space 10
       end
       space 50
       column do

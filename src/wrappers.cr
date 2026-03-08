@@ -169,7 +169,7 @@ module GUI
            typ = field.args.first.restriction %}
         if args[:{{name}}]?
           detected += 1
-          {% if typ.stringify == "String" || typ.is_a?(Nop) %}
+          {% if typ.stringify == "String" || typ.is_a?(Nop) || typ.stringify == "Enumerable(String)" %}
             self.{{name}} = args[:{{name}}]?.not_nil!
           {% else %}
             self.{{name}} = {{typ}}.new(args[:{{name}}]?.not_nil!)
@@ -539,13 +539,14 @@ module GUI
     end
 
     def add(text : String, image : Image? = nil)
-      LibGUI.popup_add_elem(self, index, text, image || LibGUI::Image.null)
+      LibGUI.popup_add_elem(self, text, image || LibGUI::Image.null)
     end
 
     def insert(index : Int32, text : String, image : Image? = nil)
       LibGUI.popup_ins_elem(self, index, text, image || LibGUI::Image.null)
     end
 
+    @[VirtualField]
     def items=(items : Enumerable(String))
       clear
       items.each do |s|
@@ -656,13 +657,14 @@ module GUI
     end
 
     def add(text : String, image : Image? = nil)
-      LibGUI.combo_add_elem(self, index, text, image || LibGUI::Image.null)
+      LibGUI.combo_add_elem(self, text, image || LibGUI::Image.null)
     end
 
     def insert(index : Int32, text : String, image : Image? = nil)
       LibGUI.combo_ins_elem(self, index, text, image || LibGUI::Image.null)
     end
 
+    @[VirtualField]
     def items=(items : Enumerable(String))
       clear
       items.each do |s|
@@ -691,21 +693,21 @@ module GUI
     lib_setter(multisel)
     lib_setter(font)
 
-    lib_function(clear)
     lib_function(count)
-
+    lib_function(clear)
     lib_function_named(delete, del_elem, index : Int32)
     lib_function_named(selected, get_selected)
     lib_function_named(row_height, get_row_height)
 
     def []=(index, text : String, image : Image? = nil)
-      LibGUI.combo_set_elem(self, index, text, image || LibGUI::Image.null)
+      LibGUI.listbox_set_elem(self, index, text, image || LibGUI::Image.null)
     end
 
     def add(text : String, image : Image? = nil)
-      LibGUI.combo_add_elem(self, index, text, image || LibGUI::Image.null)
+      LibGUI.listbox_add_elem(self, text, image || Pointer(Void).null.as(LibGUI::Image))
     end
 
+    @[VirtualField]
     def items=(items : Enumerable(String))
       clear
       items.each do |s|
@@ -781,17 +783,19 @@ module GUI
   end
 
   class Panel < Widget
-    def initialize(hscroll : Bool, vscroll : Bool, border : Bool, **args)
+    @raw : LibGUI::Panel
+
+    def initialize(*, hscroll : Bool = false, vscroll : Bool = false, border : Bool = false, **args, &)
       @raw = LibGUI.panel_custom(hscroll, vscroll, border)
       apply_args(**args)
+      builder = RootBuilder.new
+      with builder yield
+      cached_margins = {} of Int32 => Int32
+      layout = GUI::Layout.new(*builder.calc_size(0, 0, cached_margins))
+      builder.place_controls layout, cached_margins
+      LibGUI.panel_layout(@raw, layout)
     end
 
-    def initialize(hscroll : Bool, vscroll : Bool, **args)
-      @raw = LibGUI.panel_scroll(hscroll, vscroll)
-      apply_args(**args)
-    end
-
-    define_standard_init
     define_place
 
     lib_setter(size)

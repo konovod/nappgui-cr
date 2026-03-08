@@ -1,4 +1,4 @@
-require "./src/nappgui-cr"
+require "../src/nappgui-cr"
 
 # inherit from GUI::Application class
 class SimpleApp < GUI::Application

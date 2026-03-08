@@ -1,5 +1,6 @@
 module GUI
-  WIDGET_CLASSES = %w(Button Combo Edit ImageView Label ListBox Panel PopUp Progress Slider SplitView TableView TextView UpDown View WebView)
+  WIDGET_CLASSES    = %w(Button Combo Edit ImageView Label ListBox PopUp Progress Slider SplitView TableView TextView UpDown View WebView)
+  CONTAINER_CLASSES = %w(Panel)
 
   record PlacedControl, control : Widget, col : Int32, row : Int32, space : Int32
 
@@ -27,7 +28,14 @@ module GUI
       def {{klass.downcase.id}}(*args, **args2)
         result = {{klass.id}}.new(*args, **args2)
         @placed_controls << PlacedControl.new(result, @column, @row, @cur_space)
-        puts "#{{{klass}}} at #{@column} #{@row}"
+        next_cell
+        result
+      end
+    {% end %}
+    {% for klass in CONTAINER_CLASSES %}
+      def {{klass.downcase.id}}(*args, **args2, &)
+        result = {{klass.id}}.new(*args, **args2) { yield }
+        @placed_controls << PlacedControl.new(result, @column, @row, @cur_space)
         next_cell
         result
       end
@@ -125,7 +133,6 @@ module GUI
       with builder yield
       cached_margins = {} of Int32 => Int32
       layout = GUI::Layout.new(*builder.calc_size(0, 0, cached_margins))
-      puts cached_margins
       builder.place_controls layout, cached_margins
       LibGUI.panel_layout(panel, layout)
       window.panel = panel

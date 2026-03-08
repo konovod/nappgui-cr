@@ -12,13 +12,13 @@
     {
       "label": "low level",
       "type": "shell",
-      "command": "crystal lowlevel_example.cr",
+      "command": "crystal examples/lowlevel_example.cr",
       "problemMatcher": []
     },
     {
       "label": "high level",
       "type": "shell",
-      "command": "crystal highlevel_example.cr",
+      "command": "crystal examples/highlevel_example.cr",
       "problemMatcher": []
     }
   ]
