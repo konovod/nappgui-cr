@@ -77,6 +77,33 @@ module GUI
     end
   end
 
+  class RowsBuilder < LazyLayoutBuilder
+    def initialize(row : Int32)
+      super(column: 0, row: row)
+    end
+
+    def next_cell
+      @column += 1
+    end
+
+    def calc_size(ncols, nrows, cached_margins : Hash(Int32, Int32)? = nil)
+      if cached_margins
+        @placed_controls.each do |pc|
+          cached_margins[pc.col] = {cached_margins[pc.col]? || 0, pc.space}.max
+        end
+      end
+      return { {ncols, @column + 1}.max, nrows+1 }
+    end
+
+    def place_controls(layout)
+      super
+      layout.rows[@row].margin = @space_after_me.to_f32
+      @placed_controls.each do |pc|
+        layout.cols[pc.col].margin = pc.space.to_f32
+      end
+    end
+  end
+
   class RootBuilder < LazyLayoutBuilder
     @children = [] of LazyLayoutBuilder
     @first_space = 0
@@ -101,6 +128,18 @@ module GUI
         col = 0
       end
       child = ColumnsBuilder.new(column: col)
+      @children << child
+      with child yield
+    end
+
+    def row(**args, &)
+      if child = @children.last?
+        raise "column cannot be called after row or grid" unless child.is_a? RowsBuilder
+        row = child.row + 1
+      else
+        row = 0
+      end
+      child = RowsBuilder.new(row: row)
       @children << child
       with child yield
     end

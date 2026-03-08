@@ -741,3 +741,10 @@ def v2df(x, y) : LibGUI::V2Df
   result.y = y
   result
 end
+
+def s2df(x, y) : LibGUI::S2Df
+  result = LibGUI::S2Df.new
+  result.width = x
+  result.height = y
+  result
+end
