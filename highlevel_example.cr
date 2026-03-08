@@ -7,9 +7,9 @@ class SimpleApp < GUI::Application
   def gui : GUI::Window
     window(origin: v2df(500, 200), title: "Hello, World!", flags: 2 + 4 + 8 + 16 + 32) do
       space 5
-      column(width: 250) do
+      column do
         label(text: "Hello!, I'm a label")
-        space 5
+        space 50
         bt = button(GUI::Button::Style::Push, text: "Click Me!")
         space 5
         txt = textview # (height: 100)
@@ -22,6 +22,19 @@ class SimpleApp < GUI::Application
         slider.on_moved do
           progress.value = slider.value
         end
+      end
+      space 50
+      column do
+        label(text: "This is a second column")
+        slider = slider(vertical: false)
+        progress = progress()
+        slider.on_moved do
+          progress.value = slider.value
+        end
+      end
+      space 5
+      column do
+        label(text: "This is a third column")
       end
     end
   end
