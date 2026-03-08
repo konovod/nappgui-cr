@@ -1,26 +1,29 @@
 - [ ] Low level wrappers
   - [x] button
   - [ ] cell
-  - [ ] combo
+  - [x] combo
   - [ ] comwin
   - [x] edit
+  - [ ] globals
+  - [ ] gui
+  - [ ] evbind
   - [x] imageview
   - [x] label
-  - [ ] layout - started
-  - [ ] listbox
+  - [x] layout
+  - [x] listbox
   - [ ] menu
   - [ ] menuitem
-  - [ ] panel
+  - [x] panel
   - [x] popup
   - [x] progress
   - [x] slider
-  - [ ] splitview
+  - [x] splitview
   - [ ] tableview
-  - [ ] textview - started
-  - [ ] updown
+  - [x] textview
+  - [x] updown
   - [ ] view
-  - [ ] webview
-  - [ ] window - started
+  - [x] webview
+  - [x] window
 - [ ] high level wrappers
   - [ ] inner layouts
   - [ ] margins

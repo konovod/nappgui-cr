@@ -653,6 +653,12 @@ lib LibGUI
   fun textview_cut(view : TextView)
   fun textview_paste(view : TextView)
   fun textview_wrap(view : TextView, wrap : Bool)
+  fun webview_create : WebView
+  fun webview_on_focus = webview_OnFocus(view : WebView, listener : Pointer(Listener))
+  fun webview_size(view : WebView, size : S2Df)
+  fun webview_navigate(view : WebView, url : Pointer(UInt8))
+  fun webview_back(view : WebView)
+  fun webview_forward(view : WebView)
   fun updown_create : UpDown
   fun updown_on_click = updown_OnClick(updown : UpDown, listener : Listener)
   fun updown_tooltip(updown : UpDown, text : Pointer(UInt8))

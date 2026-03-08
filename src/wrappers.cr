@@ -22,6 +22,64 @@ module GUI
     Justify = 4
   end
 
+  wrap_enum(State, GuiStateT) do
+    On
+    Off
+    Mixed
+  end
+
+  wrap_enum(Orientation, GuiOrientT) do
+    Horizontal = 1
+    Vertical   = 2
+  end
+
+  wrap_enum(Device, DeviceT) do
+    Desktop = 1
+    Phone   = 2
+    Tablet  = 3
+  end
+
+  wrap_enum(GuiScale, GuiScaleT) do
+    Auto     = 1
+    None     = 2
+    Aspect   = 3
+    Aspectdw = 4
+  end
+
+  wrap_enum(Ellipsis, EllipsisT) do
+    None   = 1
+    Begin  = 2
+    Middle = 3
+    End    = 4
+    MLine  = 5
+  end
+
+  wrap_enum(GuiCursor, GuiCursorT) do
+    Arrow  = 1
+    Hand   = 2
+    Ibeam  = 3
+    Cross  = 4
+    Sizewe = 5
+    Sizens = 6
+    User   = 7
+  end
+
+  wrap_enum(SplitMode, SplitModeT) do
+    Normal = 1
+    Fixed0
+    Fixed1
+  end
+
+  wrap_enum(GuiFocus, GuiFocusT) do
+    Changed  = 1
+    Keep
+    NoNext
+    NoResign
+    NoAccept
+  end
+
+  # TODO - VKeyT
+
   alias Color = UInt32
 
   annotation VirtualField
@@ -37,6 +95,24 @@ module GUI
     macro define_place
       def place(layout : Layout, x : Int32, y : Int32)
         LibGUI.layout_{{@type.stringify.split("::").last.downcase.id}}(layout, self, x, y)
+      end
+    end
+
+    macro define_standard_init
+      @raw : LibGUI::{{@type.stringify.split("::").last.id}}
+
+      def initialize(**args)
+        @raw = LibGUI.{{@type.stringify.split("::").last.downcase.id}}_create()
+        apply_args(**args)
+      end
+    end
+
+    macro define_standard_init(args)
+      @raw : LibGUI::{{@type.stringify.split("::").last.id}}
+
+      def initialize({{args}}, **args)
+        @raw = LibGUI.{{@type.stringify.split("::").last.downcase.id}}_create({{args}})
+        apply_args(**args)
       end
     end
 
@@ -74,6 +150,18 @@ module GUI
       end
     end
 
+    macro lib_function(name, *args)
+      def {{name}}(*args)
+        LibGUI.{{@type.stringify.split("::").last.downcase.id}}_{{name}}(self, *args)
+      end
+    end
+
+    macro lib_function_named(name, libname, *args)
+      def {{name}}(*args)
+        LibGUI.{{@type.stringify.split("::").last.downcase.id}}_{{libname}}(self, *args)
+      end
+    end
+
     private def apply_args(**args)
       detected = 0
       {% for field in @type.methods.select(&.annotation(VirtualField)) %}
@@ -107,11 +195,6 @@ module GUI
     end
   end
 
-  wrap_enum(Orientation, GuiOrientT) do
-    Horizontal = 1
-    Vertical   = 2
-  end
-
   class Layout < Widget
     @raw : LibGUI::Layout
 
@@ -134,18 +217,11 @@ module GUI
     lib_setter(margin, Float32)
     lib_setter(bgcolor, Color)
     lib_setter(skcolor, Color)
+    lib_setter(skcolor, Color)
 
-    def set_margin(value : Float32)
-      LibGUI.layout_margin(self, value)
-    end
-
-    def set_margin(v : Float32, h : Float32)
-      LibGUI.layout_margin2(self, v, h)
-    end
-
-    def set_margin(top, bottom, left, right)
-      LibGUI.layout_margin4(self, top, right, bottom, left)
-    end
+    lib_function_named(set_margin, margin, value : Float32)
+    lib_function_named(set_margin, margin2, v : Float32, h : Float32)
+    lib_function_named(set_margin, margin4, top, bottom, left, right)
 
     struct Column
       @owner : Layout
@@ -217,24 +293,33 @@ module GUI
       Rows.new(self)
     end
 
-    # fun layout_hexpand(layout : Layout, col : Uint32T)
-    # fun layout_hexpand2(layout : Layout, col1 : Uint32T, col2 : Uint32T, exp : Real32T)
-    # fun layout_hexpand3(layout : Layout, col1 : Uint32T, col2 : Uint32T, col3 : Uint32T, exp1 : Real32T, exp2 : Real32T)
-    # fun layout_vexpand(layout : Layout, row : Uint32T)
-    # fun layout_vexpand2(layout : Layout, row1 : Uint32T, row2 : Uint32T, exp : Real32T)
-    # fun layout_vexpand3(layout : Layout, row1 : Uint32T, row2 : Uint32T, row3 : Uint32T, exp1 : Real32T, exp2 : Real32T)
+    # TODO
+    # fun layout_hexpand(layout : Layout, col : UInt32)
+    # fun layout_hexpand2(layout : Layout, col1 : UInt32, col2 : UInt32, exp : Float32)
+    # fun layout_hexpand3(layout : Layout, col1 : UInt32, col2 : UInt32, col3 : UInt32, exp1 : Float32, exp2 : Float32)
+    # fun layout_hexpandn(layout : Layout, n : UInt32, index : Pointer(UInt32), exp : Pointer(Float32))
+    # fun layout_vexpand(layout : Layout, row : UInt32)
+    # fun layout_vexpand2(layout : Layout, row1 : UInt32, row2 : UInt32, exp : Float32)
+    # fun layout_vexpand3(layout : Layout, row1 : UInt32, row2 : UInt32, row3 : UInt32, exp1 : Float32, exp2 : Float32)
+    # fun layout_vexpandn(layout : Layout, n : UInt32, index : Pointer(UInt32), exp : Pointer(Float32))
+    # fun layout_halign(layout : Layout, col : UInt32, row : UInt32, align : AlignT)
+    # fun layout_valign(layout : Layout, col : UInt32, row : UInt32, align : AlignT)
+    # fun layout_ncols(layout : Layout) : UInt32
+    # fun layout_nrows(layout : Layout) : UInt32
+    # fun layout_insert_col(layout : Layout, col : UInt32)
+    # fun layout_insert_row(layout : Layout, row : UInt32)
+    # fun layout_remove_col(layout : Layout, col : UInt32)
+    # fun layout_remove_row(layout : Layout, row : UInt32)
+    # fun layout_tabstop(layout : Layout, col : UInt32, row : UInt32, tabstop : Bool)
+    # fun layout_dbind_imp(layout : Layout, listener : Listener, type : Pointer(UInt8), size : UInt16)
+    # fun layout_dbind_obj_imp(layout : Layout, obj : Pointer(Void), type : Pointer(UInt8))
+    # fun layout_dbind_get_obj_imp(layout : Layout, type : Pointer(UInt8)) : Pointer(Void)
+    # fun layout_dbind_update_imp(layout : Layout, type : Pointer(UInt8), size : UInt16, mname : Pointer(UInt8), mtype : Pointer(UInt8), moffset : UInt16, msize : UInt16)
 
-    # fun layout_get_control_imp(layout : Layout, col : Uint32T, row : Uint32T, type : CharT*) : Void*
-    # fun layout_get_layout(layout : Layout, col : Uint32T, row : Uint32T) : Layout
-    # fun layout_tabstop(layout : Layout, col : Uint32T, row : Uint32T, tabstop : BoolT)
-    # fun layout_halign(layout : Layout, col : Uint32T, row : Uint32T, align : AlignT)
-    # fun layout_valign(layout : Layout, col : Uint32T, row : Uint32T, align : AlignT)
-  end
+    # fun layout_control(layout : Layout, col : UInt32, row : UInt32) : GuiControl
+    # fun layout_panel_replace(layout : Layout, panel : Panel, col : UInt32, row : UInt32)
+    # fun layout_get_label(layout : Layout, col : UInt32, row : UInt32) : Label ...
 
-  wrap_enum(State, GuiStateT) do
-    On
-    Off
-    Mixed
   end
 
   class Button < Widget
@@ -269,27 +354,28 @@ module GUI
 
     define_place
 
-    lib_setter(text, String)
+    lib_property(text, String)
     lib_setter(text_alt, String)
-    lib_setter(font)
-    lib_setter(image)
+    lib_setter(tooltip, String)
+    lib_property(font)
+    lib_property(image)
+    lib_property(image_alt)
     lib_property(state, State)
     lib_property(tag, Int32)
     event(on_click)
+    lib_setter(min_width)
+    lib_setter(hpadding)
+    lib_setter(vpadding)
+
+    lib_function_named(height, get_height)
   end
 
   class Label < Widget
-    @raw : LibGUI::Label
-
-    def initialize(**args)
-      @raw = LibGUI.label_create
-      apply_args(**args)
-    end
-
+    define_standard_init
     define_place
 
-    lib_setter(text, String)
-    lib_setter(font)
+    lib_property(text, String)
+    lib_property(font)
     event(on_click)
     lib_setter(style_over)
     lib_setter(align, Align)
@@ -297,15 +383,15 @@ module GUI
     lib_setter(color_over, Color)
     lib_setter(bgcolor, Color)
     lib_setter(bgcolor_over, Color)
+
+    lib_setter(size_text, String)
+    lib_setter(multiline)
+    lib_setter(trim, Ellipsis)
+    lib_setter(min_width)
   end
 
   class Window < Widget
-    @raw : LibGUI::Window
-
-    def initialize(flags, **args)
-      @raw = LibGUI.window_create(flags)
-      apply_args(**args)
-    end
+    define_standard_init(flags)
 
     def place(layout : Layout, x : Int32, y : Int32)
       raise "Window cannot be placed to layout"
@@ -317,39 +403,48 @@ module GUI
 
     lib_setter(title, String)
     lib_property(origin)
-    lib_property(size)
-    lib_property(panel)
+    lib_setter(panel)
+    lib_property(maximize)
+    lib_property(minimize)
+    lib_setter(client_size)
 
-    def show
-      LibGUI.window_show(@raw)
-    end
-
-    def hide
-      LibGUI.window_hide(@raw)
-    end
+    lib_function(show)
+    lib_function(hide)
+    lib_function_named(visible?, get_visible)
 
     def destroy
       LibGUI.window_destroy(pointerof(@raw))
     end
 
-    #   fun window_modal(window : Window, parent : Window) : UInt32
-    #   fun window_stop_modal(window : Window, return_value : UInt32)
-    #   fun window_hotkey(window : Window, key : VkeyT, modifiers : UInt32, listener : Listener)
-    #   fun window_update(window : Window)
-    #   fun window_get_client_size(window : Window) : S2Df
-    #   fun window_defbutton(window : Window, button : Button)
-    #   fun window_cursor(window : Window, cursor : GuiCursorT, image : Image, hot_x : Float32, hot_y : Float32)
+    # TODO
+    # fun window_modal(window : Window, parent : Window) : UInt32
+    # fun window_stop_modal(window : Window, return_value : UInt32)
+    # fun window_hotkey(window : Window, key : VKeyT, modifiers : UInt32, listener : Listener)
+    # fun window_clear_hotkeys(window : Window)
+    # fun window_update(window : Window)
+    # fun window_get_client_size(window : Window) : S2Df
+    # fun window_defbutton(window : Window, button : Button)
+    # fun window_cursor(window : Window, cursor : GuiCursorT, image : Image, hot_x : Float32, hot_y : Float32)
+    # fun window_overlay(window : Window, parent : Window)
+    # fun window_cycle_tabstop(window : Window, cycle : Bool)
+    # fun window_next_tabstop(window : Window) : GuiFocusT
+    # fun window_previous_tabstop(window : Window) : GuiFocusT
+    # fun window_focus(window : Window, control : GuiControl) : GuiFocusT
+    # fun window_get_focus(window : Window) : GuiControl
+    # fun window_focus_info(window : Window, info : FocusInfo)
+    # fun window_get_size(window : Window) : S2Df
+    # fun window_control_frame(window : Window, control : GuiControl) : R2Df
+    # fun window_client_to_screen(window : Window, point : V2Df) : V2Df
+    # fun window_imp(window : Window) : Pointer(Void)
+
   end
 
   class TextView < Widget
-    @raw : LibGUI::TextView
-
-    def initialize(**args)
-      @raw = LibGUI.textview_create
-      apply_args(**args)
-    end
-
+    define_standard_init
     define_place
+
+    event(on_filter)
+    event(on_focus)
 
     lib_setter(size)
     lib_setter(units, Int32)
@@ -365,37 +460,37 @@ module GUI
     lib_setter(bfspace, Float32)
     lib_setter(afspace, Float32)
     lib_setter(editable, Bool)
+    lib_setter(wrap, Bool)
+    lib_setter(show_select, Bool)
 
-    def write(text : String)
-      LibGUI.textview_writef(self, text)
+    lib_function_named(write, writef, text : String)
+    lib_function(clear)
+    lib_function(cut)
+    lib_function(copy)
+    lib_function(paste)
+    lib_function(del_select)
+    lib_function(scroll_caret)
+    lib_function(apply_all)
+    lib_function(apply_select)
+    lib_function(scroll_visible, horizontal : Bool, vertical : Bool)
+    lib_function_named(text, get_text)
+    lib_function_named(write_at_cursor, cpos_writef, text : String)
+
+    def select(start, aend)
+      LibGUI.textview_select(self, start, aend)
     end
 
-    def clear
-      LibGUI.textview_clear(self)
-    end
-
-    def scroll_down
-      LibGUI.textview_scroll_down(self)
-    end
-
-    # fun textview_rtf(view : TextView, rtf_in : Stream)
+    # TODO
+    # fun textview_rtf(view : TextView, rtf_in : Pointer(Stream))
   end
 
   class Progress < Widget
-    @raw : LibGUI::Progress
-
-    def initialize(**args)
-      @raw = LibGUI.progress_create
-      apply_args(**args)
-    end
-
+    define_standard_init
     define_place
 
     lib_setter(value, Float64)
-
-    def undefined(running)
-      LibGUI.progress_undefined(self, running)
-    end
+    lib_setter(min_width)
+    lib_function(undefined, running : Bool)
   end
 
   class Slider < Widget
@@ -412,6 +507,7 @@ module GUI
     lib_property(value, Float64)
     lib_setter(tooltip, String)
     lib_setter(steps, Int32)
+    lib_setter(min_width)
   end
 
   class Image
@@ -425,14 +521,8 @@ module GUI
     end
   end
 
-  class Popup < Widget
-    @raw : LibGUI::PopUp
-
-    def initialize(**args)
-      @raw = LibGUI.popup_vertical
-      apply_args(**args)
-    end
-
+  class PopUp < Widget
+    define_standard_init
     define_place
 
     event(on_select)
@@ -440,13 +530,9 @@ module GUI
     lib_property(selected, Int32)
     lib_setter(list_height, Int32)
 
-    def count
-      LibGUI.popup_count(self)
-    end
-
-    def clear
-      LibGUI.popup_clear(self)
-    end
+    lib_function(count)
+    lib_function(clear)
+    lib_function_named(delete, del_elem, index : Int32)
 
     def []=(index, text : String, image : Image? = nil)
       LibGUI.popup_set_elem(self, index, text, image || LibGUI::Image.null)
@@ -456,12 +542,24 @@ module GUI
       LibGUI.popup_add_elem(self, index, text, image || LibGUI::Image.null)
     end
 
+    def insert(index : Int32, text : String, image : Image? = nil)
+      LibGUI.popup_ins_elem(self, index, text, image || LibGUI::Image.null)
+    end
+
     def items=(items : Enumerable(String))
       clear
       items.each do |s|
         add(s)
       end
     end
+
+    # TODO
+    # fun popup_get_text(popup : PopUp, index : UInt32) : Pointer(UInt8)
+    # fun popup_get_image(popup : PopUp, index : UInt32) : Image
+    # def [](index) : Tuple(String, Image?)
+    #   return {LibGUI.popup_get_text(self, index), LibGUI.popup_get_image(self, index)}
+    # end
+
   end
 
   class Edit < Widget
@@ -480,6 +578,7 @@ module GUI
 
     event(on_filter)
     event(on_change)
+    event(on_focus)
     lib_property(text, String)
     lib_setter(font)
     lib_setter(align, Align)
@@ -494,25 +593,219 @@ module GUI
     lib_setter(phtext, String)
     lib_setter(phcolor, Color)
     lib_setter(phstyle, UInt32)
+    lib_setter(min_width)
+    lib_setter(min_height)
+    lib_setter(vpadding)
+
+    lib_function(cut)
+    lib_function(copy)
+    lib_function(paste)
+    lib_function_named(height, get_height)
+
+    def select(start, aend)
+      LibGUI.edit_select(self, start, aend)
+    end
   end
 
   class ImageView < Widget
-    @raw : LibGUI::Edit
-
-    def initialize(*, multiline : Bool = false, **args)
-      @raw = if multiline
-               LibGUI.edit_multiline
-             else
-               LibGUI.edit_create
-             end
-      apply_args(**args)
-    end
-
+    define_standard_init
     define_place
     event(on_click)
     event(on_over_draw)
     lib_setter(size)
     lib_setter(scale)
-    lib_setter(image, Image)
+    lib_property(image, Image)
+  end
+
+  class Combo < Widget
+    define_standard_init
+    define_place
+
+    event(on_filter)
+    event(on_change)
+    event(on_focus)
+    event(on_select)
+
+    lib_setter(min_width)
+    lib_setter(text, String)
+    lib_setter(align, Align)
+    lib_setter(passmode)
+    lib_setter(editable)
+    lib_setter(autoselect)
+    lib_setter(tooltip, String)
+    lib_setter(color, Color)
+    lib_setter(color_focus, Color)
+    lib_setter(bgcolor, Color)
+    lib_setter(bgcolor_focus, Color)
+    lib_setter(phtext, String)
+    lib_setter(phcolor, Color)
+    lib_setter(phstyle)
+    lib_setter(list_height)
+    lib_property(selected)
+
+    lib_function(cut)
+    lib_function(copy)
+    lib_function(paste)
+    lib_function(clear)
+    lib_function(count)
+
+    lib_function_named(delete, del_elem, index : Int32)
+
+    def []=(index, text : String, image : Image? = nil)
+      LibGUI.combo_set_elem(self, index, text, image || LibGUI::Image.null)
+    end
+
+    def add(text : String, image : Image? = nil)
+      LibGUI.combo_add_elem(self, index, text, image || LibGUI::Image.null)
+    end
+
+    def insert(index : Int32, text : String, image : Image? = nil)
+      LibGUI.combo_ins_elem(self, index, text, image || LibGUI::Image.null)
+    end
+
+    def items=(items : Enumerable(String))
+      clear
+      items.each do |s|
+        add(s)
+      end
+    end
+
+    def select(start, aend)
+      LibGUI.combo_select(self, start, aend)
+    end
+
+    # TODO
+    # fun combo_get_text(combo : Combo, index : UInt32) : Pointer(UInt8)
+    # fun combo_get_image(combo : Combo, index : UInt32) : Image
+  end
+
+  class ListBox < Widget
+    define_standard_init
+    define_place
+
+    event(on_down)
+    event(on_select)
+
+    lib_setter(size)
+    lib_setter(checkbox)
+    lib_setter(multisel)
+    lib_setter(font)
+
+    lib_function(clear)
+    lib_function(count)
+
+    lib_function_named(delete, del_elem, index : Int32)
+    lib_function_named(selected, get_selected)
+    lib_function_named(row_height, get_row_height)
+
+    def []=(index, text : String, image : Image? = nil)
+      LibGUI.combo_set_elem(self, index, text, image || LibGUI::Image.null)
+    end
+
+    def add(text : String, image : Image? = nil)
+      LibGUI.combo_add_elem(self, index, text, image || LibGUI::Image.null)
+    end
+
+    def items=(items : Enumerable(String))
+      clear
+      items.each do |s|
+        add(s)
+      end
+    end
+
+    # TODO
+    # fun listbox_color(listbox : ListBox, index : UInt32, color : ColorT)
+    # fun listbox_select(listbox : ListBox, index : UInt32, select : Bool)
+    # fun listbox_check(listbox : ListBox, index : UInt32, check : Bool)
+    # fun listbox_get_text(listbox : ListBox, index : UInt32) : Pointer(UInt8)
+    # fun listbox_get_image(listbox : ListBox, index : UInt32) : Image
+    # fun listbox_selected(listbox : ListBox, index : UInt32) : Bool
+    # fun listbox_checked(listbox : ListBox, index : UInt32) : Bool
+  end
+
+  class UpDown < Widget
+    define_standard_init
+    define_place
+
+    event(on_click)
+    lib_setter(tooltip, String)
+  end
+
+  class WebView < Widget
+    @raw : LibGUI::WebView
+
+    def initialize(**args)
+      @raw = webview_create
+      apply_args(**args)
+    end
+
+    define_place
+
+    event(on_focus)
+    lib_setter(tooltip, String)
+    lib_setter(size)
+
+    lib_function(navigate, url : String)
+    lib_function(back)
+    lib_function(forward)
+  end
+
+  class SplitView < Widget
+    @raw : LibGUI::WebView
+
+    def initialize(*, orientation : Orientation, **args)
+      @raw = case orientation
+             in .horizontal?
+               LibGUI.splitview_horizontal
+             in .vertical?
+               LibGUI.splitview_vertical
+             end
+      apply_args(**args)
+    end
+
+    define_place
+
+    # TODO
+    # fun splitview_view(split : SplitView, view : View, tabstop : Bool)
+    # fun splitview_textview(split : SplitView, view : TextView, tabstop : Bool)
+    # fun splitview_webview(split : SplitView, view : WebView, tabstop : Bool)
+    # fun splitview_tableview(split : SplitView, view : TableView, tabstop : Bool)
+    # fun splitview_splitview(split : SplitView, view : SplitView)
+    # fun splitview_panel(split : SplitView, panel : Panel)
+    # fun splitview_pos(split : SplitView, mode : SplitModeT, pos : Float32)
+    # fun splitview_get_pos(split : SplitView, mode : SplitModeT) : Float32
+    # fun splitview_visible0(split : SplitView, visible : Bool)
+    # fun splitview_visible1(split : SplitView, visible : Bool)
+    # fun splitview_minsize0(split : SplitView, size : Float32)
+    # fun splitview_minsize1(split : SplitView, size : Float32)
+  end
+
+  class Panel < Widget
+    define_standard_init
+
+    def initialize(hscroll : Bool, vscroll : Bool, border : Bool, **args)
+      @raw = LibGUI.panel_custom(hscroll, vscroll, border)
+      apply_args(**args)
+    end
+
+    def initialize(hscroll : Bool, vscroll : Bool, **args)
+      @raw = LibGUI.panel_scroll(hscroll, vscroll)
+      apply_args(**args)
+    end
+
+    define_place
+    lib_setter(size)
+
+    lib_function(update)
+    lib_function(scroll_width)
+    lib_function(scroll_height)
+
+    # TODO
+    # fun panel_data_imp(panel : Panel, data : Pointer(Pointer(Void)), func_destroy_data : FPtrDestroy)
+    # fun panel_get_data_imp(panel : Panel) : Pointer(Void)
+    # fun panel_layout(panel : Panel, layout : Layout) : UInt32
+    # fun panel_get_layout(panel : Panel, index : UInt32) : Layout
+    # fun panel_visible_layout(panel : Panel, index : UInt32)
+
   end
 end
