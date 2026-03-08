@@ -33,7 +33,7 @@ module GUI
       end
     {% end %}
 
-    abstract def calc_size(ncols, nrows)
+    abstract def calc_size(ncols, nrows, cached_margins : Hash(Int32, Int32)? = nil)
 
     def place_controls(layout : Layout)
       @placed_controls.each do |pc|
@@ -51,7 +51,12 @@ module GUI
       @row += 1
     end
 
-    def calc_size(ncols, nrows)
+    def calc_size(ncols, nrows, cached_margins : Hash(Int32, Int32)? = nil)
+      if cached_margins
+        @placed_controls.each do |pc|
+          cached_margins[pc.row] = {cached_margins[pc.row]? || 0, pc.space}.max
+        end
+      end
       return {ncols + 1, {nrows, @row + 1}.max}
     end
 
@@ -59,8 +64,6 @@ module GUI
       super
       layout.cols[@column].margin = @space_after_me.to_f32
       @placed_controls.each do |pc|
-        # puts "Setting row #{pc.row} space to #{pc.space.to_f32}"
-        # TODO layout.rows[pc.row].margin = {layout.rows[pc.row].margin, pc.space.to_f32}.max
         layout.rows[pc.row].margin = pc.space.to_f32
       end
     end
@@ -94,17 +97,23 @@ module GUI
       with child yield
     end
 
-    def calc_size(ncols, nrows)
+    def calc_size(ncols, nrows, cached_margins : Hash(Int32, Int32)? = nil)
       ncols, nrows = 0, 0
       @children.each do |child|
-        ncols, nrows = child.calc_size(ncols, nrows)
+        ncols, nrows = child.calc_size(ncols, nrows, cached_margins)
       end
       return ncols, nrows
     end
 
-    def place_controls(layout : Layout)
+    def place_controls(layout : Layout, cached_margins : Hash(Int32, Int32)? = nil)
       layout.margin = @first_space.to_f32
       @children.each &.place_controls(layout)
+      if !@children.empty? && cached_margins
+        list = @children.first.is_a?(ColumnsBuilder) ? layout.rows : layout.cols
+        cached_margins.each do |i, v|
+          list[i].margin = v.to_f32
+        end
+      end
     end
   end
 
@@ -114,8 +123,10 @@ module GUI
       panel = LibGUI.panel_create
       builder = RootBuilder.new
       with builder yield
-      layout = GUI::Layout.new(*builder.calc_size(0, 0))
-      builder.place_controls layout
+      cached_margins = {} of Int32 => Int32
+      layout = GUI::Layout.new(*builder.calc_size(0, 0, cached_margins))
+      puts cached_margins
+      builder.place_controls layout, cached_margins
       LibGUI.panel_layout(panel, layout)
       window.panel = panel
       window
