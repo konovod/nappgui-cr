@@ -751,7 +751,7 @@ module GUI
   end
 
   class SplitView < Widget
-    @raw : LibGUI::WebView
+    @raw : LibGUI::SplitView
 
     def initialize(*, orientation : Orientation, **args)
       @raw = case orientation
