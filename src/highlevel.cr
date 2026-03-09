@@ -92,7 +92,7 @@ module GUI
           cached_margins[pc.col] = {cached_margins[pc.col]? || 0, pc.space}.max
         end
       end
-      return { {ncols, @column + 1}.max, nrows+1 }
+      return { {ncols, @column + 1}.max, nrows + 1 }
     end
 
     def place_controls(layout)
@@ -134,7 +134,7 @@ module GUI
 
     def row(**args, &)
       if child = @children.last?
-        raise "column cannot be called after row or grid" unless child.is_a? RowsBuilder
+        raise "row cannot be called after column or grid" unless child.is_a? RowsBuilder
         row = child.row + 1
       else
         row = 0
@@ -155,10 +155,10 @@ module GUI
     def place_controls(layout : Layout, cached_margins : Hash(Int32, Int32)? = nil)
       layout.margin = @first_space.to_f32
       @children.each &.place_controls(layout)
-      if !@children.empty? && cached_margins
+      if !@children.empty? && cached_margins && !cached_margins.empty?
         list = @children.first.is_a?(ColumnsBuilder) ? layout.rows : layout.cols
         cached_margins.each do |i, v|
-          list[i].margin = v.to_f32
+          list[i - 1].margin = v.to_f32 if i > 0
         end
       end
     end
