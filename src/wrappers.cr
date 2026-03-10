@@ -167,18 +167,25 @@ module GUI
       {% for field in @type.methods.select(&.annotation(VirtualField)) %}
         {% name = field.name.gsub(/=/, "")
            typ = field.args.first.restriction %}
-        if args[:{{name}}]?
+        if args.has_key? :{{name}}
           detected += 1
           {% if typ.stringify == "String" || typ.is_a?(Nop) || typ.stringify == "Enumerable(String)" %}
             self.{{name}} = args[:{{name}}]?.not_nil!
           {% else %}
             self.{{name}} = {{typ}}.new(args[:{{name}}]?.not_nil!)
           {% end %}
-
         end
       {% end %}
-      # TODO - detect exact names
-      raise "Some arguments (#{args.size - detected}) don't match gui properties: #{args}" if detected < args.size
+      if detected < args.size
+        got = args.keys.to_set
+        {% for field in @type.methods.select(&.annotation(VirtualField)) %}
+          {% name = field.name.gsub(/=/, "") %}
+          if args.has_key? :{{name}}
+            got.delete(:{{name}})
+          end
+        {% end %}
+        raise "Some arguments (#{args.size - detected}) don't match gui properties: #{got.to_a.join(", ")}"
+      end
     end
 
     macro event(name)
