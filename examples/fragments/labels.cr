@@ -17,18 +17,20 @@ HEREDOC
     "Labels #{@multiline ? "multi" : "single"} line"
   end
 
+  @layout : GUI::Layout?
+
   def create_contents : GUI::Layout
     GUI.make_layout do
-      space 5
       column do
         selector = popup(items: ["Natural", "100px", "200px", "300px", "400px"])
         selector.on_select do
-          puts selector.selected
+          @layout.not_nil!.cols[0].size = [0, 100, 200, 300, 400][selector.selected].to_f32
+          @layout.not_nil!.update
         end
         LABELS.each do |s|
           label(text: s, multiline: @multiline)
         end
       end
-    end
+    end.tap { |x| @layout = x }
   end
 end

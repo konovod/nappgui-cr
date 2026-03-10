@@ -18,7 +18,7 @@ class SimpleApp < GUI::Application
         list = listbox(size: s2df(180, 256),
           items: ALL_FRAGMENTS.map(&.name))
         space 10
-        details = panel(ALL_FRAGMENTS[0].create_contents, size: s2df(200, 400))
+        details = panel(ALL_FRAGMENTS[0].create_contents)
         list.on_select do
           i = list.selected
           if i >= 0
