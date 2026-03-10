@@ -6,51 +6,18 @@ abstract class Fragment
   abstract def create_contents : GUI::Layout
 end
 
-class LabelsFragment < Fragment
-  def name : String
-    "Labels single line"
-  end
+require "./fragments/*"
 
-  def create_contents : GUI::Layout
-    GUI.make_layout do
-      column do
-        edit
-        space 50
-        combo
-        popup
-      end
-    end
-  end
-end
-
-class MultiLabelsFragment < Fragment
-  def name : String
-    "Labels multi line"
-  end
-
-  def create_contents : GUI::Layout
-    puts "c"
-    GUI.make_layout do
-      row do
-        edit
-        space 50
-        combo
-        popup
-      end
-    end
-  end
-end
-
-ALL_FRAGMENTS = [LabelsFragment.new, MultiLabelsFragment.new]
+ALL_FRAGMENTS = [LabelsFragment.new(false), LabelsFragment.new(true)]
 
 class SimpleApp < GUI::Application
   def gui : GUI::Window
     window(origin: v2df(500, 200), title: "Hello, World!", flags: 2 + 4 + 8 + 16 + 32) do
-      space 10
+      # space 10
       row do
         list = listbox(size: s2df(180, 256),
           items: ALL_FRAGMENTS.map(&.name))
-        space 10
+        # space 10
         details = panel(ALL_FRAGMENTS[0].create_contents, size: s2df(200, 400))
         # list.select(0)
         list.on_select do
