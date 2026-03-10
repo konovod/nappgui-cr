@@ -21,6 +21,10 @@ HEREDOC
     GUI.make_layout do
       space 5
       column do
+        selector = popup(items: ["Natural", "100px", "200px", "300px", "400px"])
+        selector.on_select do
+          puts selector.selected
+        end
         LABELS.each do |s|
           label(text: s, multiline: @multiline)
         end

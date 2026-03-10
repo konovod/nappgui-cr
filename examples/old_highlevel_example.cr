@@ -5,7 +5,7 @@ class SimpleApp < GUI::Application
   @counter = 0
 
   def gui : GUI::Window
-    window(origin: v2df(500, 200), title: "Hello, World!", flags: 2 + 4 + 8 + 16 + 32) do
+    window(origin: v2df(500, 200), title: "Hello, World!", flags: LibGUI::WindowFlag::EkWINDOW_STDRES) do
       space 5
       column do
         label(text: "Hello!, I'm a label")

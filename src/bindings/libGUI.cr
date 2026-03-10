@@ -26,6 +26,10 @@ lib LibGUI
   type FocusInfo = Void*
   type ImageView = Void*
 
+  alias ColorT = UInt32
+  alias FPtrRespack = (CharT* -> ResPack)
+  alias FPtrDestroy = (Void** -> Void)
+
   enum GuiStateT
     EkGuiOff   = 0
     EkGuiOn    = 1
@@ -39,29 +43,13 @@ lib LibGUI
     EkBottom  = 3
     EkJustify = 4
   end
-  alias ColorT = UInt32
+
   enum DeviceT
     EkDesktop = 1
     EkPhone   = 2
     EkTablet  = 3
   end
 
-  struct S2Df
-    width : Float32
-    height : Float32
-  end
-
-  struct V2Df
-    x : Float32
-    y : Float32
-  end
-
-  struct R2Df
-    pos : V2Df
-    size : S2Df
-  end
-
-  alias FPtrRespack = (CharT* -> ResPack)
   enum GuiScaleT
     EkGuiScaleAuto     = 1
     EkGuiScaleNone     = 2
@@ -75,23 +63,6 @@ lib LibGUI
     EkELLIPMIDDLE = 3
     EkELLIPEND    = 4
     EkELLIPMLINE  = 5
-  end
-
-  enum GuiOrientT
-    EkGuiHorizontal = 1
-    EkGuiVertical   = 2
-  end
-  alias FPtrDestroy = (Void** -> Void)
-
-  struct ArrStUInt32
-    reserved : UInt32
-    size : UInt32
-    elem_sizeof : UInt16
-    content : UInt32Data*
-  end
-
-  struct UInt32Data
-    elem : UInt32[1024]
   end
 
   enum GuiCursorT
@@ -219,6 +190,23 @@ lib LibGUI
     EkKEY_PLUS       = 111
   end
 
+  @[Flags]
+  enum WindowFlag : UInt32
+    EkWINDOW_FLAG         = 0
+    EkWINDOW_EDGE         = 1 << 0
+    EkWINDOW_TITLE        = 1 << 1
+    EkWINDOW_MAX          = 1 << 2
+    EkWINDOW_MIN          = 1 << 3
+    EkWINDOW_CLOSE        = 1 << 4
+    EkWINDOW_RESIZE       = 1 << 5
+    EkWINDOW_RETURN       = 1 << 6
+    EkWINDOW_ESC          = 1 << 7
+    EkWINDOW_OFFSCREEN    = 1 << 8
+    EkWINDOW_MODAL_NOHIDE = 1 << 9
+    EkWINDOW_STD          = EkWINDOW_TITLE | EkWINDOW_MIN | EkWINDOW_CLOSE
+    EkWINDOW_STDRES       = EkWINDOW_STD | EkWINDOW_MAX | EkWINDOW_RESIZE
+  end
+
   enum SplitModeT
     EkSPLIT_NORMAL = 1
     EkSPLIT_FIXED0
@@ -233,6 +221,26 @@ lib LibGUI
     EkGUI_FOCUS_NO_ACCEPT
   end
 
+  enum GuiOrientT
+    EkGuiHorizontal = 1
+    EkGuiVertical   = 2
+  end
+
+  struct S2Df
+    width : Float32
+    height : Float32
+  end
+
+  struct V2Df
+    x : Float32
+    y : Float32
+  end
+
+  struct R2Df
+    pos : V2Df
+    size : S2Df
+  end
+
   struct ArrPtString
     reserved : UInt32
     size : UInt32
@@ -242,6 +250,17 @@ lib LibGUI
 
   struct StringPtData
     elem : StaticArray(Pointer(String), 1024)
+  end
+
+  struct ArrStUInt32
+    reserved : UInt32
+    size : UInt32
+    elem_sizeof : UInt16
+    content : UInt32Data*
+  end
+
+  struct UInt32Data
+    elem : UInt32[1024]
   end
 
   fun button_push : Button
@@ -697,7 +716,7 @@ lib LibGUI
   fun view_point_scale(view : View, scale : Pointer(Float32))
   fun view_update(view : View)
   fun view_native(view : View) : Pointer(Void)
-  fun window_create(flags : UInt32) : Window
+  fun window_create(flags : WindowFlag) : Window
   fun window_destroy(window : Pointer(Window))
   fun window_panel(window : Window, panel : Panel)
   fun window_on_close = window_OnClose(window : Window, listener : Listener)

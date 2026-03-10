@@ -181,12 +181,15 @@ module GUI
   end
 
   abstract class Application
+    getter! layout : GUI::Layout
+
     def window(**args, &)
       window = Window.new(**args)
       panel = LibGUI.panel_create
       builder = RootBuilder.new
       with builder yield
       layout = builder.finish_layout
+      @layout = layout
       LibGUI.panel_layout(panel, layout)
       window.panel = panel
       window

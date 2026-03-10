@@ -253,6 +253,10 @@ module GUI
       def [](index)
         Column.new(@owner, index)
       end
+
+      def size
+        LibGUI.layout_ncols(@owner)
+      end
     end
 
     def cols
@@ -288,6 +292,10 @@ module GUI
       def [](index)
         Row.new(@owner, index)
       end
+
+      def size
+        LibGUI.layout_nrows(@owner)
+      end
     end
 
     def rows
@@ -305,8 +313,6 @@ module GUI
     # fun layout_vexpandn(layout : Layout, n : UInt32, index : Pointer(UInt32), exp : Pointer(Float32))
     # fun layout_halign(layout : Layout, col : UInt32, row : UInt32, align : AlignT)
     # fun layout_valign(layout : Layout, col : UInt32, row : UInt32, align : AlignT)
-    # fun layout_ncols(layout : Layout) : UInt32
-    # fun layout_nrows(layout : Layout) : UInt32
     # fun layout_insert_col(layout : Layout, col : UInt32)
     # fun layout_insert_row(layout : Layout, row : UInt32)
     # fun layout_remove_col(layout : Layout, col : UInt32)
@@ -535,15 +541,15 @@ module GUI
     lib_function_named(delete, del_elem, index : Int32)
 
     def []=(index, text : String, image : Image? = nil)
-      LibGUI.popup_set_elem(self, index, text, image || LibGUI::Image.null)
+      LibGUI.popup_set_elem(self, index, text, image || Pointer(Void).null.as(LibGUI::Image))
     end
 
     def add(text : String, image : Image? = nil)
-      LibGUI.popup_add_elem(self, text, image || LibGUI::Image.null)
+      LibGUI.popup_add_elem(self, text, image || Pointer(Void).null.as(LibGUI::Image))
     end
 
     def insert(index : Int32, text : String, image : Image? = nil)
-      LibGUI.popup_ins_elem(self, index, text, image || LibGUI::Image.null)
+      LibGUI.popup_ins_elem(self, index, text, image || Pointer(Void).null.as(LibGUI::Image))
     end
 
     @[VirtualField]
@@ -653,15 +659,15 @@ module GUI
     lib_function_named(delete, del_elem, index : Int32)
 
     def []=(index, text : String, image : Image? = nil)
-      LibGUI.combo_set_elem(self, index, text, image || LibGUI::Image.null)
+      LibGUI.combo_set_elem(self, index, text, image || Pointer(Void).null.as(LibGUI::Image))
     end
 
     def add(text : String, image : Image? = nil)
-      LibGUI.combo_add_elem(self, text, image || LibGUI::Image.null)
+      LibGUI.combo_add_elem(self, text, image || Pointer(Void).null.as(LibGUI::Image))
     end
 
     def insert(index : Int32, text : String, image : Image? = nil)
-      LibGUI.combo_ins_elem(self, index, text, image || LibGUI::Image.null)
+      LibGUI.combo_ins_elem(self, index, text, image || Pointer(Void).null.as(LibGUI::Image))
     end
 
     @[VirtualField]
@@ -700,7 +706,7 @@ module GUI
     lib_function_named(row_height, get_row_height)
 
     def []=(index, text : String, image : Image? = nil)
-      LibGUI.listbox_set_elem(self, index, text, image || LibGUI::Image.null)
+      LibGUI.listbox_set_elem(self, index, text, image || Pointer(Void).null.as(LibGUI::Image))
     end
 
     def add(text : String, image : Image? = nil)
