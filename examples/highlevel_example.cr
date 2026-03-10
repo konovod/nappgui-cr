@@ -1,52 +1,71 @@
 require "../src/nappgui-cr"
 require "../src/highlevel"
 
-class SimpleApp < GUI::Application
-  @counter = 0
+abstract class Fragment
+  abstract def name : String
+  abstract def create_contents : GUI::Layout
+end
 
+class LabelsFragment < Fragment
+  def name : String
+    "Labels single line"
+  end
+
+  def create_contents : GUI::Layout
+    GUI.make_layout do
+      column do
+        edit
+        space 50
+        combo
+        popup
+      end
+    end
+  end
+end
+
+class MultiLabelsFragment < Fragment
+  def name : String
+    "Labels multi line"
+  end
+
+  def create_contents : GUI::Layout
+    GUI.make_layout do
+      row do
+        edit
+        space 50
+        combo
+        popup
+      end
+    end
+  end
+end
+
+ALL_FRAGMENTS = [LabelsFragment.new, MultiLabelsFragment.new]
+
+class SimpleApp < GUI::Application
   def gui : GUI::Window
     window(origin: v2df(500, 200), title: "Hello, World!", flags: 2 + 4 + 8 + 16 + 32) do
       space 5
-      row do
-        listbox(size: s2df(180, 256),
-          items: ["Labels single line",
-                  "Labels multi line",
-                  "Labels mouse sensitive",
-                  "Buttons",
-                  "PopUp Combo",
-                  "ListBoxes",
-                  "Form",
-                  "Text select",
-                  "Text editor",
-                  "Sliders",
-                  "Tabstops",
-                  "TextViews",
-                  "TableView",
-                  "SplitViews",
-                  "Modal Windows",
-                  "Flyout Windows",
-                  "Editbox padding",
-                  "Button padding",
-                  "Hotkeys",
-                  "Data Binding",
-                  "Struct Binding",
-                  "Basic Layout",
-                  "SubLayouts",
-                  "Subpanels",
-                  "Multi-Layouts",
-                  "Scroll panel",
-                  "Dynamic layouts",
-                  "Dynamic menus",
-                  "IP Input",
-                  "Font x-scale",
-                  "Font units",
-                  "Reduce components",
-                  "Common windows",
-          ])
-        panel do
-          edit
-          combo
-          popup
+      column do
+        list = listbox(size: s2df(180, 256),
+          items: ALL_FRAGMENTS.map(&.name))
+        space 11
+
+        details = panel do
+          row do
+            edit
+            space 50
+            combo
+            popup
+          end
+        end
+        list.on_select do
+          i = list.selected
+          if i >= 0
+            layout = ALL_FRAGMENTS[i].create_contents
+            new_panel = GUI::Panel.new(layout)
+            # LibGUI.layout_panel_replace(details.layout, new_panel, 0, 0)
+          end
         end
       end
     end

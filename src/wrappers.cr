@@ -790,9 +790,13 @@ module GUI
       apply_args(**args)
       builder = RootBuilder.new
       with builder yield
-      cached_margins = {} of Int32 => Int32
-      layout = GUI::Layout.new(*builder.calc_size(0, 0, cached_margins))
-      builder.place_controls layout, cached_margins
+      layout = builder.finish_layout
+      LibGUI.panel_layout(@raw, layout)
+    end
+
+    def initialize(layout : Layout, *, hscroll : Bool = false, vscroll : Bool = false, border : Bool = false, **args)
+      @raw = LibGUI.panel_custom(hscroll, vscroll, border)
+      apply_args(**args)
       LibGUI.panel_layout(@raw, layout)
     end
 

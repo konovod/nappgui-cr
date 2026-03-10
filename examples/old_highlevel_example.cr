@@ -25,9 +25,25 @@ class SimpleApp < GUI::Application
         view(scroll: false, border: true)
         updown
         tableview
+
+        # panel_lay = GUI.layout do
+        #   row do
+        #     label(text: "This is a subpanel")
+        #     edit
+        #   end
+        #   row do
+        #     label(text: "Second row os subpanel")
+        #   end
+        # end
+        # panel(border: true, layout: panel_lay)
         panel(border: true) do
-          label(text: "This is a subpanel")
-          edit
+          row do
+            label(text: "This is a subpanel")
+            edit
+          end
+          row do
+            label(text: "Second row os subpanel")
+          end
         end
         space 10
       end

@@ -34,7 +34,10 @@ module GUI
     {% end %}
     {% for klass in CONTAINER_CLASSES %}
       def {{klass.downcase.id}}(*args, **args2, &)
-        result = {{klass.id}}.new(*args, **args2) { yield }
+        builder = RootBuilder.new
+        with builder yield
+        layout = builder.finish_layout
+        result = {{klass.id}}.new(layout, *args, **args2)
         @placed_controls << PlacedControl.new(result, @column, @row, @cur_space)
         next_cell
         result
@@ -162,6 +165,19 @@ module GUI
         end
       end
     end
+
+    def finish_layout : Layout
+      cached_margins = {} of Int32 => Int32
+      layout = GUI::Layout.new(*calc_size(0, 0, cached_margins))
+      place_controls layout, cached_margins
+      layout
+    end
+  end
+
+  def self.make_layout(&)
+    builder = RootBuilder.new
+    with builder yield
+    builder.finish_layout
   end
 
   abstract class Application
@@ -170,9 +186,7 @@ module GUI
       panel = LibGUI.panel_create
       builder = RootBuilder.new
       with builder yield
-      cached_margins = {} of Int32 => Int32
-      layout = GUI::Layout.new(*builder.calc_size(0, 0, cached_margins))
-      builder.place_controls layout, cached_margins
+      layout = builder.finish_layout
       LibGUI.panel_layout(panel, layout)
       window.panel = panel
       window

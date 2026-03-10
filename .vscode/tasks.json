@@ -20,6 +20,12 @@
       "type": "shell",
       "command": "crystal examples/highlevel_example.cr",
       "problemMatcher": []
+    },
+    {
+      "label": "old high level",
+      "type": "shell",
+      "command": "crystal examples/old_highlevel_example.cr",
+      "problemMatcher": []
     }
   ]
 }
