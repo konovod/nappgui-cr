@@ -1,5 +1,5 @@
 module GUI
-  WIDGET_CLASSES    = %w(Button Combo Edit ImageView Label ListBox PopUp Progress Slider SplitView TableView TextView UpDown View WebView)
+  WIDGET_CLASSES    = %w(Button Combo Edit ImageView Label ListBox Panel PopUp Progress Slider SplitView TableView TextView UpDown View WebView)
   CONTAINER_CLASSES = %w(Panel)
 
   record PlacedControl, control : Widget, col : Int32, row : Int32, space : Int32

@@ -205,14 +205,6 @@ module GUI
 
     define_place
 
-    def cell(col, row)
-      LigGUI.layout_cell(self, col, row)
-    end
-
-    def update
-      LigGUI.layout_update(self)
-    end
-
     lib_setter(taborder, Orientation)
     lib_setter(margin, Float32)
     lib_setter(bgcolor, Color)
@@ -222,6 +214,8 @@ module GUI
     lib_function_named(set_margin, margin, value : Float32)
     lib_function_named(set_margin, margin2, v : Float32, h : Float32)
     lib_function_named(set_margin, margin4, top, bottom, left, right)
+    lib_function(update)
+    lib_function(cell, col, row)
 
     struct Column
       @owner : Layout
@@ -410,6 +404,7 @@ module GUI
     lib_function(show)
     lib_function(hide)
     lib_function_named(visible?, get_visible)
+    lib_function(update)
 
     def destroy
       LibGUI.window_destroy(pointerof(@raw))
@@ -420,7 +415,6 @@ module GUI
     # fun window_stop_modal(window : Window, return_value : UInt32)
     # fun window_hotkey(window : Window, key : VKeyT, modifiers : UInt32, listener : Listener)
     # fun window_clear_hotkeys(window : Window)
-    # fun window_update(window : Window)
     # fun window_get_client_size(window : Window) : S2Df
     # fun window_defbutton(window : Window, button : Button)
     # fun window_cursor(window : Window, cursor : GuiCursorT, image : Image, hot_x : Float32, hot_y : Float32)
@@ -811,6 +805,8 @@ module GUI
       layout, x, y = saved_cell
       LibGUI.layout_panel_replace(layout, another, x, y)
       another.saved_cell = {layout, x, y}
+      layout.update
+      @raw = Pointer(Void).null.as(LibGUI::Panel)
       # @saved_cell = nil
     end
 
