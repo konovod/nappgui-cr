@@ -21,7 +21,7 @@ class SimpleApp < GUI::Application
         details = panel(ALL_FRAGMENTS[0].create_contents)
         list.on_select do
           i = list.selected
-          if i >= 0
+          if i >= 0 && i < ALL_FRAGMENTS.size
             new_panel = GUI::Panel.new(ALL_FRAGMENTS[i].create_contents)
             details.replace(new_panel)
           end

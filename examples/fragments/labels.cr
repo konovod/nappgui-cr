@@ -24,11 +24,16 @@ HEREDOC
       column do
         selector = popup(items: ["Natural", "100px", "200px", "300px", "400px"])
         selector.on_select do
-          @layout.not_nil!.cols[0].size = [0, 100, 200, 300, 400][selector.selected].to_f32
+          @layout.not_nil!.cols[0].size = {0, 100, 200, 300, 400}[selector.selected].to_f32
           @layout.not_nil!.update
         end
-        LABELS.each do |s|
-          label(text: s, multiline: @multiline)
+
+        c1 = color(192, 255, 255)
+        c2 = color(255, 192, 255)
+        c3 = color(255, 255, 192)
+
+        LABELS.each_with_index do |s, i|
+          label(text: s, multiline: @multiline, bgcolor: {c1, c2, c3}[i % 3])
         end
       end
     end.tap { |x| @layout = x }

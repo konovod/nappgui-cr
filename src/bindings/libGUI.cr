@@ -767,3 +767,7 @@ def s2df(x, y) : LibGUI::S2Df
   result.height = y
   result
 end
+
+def color(r, g, b, a = 255)
+  (a.to_u32 << 24u32) | (b.to_u32 << 16) | (g.to_u32 << 8) | r.to_u32
+end
