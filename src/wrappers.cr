@@ -317,7 +317,6 @@ module GUI
     # fun layout_dbind_update_imp(layout : Layout, type : Pointer(UInt8), size : UInt16, mname : Pointer(UInt8), mtype : Pointer(UInt8), moffset : UInt16, msize : UInt16)
 
     # fun layout_control(layout : Layout, col : UInt32, row : UInt32) : GuiControl
-    # fun layout_panel_replace(layout : Layout, panel : Panel, col : UInt32, row : UInt32)
     # fun layout_get_label(layout : Layout, col : UInt32, row : UInt32) : Label ...
 
   end
@@ -800,7 +799,20 @@ module GUI
       LibGUI.panel_layout(@raw, layout)
     end
 
-    define_place
+    protected property saved_cell : Tuple(Layout, Int32, Int32)? = nil
+
+    def place(layout : Layout, x : Int32, y : Int32)
+      @saved_cell = {layout, x, y}
+      LibGUI.layout_panel(layout, self, x, y)
+    end
+
+    def replace(another : Panel)
+      raise "Panel not placed" unless saved_cell = @saved_cell
+      layout, x, y = saved_cell
+      LibGUI.layout_panel_replace(layout, another, x, y)
+      another.saved_cell = {layout, x, y}
+      # @saved_cell = nil
+    end
 
     lib_setter(size)
 
