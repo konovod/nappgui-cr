@@ -15,10 +15,10 @@ class SimpleApp < GUI::Application
     window(origin: v2df(500, 200), title: "Hello, World!", flags: LibGUI::WindowFlag::EkWINDOW_STD) do
       space 10
       row do
-        list = listbox(size: s2df(180, 256),
+        list = listbox(size: s2df(180, 256), cell_valign: GUI::Align::Top,
           items: ALL_FRAGMENTS.map(&.name))
         space 10
-        details = panel(ALL_FRAGMENTS[0].create_contents)
+        details = panel(ALL_FRAGMENTS[0].create_contents, cell_valign: GUI::Align::Top)
         list.on_select do
           i = list.selected
           if i >= 0 && i < ALL_FRAGMENTS.size
@@ -32,10 +32,6 @@ class SimpleApp < GUI::Application
 
   def init
     puts "init"
-    # LibGUI.layout_valign(self.layout, 0, 0, GUI::Align::Top)
-    LibGUI.layout_valign(self.layout, 1, 0, GUI::Align::Top)
-    # LibGUI.layout_margin(self.layout, 10)
-    # LibGUI.layout_hmargin(self.layout, 0, 10)
     window.update
   end
 

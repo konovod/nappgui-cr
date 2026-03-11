@@ -85,6 +85,9 @@ module GUI
   annotation VirtualField
   end
 
+  annotation LayoutField
+  end
+
   abstract class Widget
     abstract def place(layout : Layout, x : Int32, y : Int32)
 
@@ -92,9 +95,34 @@ module GUI
       @raw
     end
 
+    protected property saved_cell : Tuple(Layout, Int32, Int32)?
+
+    macro layout_setter(name, internal_name, typ)
+      @{{name}} : {{typ}}?
+      @[LayoutField]
+      def {{name}}=(value : {{typ}})
+        @{{name}} = value
+        if cell = saved_cell
+          LibGUI.layout_{{internal_name}}(*cell, value)
+        end
+      end
+    end
+
+    layout_setter(cell_valign, valign, Align)
+    layout_setter(cell_halign, halign, Align)
+    layout_setter(tabstop, tabstop, Bool)
+
     macro define_place
       def place(layout : Layout, x : Int32, y : Int32)
+        @saved_cell = {layout, x, y}
         LibGUI.layout_{{@type.stringify.split("::").last.downcase.id}}(layout, self, x, y)
+      {% for field in Widget.methods.select(&.annotation(LayoutField)) %}
+        {% name = field.name.gsub(/=/, "")
+           typ = field.args.first.restriction %}      
+        unless @{{name}}.nil?
+          self.{{name}} = @{{name}}.not_nil!
+        end
+      {% end %}
       end
     end
 
@@ -164,7 +192,7 @@ module GUI
 
     private def apply_args(**args)
       detected = 0
-      {% for field in @type.methods.select(&.annotation(VirtualField)) %}
+      {% for field in @type.methods.select(&.annotation(VirtualField)) + Widget.methods.select(&.annotation(LayoutField)) %}
         {% name = field.name.gsub(/=/, "")
            typ = field.args.first.restriction %}
         if args.has_key? :{{name}}
@@ -178,7 +206,7 @@ module GUI
       {% end %}
       if detected < args.size
         got = args.keys.to_set
-        {% for field in @type.methods.select(&.annotation(VirtualField)) %}
+        {% for field in @type.methods.select(&.annotation(VirtualField)) + Widget.methods.select(&.annotation(LayoutField)) %}
           {% name = field.name.gsub(/=/, "") %}
           if args.has_key? :{{name}}
             got.delete(:{{name}})
@@ -311,9 +339,6 @@ module GUI
     # fun layout_vexpand2(layout : Layout, row1 : UInt32, row2 : UInt32, exp : Float32)
     # fun layout_vexpand3(layout : Layout, row1 : UInt32, row2 : UInt32, row3 : UInt32, exp1 : Float32, exp2 : Float32)
     # fun layout_vexpandn(layout : Layout, n : UInt32, index : Pointer(UInt32), exp : Pointer(Float32))
-    # fun layout_halign(layout : Layout, col : UInt32, row : UInt32, align : AlignT)
-    # fun layout_valign(layout : Layout, col : UInt32, row : UInt32, align : AlignT)
-    # fun layout_tabstop(layout : Layout, col : UInt32, row : UInt32, tabstop : Bool)
     # fun layout_insert_col(layout : Layout, col : UInt32)
     # fun layout_insert_row(layout : Layout, row : UInt32)
     # fun layout_remove_col(layout : Layout, col : UInt32)
@@ -806,12 +831,7 @@ module GUI
       LibGUI.panel_layout(@raw, layout)
     end
 
-    protected property saved_cell : Tuple(Layout, Int32, Int32)? = nil
-
-    def place(layout : Layout, x : Int32, y : Int32)
-      @saved_cell = {layout, x, y}
-      LibGUI.layout_panel(layout, self, x, y)
-    end
+    define_place
 
     def replace(another : Panel)
       raise "Panel not placed" unless saved_cell = @saved_cell
