@@ -32,6 +32,10 @@ class SimpleApp < GUI::Application
 
   def init
     puts "init"
+    # LibGUI.layout_valign(self.layout, 0, 0, GUI::Align::Top)
+    LibGUI.layout_valign(self.layout, 1, 0, GUI::Align::Top)
+    # LibGUI.layout_margin(self.layout, 10)
+    # LibGUI.layout_hmargin(self.layout, 0, 10)
     window.update
   end
 

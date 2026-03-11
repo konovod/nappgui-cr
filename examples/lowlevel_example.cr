@@ -17,8 +17,8 @@ class SimpleApp < GUI::Application
     sublayout = GUI::Layout.new(1, 7)
     subpanel = GUI::Panel.new(sublayout)
 
-    LibGUI.layout_valign(layout, 0, 0, LibGUI::AlignT::EkTop)
-    LibGUI.layout_valign(layout, 1, 0, LibGUI::AlignT::EkTop)
+    LibGUI.layout_valign(layout, 0, 0, GUI::Align::Top)
+    LibGUI.layout_valign(layout, 1, 0, GUI::Align::Top)
     LibGUI.layout_margin(layout, 10)
     LibGUI.layout_hmargin(layout, 0, 10)
 

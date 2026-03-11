@@ -1,5 +1,5 @@
 class LabelsFragment < Fragment
-  LABELS = (<<-HEREDOC
+  CAPTIONS = (<<-HEREDOC
 Hello
 Hello, I'm a Label.
 Hello, I'm a Label, longer than first.
@@ -8,7 +8,7 @@ Hello, I'm a Label, longer than first, longer than second and longer than third.
 Hello, I'm a Label, longer than first, longer than second, longer than third and longer than fourth.
 HEREDOC
 
-    ).split("\r\n")
+    ).split("\n").map(&.chomp)
 
   def initialize(@multiline : Bool)
   end
@@ -17,24 +17,30 @@ HEREDOC
     "Labels #{@multiline ? "multi" : "single"} line"
   end
 
-  @layout : GUI::Layout?
+  getter! layout : GUI::Layout
 
   def create_contents : GUI::Layout
     GUI.make_layout do
       column do
+        space 5
         selector = popup(items: ["Natural", "100px", "200px", "300px", "400px"])
         selector.on_select do
-          @layout.not_nil!.cols[0].size = {0, 100, 200, 300, 400}[selector.selected].to_f32
-          @layout.not_nil!.update
+          self.layout.cols[0].size = {0, 100, 200, 300, 400}[selector.selected].to_f32
+          self.layout.update
         end
-
-        c1 = color(192, 255, 255)
-        c2 = color(255, 192, 255)
-        c3 = color(255, 255, 192)
-
-        LABELS.each_with_index do |s, i|
+        c1 = LibGUI.gui_alt_color(color(192, 255, 255), color(48, 112, 112))
+        c2 = LibGUI.gui_alt_color(color(255, 192, 255), color(128, 48, 112))
+        c3 = LibGUI.gui_alt_color(color(255, 255, 192), color(112, 112, 48))
+        labels = CAPTIONS.map_with_index do |s, i|
           label(text: s, multiline: @multiline, bgcolor: {c1, c2, c3}[i % 3])
         end
+
+        labels[4].align = GUI::Align::Center
+        labels[5].align = GUI::Align::Right
+
+        labels[3].trim = GUI::Ellipsis::End
+        labels[4].trim = GUI::Ellipsis::Middle
+        labels[5].trim = GUI::Ellipsis::Begin
       end
     end.tap { |x| @layout = x }
   end
