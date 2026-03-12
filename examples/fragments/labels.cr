@@ -45,3 +45,21 @@ HEREDOC
     end.tap { |x| @layout = x }
   end
 end
+
+class MouseLabelsFragment < Fragment
+  def name : String
+    "Labels mouse sensitive"
+  end
+
+  def create_contents : GUI::Layout
+    GUI.make_layout do
+      column do
+        label(text: "Mouse sensitive label", color_over: color(255, 0, 0), style_over: 1)
+        label(text: "Mouse sensitive label", color_over: color(255, 0, 0), style_over: 2)
+        label(text: "Mouse sensitive label", color_over: color(255, 0, 0), style_over: 4)
+        label(text: "Mouse sensitive label", color_over: color(255, 0, 0), style_over: 8)
+        label(text: "Mouse sensitive label", color_over: color(255, 0, 0), bgcolor_over: color(0, 255, 255))
+      end
+    end
+  end
+end
