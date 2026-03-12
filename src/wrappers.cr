@@ -78,6 +78,21 @@ module GUI
     NoAccept
   end
 
+  @[Flags]
+  wrap_enum(FontStyle, FStyle) do
+    Normal      =  0
+    Bold        =  1
+    Italic      =  2
+    StrikeOut   =  4
+    Underline   =  8
+    Subscript   = 16
+    Superscript = 32
+
+    # Pixels =   0
+    # Points =  64
+    # Cell   = 128
+  end
+
   # TODO - VKeyT
 
   alias Color = UInt32
@@ -408,7 +423,7 @@ module GUI
     lib_property(text, String)
     lib_property(font)
     event(on_click)
-    lib_setter(style_over)
+    lib_setter(style_over, FontStyle)
     lib_setter(align, Align)
     lib_setter(color, Color)
     lib_setter(color_over, Color)
@@ -481,7 +496,7 @@ module GUI
     lib_setter(units, Int32)
     lib_setter(family, String)
     lib_setter(fsize, Float32)
-    lib_setter(fstyle, Int32)
+    lib_setter(fstyle, FontStyle)
     lib_setter(color, Color)
     lib_setter(bgcolor, Color)
     lib_setter(pgcolor, Color)
@@ -624,7 +639,7 @@ module GUI
     lib_setter(bgcolor_focus, Color)
     lib_setter(phtext, String)
     lib_setter(phcolor, Color)
-    lib_setter(phstyle, UInt32)
+    lib_setter(phstyle, FontStyle)
     lib_setter(min_width)
     lib_setter(min_height)
     lib_setter(vpadding)
@@ -671,7 +686,7 @@ module GUI
     lib_setter(bgcolor_focus, Color)
     lib_setter(phtext, String)
     lib_setter(phcolor, Color)
-    lib_setter(phstyle)
+    lib_setter(phstyle, FontStyle)
     lib_setter(list_height)
     lib_property(selected)
 
