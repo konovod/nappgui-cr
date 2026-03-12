@@ -60,6 +60,7 @@ class MouseLabelsFragment < Fragment
         label(text: "Mouse sensitive label", font: font, color_over: color(255, 0, 0), style_over: GUI::FontStyle::StrikeOut)
         label(text: "Mouse sensitive label", font: font, color_over: color(255, 0, 0), style_over: GUI::FontStyle::Underline)
         label(text: "Mouse sensitive label", font: font, color_over: color(255, 0, 0), bgcolor_over: color(0, 255, 255))
+        LibGUI.font_destroy(pointerof(font))
       end
     end
   end

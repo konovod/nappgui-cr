@@ -1,5 +1,5 @@
 require "../src/nappgui-cr"
-require "../src/highlevel"
+require "../src/layout_dsl"
 
 class SimpleApp < GUI::Application
   @counter = 0

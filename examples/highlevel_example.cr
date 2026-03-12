@@ -1,5 +1,5 @@
 require "../src/nappgui-cr"
-require "../src/highlevel"
+require "../src/layout_dsl"
 
 abstract class Fragment
   abstract def name : String
