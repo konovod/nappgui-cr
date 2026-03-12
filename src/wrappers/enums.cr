@@ -87,10 +87,12 @@ module GUI
     Underline   =  8
     Subscript   = 16
     Superscript = 32
+  end
 
-    # Pixels =   0
-    # Points =  64
-    # Cell   = 128
+  wrap_enum(FontSizeMode, FStyle) do
+    Pixels =   0
+    Points =  64
+    Cell   = 128
   end
 
   # TODO - VKeyT

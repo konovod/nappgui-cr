@@ -54,12 +54,13 @@ class MouseLabelsFragment < Fragment
   def create_contents : GUI::Layout
     GUI.make_layout do
       column do
-        font = GUI::Font.new(LibGUI.font_system(20, LibGUI::FStyle::EkFNORMAL | LibGUI::FStyle::EkFPIXELS))
+        font = GUI::Font.new(pixels: 20, style: :normal) # or just font = GUI::Font.new(20)
         label(text: "Mouse sensitive label", font: font, color_over: color(255, 0, 0), style_over: GUI::FontStyle::Bold)
         label(text: "Mouse sensitive label", font: font, color_over: color(255, 0, 0), style_over: GUI::FontStyle::Italic)
         label(text: "Mouse sensitive label", font: font, color_over: color(255, 0, 0), style_over: GUI::FontStyle::StrikeOut)
         label(text: "Mouse sensitive label", font: font, color_over: color(255, 0, 0), style_over: GUI::FontStyle::Underline)
         label(text: "Mouse sensitive label", font: font, color_over: color(255, 0, 0), bgcolor_over: color(0, 255, 255))
+        font.free # can be skipped, then font will be destroyed later by gc
       end
     end
   end
