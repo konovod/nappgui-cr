@@ -15,6 +15,7 @@ module GUI
     end
 
     def finish
+      GC.collect
       LibGUI.osapp_finish
     end
 
@@ -44,7 +45,7 @@ module GUI
 
     def run
       Application.instance = self
-      LibGUI.osmain_imp(0, nil, nil, 0.05, ->{ Application.instance.do_init }, ->(data : Void*, ltime : Float64, ctime : Float64) { Application.instance.do_update(ctime - ltime) }, ->(data : Void**) { Application.instance.do_done }, "")
+      LibGUI.osmain_imp(0, nil, nil, 0.05, -> { Application.instance.do_init }, ->(data : Void*, ltime : Float64, ctime : Float64) { Application.instance.do_update(ctime - ltime) }, ->(data : Void**) { Application.instance.do_done }, "")
     end
   end
 end
