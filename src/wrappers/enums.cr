@@ -23,8 +23,8 @@ module GUI
   end
 
   wrap_enum(State, GuiStateT) do
-    On
     Off
+    On
     Mixed
   end
 

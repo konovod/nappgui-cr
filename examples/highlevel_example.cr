@@ -8,7 +8,11 @@ end
 
 require "./fragments/*"
 
-ALL_FRAGMENTS = [LabelsFragment.new(false), LabelsFragment.new(true), MouseLabelsFragment.new]
+ALL_FRAGMENTS = [LabelsFragment.new(false),
+                 LabelsFragment.new(true),
+                 MouseLabelsFragment.new,
+                 ButtonsFragment.new,
+]
 
 class SimpleApp < GUI::Application
   def gui : GUI::Window

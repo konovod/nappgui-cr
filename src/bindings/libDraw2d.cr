@@ -42,4 +42,6 @@ lib LibGUI
   fun font_installed_families : ArrPtString*
   fun font_installed_monospace : ArrPtString*
   fun font_native(font : Font) : Void*
+
+  fun image_from_file(filename : CharT*, error : Void*) : Image
 end

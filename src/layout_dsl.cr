@@ -1,6 +1,6 @@
 module GUI
   WIDGET_CLASSES    = %w(Button Combo Edit ImageView Label ListBox Panel PopUp Progress Slider SplitView TableView TextView UpDown View WebView)
-  CONTAINER_CLASSES = %w(Panel)
+  CONTAINER_CLASSES = %w(Panel Layout)
 
   record PlacedControl, control : Widget, col : Int32, row : Int32, space : Int32
 
@@ -37,7 +37,12 @@ module GUI
         builder = RootBuilder.new
         with builder yield
         layout = builder.finish_layout
-        result = {{klass.id}}.new(layout, *args, **args2)
+        {% if klass == "Layout" %}
+          result = layout
+          result.apply_args(*args, **args2)
+        {% else %}
+          result = {{klass.id}}.new(layout, *args, **args2)
+        {% end %}
         @placed_controls << PlacedControl.new(result, @column, @row, @cur_space)
         next_cell
         result
@@ -193,6 +198,27 @@ module GUI
       LibGUI.panel_layout(panel, layout)
       window.panel = panel
       window
+    end
+  end
+
+  class Panel
+    def initialize(*, hscroll : Bool = false, vscroll : Bool = false, border : Bool = false, **args, &)
+      @raw = LibGUI.panel_custom(hscroll, vscroll, border)
+      apply_args(**args)
+      builder = RootBuilder.new
+      with builder yield
+      layout = builder.finish_layout
+      LibGUI.panel_layout(@raw, layout)
+    end
+  end
+
+  class Layout
+    def self.new(**args, &)
+      builder = RootBuilder.new
+      with builder yield
+      layout = builder.finish_layout
+      layout.apply_args(**args)
+      layout
     end
   end
 end

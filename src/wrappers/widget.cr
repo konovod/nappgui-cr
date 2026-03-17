@@ -107,7 +107,7 @@ module GUI
       end
     end
 
-    private def apply_args(**args)
+    protected def apply_args(**args)
       detected = 0
       {% for field in @type.methods.select(&.annotation(VirtualField)) + Widget.methods.select(&.annotation(LayoutField)) %}
         {% name = field.name.gsub(/=/, "")

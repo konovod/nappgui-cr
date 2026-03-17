@@ -2,15 +2,6 @@ module GUI
   class Panel < Widget
     @raw : LibGUI::Panel
 
-    def initialize(*, hscroll : Bool = false, vscroll : Bool = false, border : Bool = false, **args, &)
-      @raw = LibGUI.panel_custom(hscroll, vscroll, border)
-      apply_args(**args)
-      builder = RootBuilder.new
-      with builder yield
-      layout = builder.finish_layout
-      LibGUI.panel_layout(@raw, layout)
-    end
-
     def initialize(layout : Layout, *, hscroll : Bool = false, vscroll : Bool = false, border : Bool = false, **args)
       @raw = LibGUI.panel_custom(hscroll, vscroll, border)
       apply_args(**args)
