@@ -121,7 +121,7 @@ module GUI
     end
 
     def style : FontStyle
-      FontStyle.new(LibGUI.font_style(@raw))
+      FontStyle.new(LibGUI.font_style(@raw)) & FontStyle.new(31)
     end
 
     def units : FontSizeMode

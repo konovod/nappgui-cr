@@ -34,9 +34,9 @@ lib LibGUI
   fun font_ascent(font : Font) : Float32
   fun font_descent(font : Font) : Float32
   fun font_leading(font : Font) : Float32
-  fun font_is_monospace(font : Font) : Bool
+  fun font_is_monospace(font : Font) : BoolT
   fun font_style(font : Font) : FStyle
-  fun font_units(font : Font) : UInt32
+  fun font_units(font : Font) : FStyle
   fun font_extents(font : Font, text : CharT*, refwidth : Float32, width : Float32*, height : Float32*)
   fun font_exists_family(family : CharT*) : BoolT
   fun font_installed_families : ArrPtString*

@@ -29,7 +29,6 @@ module GUI
         })
         LibGUI.window_on_close(window, listen)
       end
-
       window.show
     end
 
