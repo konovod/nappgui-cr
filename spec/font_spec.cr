@@ -306,4 +306,21 @@ describe GUI::Font do
       font.free
     end
   end
+
+  describe ".installed_families" do
+    it "can be called without error" do
+      arr = GUI::Font.installed_families
+      arr.size.should be > 0
+      arr.index("Arial").should be_truthy
+      arr.index("NonExistentFont12345").should be_nil
+    end
+  end
+  describe ".installed_monospace" do
+    it "can be called without error" do
+      arr = GUI::Font.installed_monospace
+      arr.size.should be > 0
+      arr.index("Arial").should be_nil
+      arr.index("Courier New").should be_truthy
+    end
+  end
 end

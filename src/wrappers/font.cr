@@ -60,6 +60,43 @@ module GUI
     def self.exists_family(family : String) : Bool
       LibGUI.font_exists_family(family) != 0
     end
+
+    def self.installed_families : Array(String)
+      ptr = LibGUI.font_installed_families
+      return [] of String if ptr.null?
+      arr = ptr.value
+      len = arr.size
+      result = Array(String).new(len)
+      if len > 0
+        data_ptr = arr.content.value.unsafe_as(StaticArray(Pointer(LibGUI::String), 1024))
+        len.times do |i|
+          str_ptr = data_ptr[i]
+          unless str_ptr.null?
+            result << String.new(str_ptr.value.data.to_slice.to_unsafe, str_ptr.value.size - 1)
+          end
+        end
+      end
+      result
+    end
+
+    def self.installed_monospace : Array(String)
+      ptr = LibGUI.font_installed_monospace
+      return [] of String if ptr.null?
+      arr = ptr.value
+      len = arr.size
+      result = Array(String).new(len)
+      if len > 0
+        data_ptr = arr.content.value.unsafe_as(StaticArray(Pointer(LibGUI::String), 1024))
+        len.times do |i|
+          str_ptr = data_ptr[i]
+          unless str_ptr.null?
+            result << String.new(str_ptr.value.data.to_slice.to_unsafe, str_ptr.value.size - 1)
+          end
+        end
+      end
+      result
+    end
+
     def self.monospace(size : Int32, style : FontStyle = FontStyle::Normal, size_mode : FontSizeMode = FontSizeMode::Pixels) : Font
       Font.new(LibGUI.font_monospace(size, style.to_unsafe | size_mode.to_unsafe))
     end
