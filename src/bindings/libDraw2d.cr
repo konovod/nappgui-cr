@@ -44,4 +44,47 @@ lib LibGUI
   fun font_native(font : Font) : Void*
 
   fun image_from_file(filename : CharT*, error : Void*) : Image
+  fun image_from_pixels(width : UInt32, height : UInt32, format : PixFormat, data : UInt8*, palette : UInt32*, palsize : UInt32) : Image
+  fun image_from_pixbuf(pixbuf : Pixbuf, palette : Void*) : Image
+  fun image_from_data(data : UInt8*, size : UInt32) : Image
+  fun image_from_resource(pack : Void*, id : UInt32) : Image
+  fun image_copy(image : Image) : Image
+  fun image_trim(image : Image, x : UInt32, y : UInt32, width : UInt32, height : UInt32) : Image
+  fun image_rotate(image : Image, angle : Float32, nsize : BoolT, background : UInt32, t2d : Void*) : Image
+  fun image_scale(image : Image, nwidth : UInt32, nheight : UInt32) : Image
+  fun image_read(stm : Void*) : Image
+  fun image_to_file(image : Image, filename : CharT*, error : Void*) : BoolT
+  fun image_write(stm : Void*, image : Image)
+  fun image_destroy(image : Image*)
+  fun image_format(image : Image) : PixFormat
+  fun image_width(image : Image) : UInt32
+  fun image_height(image : Image) : UInt32
+  fun image_mem(image : Image) : UInt32
+  fun image_pixels(image : Image, format : PixFormat) : Pixbuf
+  fun image_codec(image : Image, codec : Codec) : BoolT
+  fun image_get_codec(image : Image) : Codec
+  fun image_num_frames(image : Image) : UInt32
+  fun image_data(image : Image, data : Void*, func_destroy : Void*, typ : Void*)
+  fun image_get_data(image : Image, typ : Void*) : Void*
+  fun image_native(image : Image) : Void*
+
+  type Pixbuf = Void*
+
+  enum PixFormat : UInt8
+    EkFIMAGE = 0
+    EkGRAY8  = 1
+    EkRGB24  = 2
+    EkRGBA32 = 3
+    EkINDEX1 = 4
+    EkINDEX2 = 5
+    EkINDEX4 = 6
+    EkINDEX8 = 7
+  end
+
+  enum Codec : UInt8
+    EkJPG = 0
+    EkPNG = 1
+    EkBMP = 2
+    EkGIF = 3
+  end
 end

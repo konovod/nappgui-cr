@@ -95,6 +95,24 @@ module GUI
     Cell   = 128
   end
 
+  wrap_enum(PixelFormat, PixFormat) do
+    Image  = 0
+    Gray8  = 1
+    RGB24  = 2
+    RGBA32 = 3
+    Index1 = 4
+    Index2 = 5
+    Index4 = 6
+    Index8 = 7
+  end
+
+  wrap_enum(ImageCodec, Codec) do
+    JPG = 0
+    PNG = 1
+    BMP = 2
+    GIF = 3
+  end
+
   # TODO - VKeyT
 
   alias Color = UInt32

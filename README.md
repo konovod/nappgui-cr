@@ -23,7 +23,7 @@ See https://nappgui.com/ for building instructions
 lowlevel example (https://github.com/konovod/nappgui-cr/blob/master/lowlevel_example.cr)
 
 ```crystal
-require "./src/nappgui-cr"
+require "nappgui-cr"
 
 # inherit from GUI::Application class
 class SimpleApp < GUI::Application
@@ -108,32 +108,112 @@ end
 SimpleApp.new.run
 ```
 
-more highlevel dsl is WIP
+highlevel DSL is WIP, this is how it currently looks:
+
+```crystal
+require "nappgui-cr"
+# highlevel dsl, not required by default
+require "nappgui-cr/layout_dsl"
+
+# inherit from GUI::Application class
+class SimpleApp < GUI::Application
+  @counter = 0
+
+  # This function returns application main window
+  # All gui layouts should be created here using DSL
+  def gui : GUI::Window
+    # create window with DSL - pass window options as named args
+    # blocks passed to window contain rows or columns of widgets
+    window(origin: v2df(500, 200), title: "Hello, World!", flags: LibGUI::WindowFlag::EkWINDOW_STD) do
+      space 5  # margin before first row. also by convention `space` call before any widgets is applied by default.
+
+      # create a column layout - widgets are stacked vertically
+      column do
+        # create textview (multiline input)
+        text = textview(size: s2df(250, 100))
+
+        # create slider and progress
+        slider = slider(vertical: false)
+        progress = progress()
+
+        # connect slider to progress bar
+        slider.on_moved { progress.value = slider.value }
+
+        # create button
+        button = button(GUI::Button::Style::Push, text: "Click Me!")
+
+        # assign button on_click event
+        button.on_click do
+          text.write("Button click (#{@counter})\n")
+          @counter += 1
+        end
+
+        # create second window button
+        button2 = button(GUI::Button::Style::Push, text: "Second window")
+        button2.on_click do
+          window2.show
+        end
+      end
+    end
+  end
+
+  # this is called after gui initialization but before showing window
+  def init
+    puts "init"
+  end
+
+  # this is called after application finished
+  def done
+    # clean up second window
+    if w = @window2
+      w.destroy
+    end
+    puts "done"
+  end
+
+  # lazily create second window when needed
+  @window2 : GUI::Window?
+
+  private def window2
+    @window2 ||= GUI::Window.new(LibGUI::WindowFlag::EkWINDOW_STD, title: "Second window").tap do |w|
+      w.on_close { true }
+    end
+  end
+end
+
+# run the application
+SimpleApp.new.run
+```
 
 ## Development
 
 - [ ] Low level wrappers
   - [x] button
+  - [x] button
   - [ ] cell
-  - [ ] combo
+  - [x] combo
   - [ ] comwin
   - [x] edit
+  - [ ] globals
+  - [ ] gui
+  - [ ] evbind
   - [x] imageview
   - [x] label
-  - [ ] layout - started
-  - [ ] listbox
+  - [x] layout
+  - [x] listbox
   - [ ] menu
   - [ ] menuitem
-  - [ ] panel
+  - [x] panel
   - [x] popup
   - [x] progress
   - [x] slider
-  - [ ] splitview
-  - [ ] tableview
-  - [ ] textview - started
-  - [ ] updown
-  - [ ] view
-  - [ ] window - started
+  - [x] splitview
+  - [x] tableview
+  - [x] textview
+  - [x] updown
+  - [x] view
+  - [x] webview
+  - [x] window
 - [ ] high level wrappers
   - [ ] inner layouts
   - [ ] margins
